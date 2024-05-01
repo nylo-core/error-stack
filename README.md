@@ -1,25 +1,27 @@
-# Error Net for Flutter
+# Error Stack for Flutter
 
 [![pub package](https://img.shields.io/pub/v/permission_policy.svg)](https://pub.dartlang.org/packages/permission_policy)
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 
 ## Usage
 
+<img src="screenshots/error_stack.png" height="400" />
+
 ### Simple to use
 
 #### Nylo
 
 ``` dart
-// Add Error Net to your Nylo application
+// Add Error Stack to your Nylo application
 ...
-import 'package:error_net/error_net.dart';
+import 'package:error_stack/error_stack.dart';
 
 class AppProvider {
 
   @override
   boot(Nylo nylo) async {
     ...
-    nylo.useErrorNet(); // enables Error Net
+    nylo.useErrorStack(); // enables Error Stack
   }
 }
 ```
@@ -27,17 +29,17 @@ class AppProvider {
 #### Flutter App
 
 ``` dart
-// Add Error Net to your main.dart file
+// Add Error Stack to your main.dart file
 ...
-import 'package:error_net/error_net.dart';
+import 'package:error_stack/error_stack.dart';
 
 void main() {
-  ErrorNet.init(); // Initialize Error Net
+  ErrorStack.init(); // Initialize Error Stack
   runApp(MyApp());
 }
 ```
 
-Once you have added Error Net to your application, it will override the default error handling in your application.
+Once you have added Error Stack to your application, it will override the default error handling in your application.
 
 ## Features
 
@@ -54,13 +56,13 @@ Add the following to your `pubspec.yaml` file:
 
 ``` yaml
 dependencies:
-  error_net: ^1.0.0
+  error_stack: ^1.0.0
 ```
 
 or with Dart:
 
 ``` bash
-dart pub add error_net
+dart pub add error_stack
 ```
 
 ## How to use
@@ -69,25 +71,25 @@ The package is very simple to use.
 
 ### Log Levels
 
-- `ErrorNetLogLevel.minimal` (default)
-- `ErrorNetLogLevel.verbose` (shows more information)
+- `ErrorStackLogLevel.minimal` (default)
+- `ErrorStackLogLevel.verbose` (shows more information)
 
-You can set the log level when initializing Error Net.
+You can set the log level when initializing Error Stack.
 
-### Initialize Error Net
+### Initialize Error Stack
 
 
 #### Nylo
 
 ``` dart
-import 'package:error_net/error_net.dart';
+import 'package:error_stack/error_stack.dart';
 
 class AppProvider {
     
   @override
   boot(Nylo nylo) async {
      ...
-     nylo.useErrorNet(logLevel: ErrorNetLogLevel.verbose);
+     nylo.useErrorStack(logLevel: ErrorStackLogLevel.verbose);
   }
 }
 ```
@@ -95,10 +97,10 @@ class AppProvider {
 #### Flutter App
 ``` dart
 import 'package:flutter/material.dart';
-import 'package:error_net/error_net.dart';
+import 'package:error_stack/error_stack.dart';
 
 void main() {
-  ErrorNet.init(logLevel: ErrorNetLogLevel.verbose); // Initialize Error Net
+  ErrorStack.init(logLevel: ErrorStackLogLevel.verbose); // Initialize Error Stack
   runApp(MyApp());
 }
 ```

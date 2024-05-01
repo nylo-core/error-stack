@@ -1,4 +1,4 @@
-name: error_net_example
+name: error_stack_example
 description: Learn more here https://nylo.dev.
 
 environment:
@@ -12,7 +12,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  error_net:
+  error_stack:
     path: ../
 
 flutter:

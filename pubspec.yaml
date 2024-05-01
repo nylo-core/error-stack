@@ -1,10 +1,10 @@
-name: error_net
+name: error_stack
 description: "Easy error handling for Flutter applications! Modern UI for errors, updated logging to keep you productive."
 version: 1.0.0
 homepage: https://nylo.dev
-repository: https://github.com/nylo-core/error-net/tree/1.x
-issue_tracker: https://github.com/nylo-core/error-net/issues
-documentation: https://github.com/nylo-core/error-net
+repository: https://github.com/nylo-core/error-stack/tree/1.x
+issue_tracker: https://github.com/nylo-core/error-stack/issues
+documentation: https://github.com/nylo-core/error-stack
 funding:
   - https://github.com/sponsors/agordn52
 topics:
@@ -29,6 +29,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+
+screenshots:
+  - description: The Nylo package logo.
+    path: screenshots/logo.png
 
 flutter:
 

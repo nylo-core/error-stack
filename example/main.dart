@@ -1,8 +1,8 @@
-import 'package:error_net/error_net.dart';
+import 'package:error_stack/error_stack.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  ErrorNet.init();
+  ErrorStack.init();
   runApp(MyApp());
 }
 
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ErrorNet',
+      title: 'ErrorStack',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

@@ -1,53 +1,54 @@
-import '/error_net.dart';
+import 'package:nylo_support/helpers/backpack.dart';
+import '/error_stack.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nylo_support/helpers/extensions.dart';
 import 'package:nylo_support/helpers/helper.dart';
-import 'package:nylo_support/router/router.dart';
 import 'package:nylo_support/widgets/ny_state.dart';
 import 'package:nylo_support/widgets/ny_stateful_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 
-class ErrorNetWidget extends NyStatefulWidget {
-  static const path = '/error-net';
+class ErrorStackDebugWidget extends NyStatefulWidget {
+  static const path = '/error-stack-debug';
   final FlutterErrorDetails errorDetails;
 
-  ErrorNetWidget({super.key, required this.errorDetails}) : super(path);
+  ErrorStackDebugWidget({super.key, required this.errorDetails}) : super(path);
 
   @override
-  createState() => _ErrorNetWidget();
+  createState() => _ErrorStackDebugWidget();
 }
 
-class _ErrorNetWidget extends NyState<ErrorNetWidget> {
+class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
   String? _themeMode;
   String? _className;
 
   @override
   init() async {
-    String? themeMode = await NyStorage.read(ErrorNet.storageKey);
+    String? themeMode = await NyStorage.read(ErrorStack.storageKey);
     _themeMode = themeMode == 'dark' ? 'dark' : 'light';
-
-    _findClassName();
+    _className = className();
   }
 
-  /// Find the class name from the error stack
-  _findClassName() {
+  /// Get the class name
+  String className() {
     String stack = widget.errorDetails.stack.toString();
-    RegExp regExp = RegExp(r'(\(package:[A-z\/.:0-9]+\))');
+    RegExp regExp = RegExp(r'(\(package:([A-z\/.:0-9]+)\))');
 
     Iterable<RegExpMatch> regMatches = regExp.allMatches(stack);
 
     if (regMatches.isNotEmpty) {
       _className = regMatches.first.group(0);
     }
-  }
 
-  /// Get the class name
-  String get className {
-    String className = _className!.replaceAll("(", "").replaceAll(")", "");
-    return className.replaceAll(r'package:[A-z\_]+', '');
+    if (_className == null) return "";
+
+    String inputString = _className!;
+    RegExp pattern = RegExp(r'^\(.*?\/');
+    String result = inputString.replaceAll(pattern, "/").replaceAll("(", "").replaceAll(")", "");
+
+    return result;
   }
 
   @override
@@ -85,7 +86,8 @@ class _ErrorNetWidget extends NyState<ErrorNetWidget> {
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.0),
-                            color: Colors.grey.shade100),
+                          color: _themeMode == "light" ? Colors.grey.shade100 : "#13151a".toHexColor(),
+                        ),
                         child: Column(
                           children: [
                             Container(
@@ -109,7 +111,7 @@ class _ErrorNetWidget extends NyState<ErrorNetWidget> {
                                                 BorderRadius.circular(8.0),
                                           ),
                                           child: Text(
-                                            className,
+                                            className(),
                                             textAlign: TextAlign.left,
                                             maxLines: 1,
                                             style: TextStyle(
@@ -125,7 +127,7 @@ class _ErrorNetWidget extends NyState<ErrorNetWidget> {
                                   ),
                                   IconButton(
                                     padding: EdgeInsets.zero,
-                                    icon: const Icon(Icons.copy, size: 15),
+                                    icon: Icon(Icons.copy, size: 15, color: _themeMode == 'light' ? Colors.black : Colors.white),
                                     onPressed: () {
                                       Clipboard.setData(ClipboardData(
                                               text:
@@ -150,7 +152,7 @@ class _ErrorNetWidget extends NyState<ErrorNetWidget> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.0),
-                                color: "#282c34".toHexColor(),
+                                color: _themeMode == 'light' ? "#282c34".toHexColor() : Colors.white.withOpacity(0.2),
                               ),
                               child: Text(
                                 widget.errorDetails.exceptionAsString(),
@@ -215,7 +217,7 @@ class _ErrorNetWidget extends NyState<ErrorNetWidget> {
                     const SizedBox(height: 20.0),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.grey.shade50,
+                          color: _themeMode == "light" ? Colors.grey.shade50 : Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(8)),
                       margin: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
@@ -233,11 +235,11 @@ class _ErrorNetWidget extends NyState<ErrorNetWidget> {
                               launchUrl(Uri.parse(
                                   "https://www.google.com/search?q=$encodedQuery"));
                             },
-                            child: const Text(
+                            child: Text(
                               "Search Google for this error",
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                // color: _themeMode == "light" ? Colors.blueAccent : Colors.white,
+                                color: _themeMode == "light" ? "#0045a0".toHexColor() : Colors.white,
                               ),
                             ),
                           ),
@@ -246,7 +248,8 @@ class _ErrorNetWidget extends NyState<ErrorNetWidget> {
                     ),
                     TextButton(
                         onPressed: () {
-                          routeToInitial();
+                          String initialRoute = Backpack.instance.read("${ErrorStack.storageKey}_initial_route");
+                          Navigator.pushNamedAndRemoveUntil(context, initialRoute, (_) => false);
                         },
                         child: Text(
                           "Restart app",
@@ -278,7 +281,7 @@ class _ErrorNetWidget extends NyState<ErrorNetWidget> {
                     } else {
                       _themeMode = 'light';
                     }
-                    await NyStorage.store(ErrorNet.storageKey, _themeMode);
+                    await NyStorage.store(ErrorStack.storageKey, _themeMode);
                     setState(() {});
                   }),
             ),
@@ -287,7 +290,7 @@ class _ErrorNetWidget extends NyState<ErrorNetWidget> {
               left: 0,
               right: 0,
               child: Text(
-                "ErrorNet v1.0.0",
+                "ErrorStack v1.0.0",
                 style: TextStyle(
                   color:
                       _themeMode == 'light' ? Colors.black54 : Colors.white70,
