@@ -46,7 +46,10 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
 
     String inputString = _className!;
     RegExp pattern = RegExp(r'^\(.*?\/');
-    String result = inputString.replaceAll(pattern, "/").replaceAll("(", "").replaceAll(")", "");
+    String result = inputString
+        .replaceAll(pattern, "/")
+        .replaceAll("(", "")
+        .replaceAll(")", "");
 
     return result;
   }
@@ -85,8 +88,10 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                         margin: const EdgeInsets.symmetric(horizontal: 8),
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                          color: _themeMode == "light" ? Colors.grey.shade100 : "#13151a".toHexColor(),
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: _themeMode == "light"
+                              ? Colors.grey.shade100
+                              : "#13151a".toHexColor(),
                         ),
                         child: Column(
                           children: [
@@ -127,7 +132,11 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                                   ),
                                   IconButton(
                                     padding: EdgeInsets.zero,
-                                    icon: Icon(Icons.copy, size: 15, color: _themeMode == 'light' ? Colors.black : Colors.white),
+                                    icon: Icon(Icons.copy,
+                                        size: 15,
+                                        color: _themeMode == 'light'
+                                            ? Colors.black
+                                            : Colors.white),
                                     onPressed: () {
                                       Clipboard.setData(ClipboardData(
                                               text:
@@ -152,7 +161,9 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.0),
-                                color: _themeMode == 'light' ? "#282c34".toHexColor() : Colors.white.withOpacity(0.2),
+                                color: _themeMode == 'light'
+                                    ? "#282c34".toHexColor()
+                                    : Colors.white.withOpacity(0.2),
                               ),
                               child: Text(
                                 widget.errorDetails.exceptionAsString(),
@@ -217,7 +228,9 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                     const SizedBox(height: 20.0),
                     Container(
                       decoration: BoxDecoration(
-                          color: _themeMode == "light" ? Colors.grey.shade50 : Colors.white.withOpacity(0.2),
+                          color: _themeMode == "light"
+                              ? Colors.grey.shade50
+                              : Colors.white.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(8)),
                       margin: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
@@ -239,7 +252,9 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                               "Search Google for this error",
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
-                                color: _themeMode == "light" ? "#0045a0".toHexColor() : Colors.white,
+                                color: _themeMode == "light"
+                                    ? "#0045a0".toHexColor()
+                                    : Colors.white,
                               ),
                             ),
                           ),
@@ -247,18 +262,20 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                       ),
                     ),
                     TextButton(
-                        onPressed: () {
-                          String initialRoute = Backpack.instance.read("${ErrorStack.storageKey}_initial_route");
-                          Navigator.pushNamedAndRemoveUntil(context, initialRoute, (_) => false);
-                        },
-                        child: Text(
-                          "Restart app",
-                          style: TextStyle(
-                            color: _themeMode == "light"
-                                ? Colors.grey
-                                : Colors.white,
-                          ),
+                      onPressed: () {
+                        String initialRoute = Backpack.instance
+                            .read("${ErrorStack.storageKey}_initial_route");
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, initialRoute, (_) => false);
+                      },
+                      child: Text(
+                        "Restart app",
+                        style: TextStyle(
+                          color: _themeMode == "light"
+                              ? Colors.grey
+                              : Colors.white,
                         ),
+                      ),
                     ),
                   ],
                 ),

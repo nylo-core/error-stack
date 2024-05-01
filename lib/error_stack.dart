@@ -20,10 +20,14 @@ class ErrorStack {
   /// You can set the [level] to [ErrorStackLogLevel.verbose] to see more details
   /// You can set the [initialRoute] to the route you want to navigate to when an error occurs
   /// You can set [isNyloApp] to true if you are using the Nylo framework
-  static init({ErrorStackLogLevel level = ErrorStackLogLevel.minimal, String initialRoute = "/", bool isNyloApp = false}) {
+  static init(
+      {ErrorStackLogLevel level = ErrorStackLogLevel.minimal,
+      String initialRoute = "/",
+      bool isNyloApp = false}) {
     if (isNyloApp == false) {
       Nylo _nylo = Nylo();
       Backpack.instance.set('nylo', _nylo);
+
       /// Initialize the Nylo framework
     }
     Backpack.instance.set("${storageKey}_initial_route", initialRoute);
@@ -51,8 +55,7 @@ class ErrorStack {
         print('File: $className');
         String exception = "${details.exceptionAsString()} flutter";
         String encodedQuery = Uri.encodeQueryComponent(exception);
-        print(
-            'Google: (https://www.google.com/search?q=$encodedQuery)');
+        print('Google: (https://www.google.com/search?q=$encodedQuery)');
         if (level == ErrorStackLogLevel.verbose) {
           print("Stack: $stack");
         }

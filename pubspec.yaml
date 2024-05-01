@@ -18,9 +18,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
-#  nylo_support: ^5.67.1
-  nylo_support:
-    path: ../support
+  nylo_support: ^5.67.1
   flutter:
     sdk: flutter
   url_launcher: ^6.2.6
