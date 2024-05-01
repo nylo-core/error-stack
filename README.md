@@ -12,7 +12,7 @@
 #### Nylo
 
 ``` dart
-// Add Error Stack to your Nylo application
+// Add Error Stack to your Nylo app provider
 ...
 import 'package:error_stack/error_stack.dart';
 
@@ -34,6 +34,7 @@ class AppProvider {
 import 'package:error_stack/error_stack.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   ErrorStack.init(); // Initialize Error Stack
   runApp(MyApp());
 }
@@ -45,7 +46,7 @@ Once you have added Error Stack to your application, it will override the defaul
 
 - [x] Copy error message to clipboard
 - [x] Search fix for error via Google
-- [x] Modern UI
+- [x] Modern UI for debug and release mode
 - [x] Light and Dark mode support
 
 ## Getting started
@@ -56,7 +57,7 @@ Add the following to your `pubspec.yaml` file:
 
 ``` yaml
 dependencies:
-  error_stack: ^1.0.0
+  error_stack: ^1.2.0
 ```
 
 or with Dart:
@@ -76,9 +77,6 @@ The package is very simple to use.
 
 You can set the log level when initializing Error Stack.
 
-### Initialize Error Stack
-
-
 #### Nylo
 
 ``` dart
@@ -95,11 +93,13 @@ class AppProvider {
 ```
 
 #### Flutter App
+
 ``` dart
 import 'package:flutter/material.dart';
 import 'package:error_stack/error_stack.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   ErrorStack.init(logLevel: ErrorStackLogLevel.verbose); // Initialize Error Stack
   runApp(MyApp());
 }
