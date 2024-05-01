@@ -1,8 +1,7 @@
 library error_stack;
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '/widgets/error_stack_release_widget.dart';
-import 'package:nylo_support/helpers/backpack.dart';
-import 'package:nylo_support/nylo.dart';
 import '/widgets/error_stack_debug_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,23 +13,35 @@ enum ErrorStackLogLevel {
 }
 
 class ErrorStack {
+  /// Storage key
   static const String storageKey = 'error_stack_theme_mode';
+
+  /// Storage instance
+  final FlutterSecureStorage storage =
+      const FlutterSecureStorage(aOptions: AndroidOptions());
+
+  /// The initial route to navigate to when an error occurs
+  String initialRoute = "/";
+
+  /// The theme mode to use
+  String themeMode = "light";
+
+  /// singleton instance
+  ErrorStack._privateConstructor();
+
+  static final ErrorStack instance = ErrorStack._privateConstructor();
 
   /// Initialize the ErrorStack package
   /// You can set the [level] to [ErrorStackLogLevel.verbose] to see more details
   /// You can set the [initialRoute] to the route you want to navigate to when an error occurs
-  /// You can set [isNyloApp] to true if you are using the Nylo framework
-  static init(
-      {ErrorStackLogLevel level = ErrorStackLogLevel.minimal,
-      String initialRoute = "/",
-      bool isNyloApp = false}) {
-    if (isNyloApp == false) {
-      Nylo _nylo = Nylo();
-      Backpack.instance.set('nylo', _nylo);
-
-      /// Initialize the Nylo framework
-    }
-    Backpack.instance.set("${storageKey}_initial_route", initialRoute);
+  static init({
+    ErrorStackLogLevel level = ErrorStackLogLevel.minimal,
+    String initialRoute = "/",
+  }) async {
+    ErrorStack.instance.initialRoute = initialRoute;
+    ErrorStack.instance.themeMode = await ErrorStack.instance.storage
+            .read(key: '${ErrorStack.storageKey}_theme_mode') ??
+        'light';
     ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
       if (kReleaseMode) {
         return ErrorStackReleaseWidget(errorDetails: errorDetails);

@@ -1,40 +1,49 @@
-import 'package:nylo_support/helpers/backpack.dart';
 import '/error_stack.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nylo_support/helpers/extensions.dart';
-import 'package:nylo_support/helpers/helper.dart';
-import 'package:nylo_support/widgets/ny_state.dart';
-import 'package:nylo_support/widgets/ny_stateful_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 
-class ErrorStackDebugWidget extends NyStatefulWidget {
+/// ErrorStackDebugWidget
+/// This widget is displayed when an error occurs in debug mode
+/// It displays the error message, the class name, and the stack trace
+/// It also allows the user to search for the error on Google
+/// and restart the app
+class ErrorStackDebugWidget extends StatefulWidget {
   static const path = '/error-stack-debug';
   final FlutterErrorDetails errorDetails;
 
-  ErrorStackDebugWidget({super.key, required this.errorDetails}) : super(path);
+  const ErrorStackDebugWidget({super.key, required this.errorDetails});
 
   @override
   createState() => _ErrorStackDebugWidget();
 }
 
-class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
+class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
+
+  /// The theme mode
   String? _themeMode;
+
+  /// The class name
   String? _className;
 
   @override
-  init() async {
-    String? themeMode = await NyStorage.read(ErrorStack.storageKey);
-    _themeMode = themeMode == 'dark' ? 'dark' : 'light';
-    _className = className();
+  initState() {
+    super.initState();
+    _init();
+  }
+
+  /// Initialize the widget
+  _init() {
+    _themeMode = ErrorStack.instance.themeMode == 'dark' ? 'dark' : 'light';
+    setState(() {});
   }
 
   /// Get the class name
   String className() {
     String stack = widget.errorDetails.stack.toString();
-    RegExp regExp = RegExp(r'(\(package:([A-z\/.:0-9]+)\))');
+    RegExp regExp = RegExp(r'(\(package:([A-z/.:0-9]+)\))');
 
     Iterable<RegExpMatch> regMatches = regExp.allMatches(stack);
 
@@ -45,7 +54,7 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
     if (_className == null) return "";
 
     String inputString = _className!;
-    RegExp pattern = RegExp(r'^\(.*?\/');
+    RegExp pattern = RegExp(r'^\(.*?/');
     String result = inputString
         .replaceAll(pattern, "/")
         .replaceAll("(", "")
@@ -58,7 +67,7 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
-          _themeMode == "light" ? Colors.white : "#282c34".toHexColor(),
+          _themeMode == "light" ? Colors.white : _hexColor("#282c34"),
       body: SafeArea(
         child: Stack(
           children: [
@@ -91,7 +100,7 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                           color: _themeMode == "light"
                               ? Colors.grey.shade100
-                              : "#13151a".toHexColor(),
+                              : _hexColor("#13151a"),
                         ),
                         child: Column(
                           children: [
@@ -106,29 +115,24 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    child: afterNotNull(_className, child: () {
-                                      return Container(
-                                          width: double.infinity,
-                                          padding:
-                                              const EdgeInsets.only(bottom: 8),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          child: Text(
-                                            className(),
-                                            textAlign: TextAlign.left,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              fontSize: 12.0,
-                                              color: Colors.grey.shade600,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ));
-                                    },
-                                        loading: const SizedBox(
-                                          height: 15,
-                                        )),
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.only(bottom: 8),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      child: Text(
+                                        className(),
+                                        textAlign: TextAlign.left,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: Colors.grey.shade600,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   IconButton(
                                     padding: EdgeInsets.zero,
@@ -162,69 +166,76 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.0),
                                 color: _themeMode == 'light'
-                                    ? "#282c34".toHexColor()
+                                    ? _hexColor("#282c34")
                                     : Colors.white.withOpacity(0.2),
                               ),
-                              child: Text(
-                                widget.errorDetails.exceptionAsString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: "#d8b576".toHexColor(),
-                                  fontWeight: FontWeight.bold,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: Text(
+                                  widget.errorDetails.exceptionAsString(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: _hexColor("#d8b576"),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ).paddingSymmetric(horizontal: 16),
+                              ),
                             ),
                           ],
                         )),
                     const SizedBox(height: 20.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Operating System Version",
-                          style: TextStyle(
-                            color: _themeMode == "light"
-                                ? Colors.black54
-                                : Colors.grey,
-                            fontSize: 14,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Operating System Version",
+                            style: TextStyle(
+                              color: _themeMode == "light"
+                                  ? Colors.black54
+                                  : Colors.grey,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          Platform.operatingSystemVersion,
-                          style: TextStyle(
-                            color: _themeMode == "light"
-                                ? Colors.black
-                                : Colors.white,
-                            fontSize: 14,
+                          Text(
+                            Platform.operatingSystemVersion,
+                            style: TextStyle(
+                              color: _themeMode == "light"
+                                  ? Colors.black
+                                  : Colors.white,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 10.0),
-                        Text(
-                          "Operating System",
-                          style: TextStyle(
-                            color: _themeMode == "light"
-                                ? Colors.black54
-                                : Colors.grey,
-                            fontSize: 14,
+                          const SizedBox(height: 10.0),
+                          Text(
+                            "Operating System",
+                            style: TextStyle(
+                              color: _themeMode == "light"
+                                  ? Colors.black54
+                                  : Colors.grey,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          Platform.operatingSystem,
-                          style: TextStyle(
-                            color: _themeMode == "light"
-                                ? Colors.black
-                                : Colors.white,
-                            fontSize: 14,
+                          Text(
+                            Platform.operatingSystem,
+                            style: TextStyle(
+                              color: _themeMode == "light"
+                                  ? Colors.black
+                                  : Colors.white,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ).paddingSymmetric(horizontal: 16),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 20.0),
                     Container(
                       decoration: BoxDecoration(
@@ -253,7 +264,7 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: _themeMode == "light"
-                                    ? "#0045a0".toHexColor()
+                                    ? _hexColor("#0045a0")
                                     : Colors.white,
                               ),
                             ),
@@ -263,8 +274,7 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                     ),
                     TextButton(
                       onPressed: () {
-                        String initialRoute = Backpack.instance
-                            .read("${ErrorStack.storageKey}_initial_route");
+                        String initialRoute = ErrorStack.instance.initialRoute;
                         Navigator.pushNamedAndRemoveUntil(
                             context, initialRoute, (_) => false);
                       },
@@ -293,12 +303,13 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
                     color: _themeMode == "light" ? Colors.black : Colors.white,
                   ),
                   onPressed: () async {
-                    if (_themeMode == 'light') {
-                      _themeMode = 'dark';
-                    } else {
-                      _themeMode = 'light';
-                    }
-                    await NyStorage.store(ErrorStack.storageKey, _themeMode);
+                    _themeMode == 'light'
+                        ? _themeMode = 'dark'
+                        : _themeMode = 'light';
+                    await ErrorStack.instance.storage.write(
+                        key: '${ErrorStack.storageKey}_theme_mode',
+                        value: _themeMode!);
+                    ErrorStack.instance.themeMode = _themeMode!;
                     setState(() {});
                   }),
             ),
@@ -320,5 +331,15 @@ class _ErrorStackDebugWidget extends NyState<ErrorStackDebugWidget> {
         ),
       ),
     );
+  }
+
+  /// Get the color from a hex string
+  /// [hexColor] the hex color string
+  Color _hexColor(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF$hexColor";
+    }
+    return Color(int.parse(hexColor, radix: 16));
   }
 }

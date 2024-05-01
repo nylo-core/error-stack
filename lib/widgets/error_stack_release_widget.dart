@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:nylo_support/widgets/ny_state.dart';
-import 'package:nylo_support/widgets/ny_stateful_widget.dart';
 
-class ErrorStackReleaseWidget extends NyStatefulWidget {
-  static const path = '/error-stack-release';
+/// Widget to display a release error stack.
+/// This widget is displayed when the app is in release mode.
+/// It displays a simple error message.
+class ErrorStackReleaseWidget extends StatefulWidget {
   final FlutterErrorDetails errorDetails;
 
-  ErrorStackReleaseWidget({super.key, required this.errorDetails})
-      : super(path);
+  const ErrorStackReleaseWidget({super.key, required this.errorDetails});
 
   @override
   createState() => _ErrorStackReleaseWidget();
 }
 
-class _ErrorStackReleaseWidget extends NyState<ErrorStackReleaseWidget> {
+class _ErrorStackReleaseWidget extends State<ErrorStackReleaseWidget> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

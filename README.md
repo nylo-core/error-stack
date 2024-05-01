@@ -5,7 +5,7 @@
 
 ## Usage
 
-<img src="screenshots/error_stack.png" height="400" />
+<img src="https://raw.githubusercontent.com/nylo-core/error-stack/main/screenshots/error_stack.png" height="400" />
 
 ### Simple to use
 

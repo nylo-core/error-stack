@@ -2,6 +2,7 @@ import 'package:error_stack/error_stack.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   ErrorStack.init();
   runApp(MyApp());
 }
