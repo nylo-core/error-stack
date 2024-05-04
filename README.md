@@ -3,8 +3,6 @@
 [![pub package](https://img.shields.io/pub/v/permission_policy.svg)](https://pub.dartlang.org/packages/permission_policy)
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 
-## Usage
-
 <img src="https://raw.githubusercontent.com/nylo-core/error-stack/main/screenshots/error_stack.png" height="400" />
 
 ### Simple to use
@@ -57,7 +55,7 @@ Add the following to your `pubspec.yaml` file:
 
 ``` yaml
 dependencies:
-  error_stack: ^1.2.0
+  error_stack: ^1.2.1
 ```
 
 or with Dart:

@@ -1,3 +1,9 @@
+## [1.2.1] - 2024-05-04
+
+* Update logo
+* Update README.md
+* Small tweak to storage key
+
 ## [1.2.0] - 2024-05-01
 
 * Update README.md

@@ -14,7 +14,7 @@ enum ErrorStackLogLevel {
 
 class ErrorStack {
   /// Storage key
-  static const String storageKey = 'error_stack_theme_mode';
+  static const String storageKey = 'error_stack';
 
   /// Storage instance
   final FlutterSecureStorage storage =
