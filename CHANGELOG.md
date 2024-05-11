@@ -1,3 +1,7 @@
+## [1.3.0] - 2024-05-11
+
+* Update pubspec.yaml
+
 ## [1.2.1] - 2024-05-04
 
 * Update logo
