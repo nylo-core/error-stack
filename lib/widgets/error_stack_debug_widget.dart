@@ -21,7 +21,6 @@ class ErrorStackDebugWidget extends StatefulWidget {
 }
 
 class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
-
   /// The theme mode
   String? _themeMode;
 
@@ -69,202 +68,233 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
       backgroundColor:
           _themeMode == "light" ? Colors.white : _hexColor("#282c34"),
       body: SafeArea(
-        child: Stack(
+          child: Center(
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
           children: [
-            Positioned.fill(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.error_outline,
-                      color: Colors.red,
-                      size: 50.0,
-                    ),
-                    const SizedBox(height: 10.0),
-                    Text(
-                      'Error Occurred!',
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: _themeMode == "light"
-                              ? Colors.black
-                              : Colors.white),
-                    ),
-                    const SizedBox(height: 16.0),
-                    const Divider(),
-                    Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
-                          color: _themeMode == "light"
-                              ? Colors.grey.shade100
-                              : _hexColor("#13151a"),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 30,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              width: double.infinity,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+            SizedBox(
+              height: 550,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(
+                            Icons.error_outline,
+                            color: Colors.red,
+                            size: 50.0,
+                          ),
+                          const SizedBox(height: 10.0),
+                          Text(
+                            'Error Occurred!',
+                            style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: _themeMode == "light"
+                                    ? Colors.black
+                                    : Colors.white),
+                          ),
+                          const SizedBox(height: 16.0),
+                          const Divider(),
+                          Container(
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: _themeMode == "light"
+                                    ? Colors.grey.shade100
+                                    : _hexColor("#13151a"),
+                              ),
+                              child: Column(
                                 children: [
-                                  Expanded(
-                                    child: Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
+                                  Container(
+                                    height: 30,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    width: double.infinity,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            width: double.infinity,
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            child: Text(
+                                              className(),
+                                              textAlign: TextAlign.left,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontSize: 12.0,
+                                                color: Colors.grey.shade600,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          padding: EdgeInsets.zero,
+                                          icon: Icon(Icons.copy,
+                                              size: 15,
+                                              color: _themeMode == 'light'
+                                                  ? Colors.black
+                                                  : Colors.white),
+                                          onPressed: () {
+                                            Clipboard.setData(ClipboardData(
+                                                    text:
+                                                        "${widget.errorDetails.exceptionAsString()} flutter"))
+                                                .then((_) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      content: Text(
+                                                'Copied to your clipboard!',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              )));
+                                            });
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      color: _themeMode == 'light'
+                                          ? _hexColor("#282c34")
+                                          : Colors.white.withOpacity(0.2),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
                                       child: Text(
-                                        className(),
-                                        textAlign: TextAlign.left,
-                                        maxLines: 1,
+                                        widget.errorDetails.exceptionAsString(),
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 12.0,
-                                          color: Colors.grey.shade600,
+                                          fontSize: 16.0,
+                                          color: _hexColor("#d8b576"),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  IconButton(
-                                    padding: EdgeInsets.zero,
-                                    icon: Icon(Icons.copy,
-                                        size: 15,
-                                        color: _themeMode == 'light'
-                                            ? Colors.black
-                                            : Colors.white),
-                                    onPressed: () {
-                                      Clipboard.setData(ClipboardData(
-                                              text:
-                                                  "${widget.errorDetails.exceptionAsString()} flutter"))
-                                          .then((_) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                                content: Text(
-                                          'Copied to your clipboard!',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w600),
-                                        )));
-                                      });
-                                    },
-                                  )
                                 ],
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                color: _themeMode == 'light'
-                                    ? _hexColor("#282c34")
-                                    : Colors.white.withOpacity(0.2),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
-                                child: Text(
-                                  widget.errorDetails.exceptionAsString(),
-                                  textAlign: TextAlign.center,
+                              )),
+                          const SizedBox(height: 20.0),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Operating System Version",
                                   style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: _hexColor("#d8b576"),
-                                    fontWeight: FontWeight.bold,
+                                    color: _themeMode == "light"
+                                        ? Colors.black54
+                                        : Colors.grey,
+                                    fontSize: 14,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  Platform.operatingSystemVersion,
+                                  style: TextStyle(
+                                    color: _themeMode == "light"
+                                        ? Colors.black
+                                        : Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 10.0),
+                                Text(
+                                  "Operating System",
+                                  style: TextStyle(
+                                    color: _themeMode == "light"
+                                        ? Colors.black54
+                                        : Colors.grey,
+                                    fontSize: 14,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  Platform.operatingSystem,
+                                  style: TextStyle(
+                                    color: _themeMode == "light"
+                                        ? Colors.black
+                                        : Colors.white,
+                                    fontSize: 14,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20.0),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: _themeMode == "light"
+                                    ? Colors.grey.shade50
+                                    : Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(8)),
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.search),
+                                CupertinoButton(
+                                  onPressed: () {
+                                    String exception =
+                                        "${widget.errorDetails.exceptionAsString()}%20flutter";
+                                    String encodedQuery =
+                                        Uri.encodeQueryComponent(exception);
+
+                                    launchUrl(Uri.parse(
+                                        "https://www.google.com/search?q=$encodedQuery"));
+                                  },
+                                  child: Text(
+                                    "Search Google for this error",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: _themeMode == "light"
+                                          ? _hexColor("#0045a0")
+                                          : Colors.white,
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        )),
-                    const SizedBox(height: 20.0),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Operating System Version",
-                            style: TextStyle(
-                              color: _themeMode == "light"
-                                  ? Colors.black54
-                                  : Colors.grey,
-                              fontSize: 14,
-                            ),
-                            textAlign: TextAlign.center,
                           ),
-                          Text(
-                            Platform.operatingSystemVersion,
-                            style: TextStyle(
-                              color: _themeMode == "light"
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 14,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 10.0),
-                          Text(
-                            "Operating System",
-                            style: TextStyle(
-                              color: _themeMode == "light"
-                                  ? Colors.black54
-                                  : Colors.grey,
-                              fontSize: 14,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            Platform.operatingSystem,
-                            style: TextStyle(
-                              color: _themeMode == "light"
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 14,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20.0),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: _themeMode == "light"
-                              ? Colors.grey.shade50
-                              : Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8)),
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.search),
-                          CupertinoButton(
+                          TextButton(
                             onPressed: () {
-                              String exception =
-                                  "${widget.errorDetails.exceptionAsString()}%20flutter";
-                              String encodedQuery =
-                                  Uri.encodeQueryComponent(exception);
-
-                              launchUrl(Uri.parse(
-                                  "https://www.google.com/search?q=$encodedQuery"));
+                              String initialRoute =
+                                  ErrorStack.instance.initialRoute;
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, initialRoute, (_) => false);
                             },
                             child: Text(
-                              "Search Google for this error",
+                              "Restart app",
                               style: TextStyle(
-                                fontWeight: FontWeight.w600,
                                 color: _themeMode == "light"
-                                    ? _hexColor("#0045a0")
+                                    ? Colors.grey
                                     : Colors.white,
                               ),
                             ),
@@ -272,64 +302,52 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                         ],
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        String initialRoute = ErrorStack.instance.initialRoute;
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, initialRoute, (_) => false);
-                      },
-                      child: Text(
-                        "Restart app",
-                        style: TextStyle(
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: IconButton(
+                        // dark mode / light mode
+                        icon: Icon(
+                          _themeMode == "light"
+                              ? Icons.brightness_4
+                              : Icons.brightness_7,
                           color: _themeMode == "light"
-                              ? Colors.grey
+                              ? Colors.black
                               : Colors.white,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              top: 0,
-              child: IconButton(
-                  // dark mode / light mode
-                  icon: Icon(
-                    _themeMode == "light"
-                        ? Icons.brightness_4
-                        : Icons.brightness_7,
-                    color: _themeMode == "light" ? Colors.black : Colors.white,
+                        onPressed: () async {
+                          _themeMode == 'light'
+                              ? _themeMode = 'dark'
+                              : _themeMode = 'light';
+                          await ErrorStack.instance.storage.write(
+                              key: '${ErrorStack.storageKey}_theme_mode',
+                              value: _themeMode!);
+                          ErrorStack.instance.themeMode = _themeMode!;
+                          setState(() {});
+                        }),
                   ),
-                  onPressed: () async {
-                    _themeMode == 'light'
-                        ? _themeMode = 'dark'
-                        : _themeMode = 'light';
-                    await ErrorStack.instance.storage.write(
-                        key: '${ErrorStack.storageKey}_theme_mode',
-                        value: _themeMode!);
-                    ErrorStack.instance.themeMode = _themeMode!;
-                    setState(() {});
-                  }),
-            ),
-            Positioned(
-              bottom: 10,
-              left: 0,
-              right: 0,
-              child: Text(
-                "ErrorStack v1.0.0",
-                style: TextStyle(
-                  color:
-                      _themeMode == 'light' ? Colors.black54 : Colors.white70,
-                  fontSize: 10,
-                ),
-                textAlign: TextAlign.center,
+                  Positioned(
+                    bottom: 10,
+                    left: 0,
+                    right: 0,
+                    child: Text(
+                      "ErrorStack v1.4.0",
+                      style: TextStyle(
+                        color: _themeMode == 'light'
+                            ? Colors.black54
+                            : Colors.white70,
+                        fontSize: 10,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 

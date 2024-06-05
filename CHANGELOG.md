@@ -1,3 +1,7 @@
+## [1.4.0] - 2024-06-05
+
+* Update debug and release widget to support responsive design.
+
 ## [1.3.4] - 2024-05-22
 
 * Update pubspec.yaml
