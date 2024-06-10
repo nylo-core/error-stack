@@ -34,9 +34,11 @@ class ErrorStack {
   /// Initialize the ErrorStack package
   /// You can set the [level] to [ErrorStackLogLevel.verbose] to see more details
   /// You can set the [initialRoute] to the route you want to navigate to when an error occurs
+  /// You can set the [errorWidget] to a custom error widget
   static init({
     ErrorStackLogLevel level = ErrorStackLogLevel.minimal,
     String initialRoute = "/",
+    Widget Function(FlutterErrorDetails errorDetails)? errorWidget,
   }) async {
     ErrorStack.instance.initialRoute = initialRoute;
     ErrorStack.instance.themeMode = await ErrorStack.instance.storage
@@ -44,6 +46,9 @@ class ErrorStack {
         'light';
     ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
       if (kReleaseMode) {
+        if (errorWidget != null) {
+          return errorWidget(errorDetails);
+        }
         return ErrorStackReleaseWidget(errorDetails: errorDetails);
       }
       return ErrorStackDebugWidget(errorDetails: errorDetails);

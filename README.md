@@ -46,6 +46,7 @@ Once you have added Error Stack to your application, it will override the defaul
 - [x] Search fix for error via Google
 - [x] Modern UI for debug and release mode
 - [x] Light and Dark mode support
+- [x] Customizable Production Error Page
 
 ## Getting started
 
@@ -55,7 +56,7 @@ Add the following to your `pubspec.yaml` file:
 
 ``` yaml
 dependencies:
-  error_stack: ^1.4.0
+  error_stack: ^1.5.0
 ```
 
 or with Dart:
