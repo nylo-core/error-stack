@@ -332,7 +332,7 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                     left: 0,
                     right: 0,
                     child: Text(
-                      "ErrorStack v1.4.0",
+                      "ErrorStack v1.6.0",
                       style: TextStyle(
                         color: _themeMode == 'light'
                             ? Colors.black54

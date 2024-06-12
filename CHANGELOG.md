@@ -1,3 +1,7 @@
+## [1.6.0] - 2024-06-12
+
+* Update screenshots
+
 ## [1.5.0] - 2024-06-10
 
 * Add `errorWidget` to ErrorStack init method. This allows you to set a custom error widget to be displayed when an error occurs in production.
