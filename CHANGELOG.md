@@ -1,3 +1,7 @@
+## [1.7.1] - 2024-06-14
+
+* Add extra check in `ErrorWidget.builder` to get file name from the stack trace
+
 ## [1.7.0] - 2024-06-14
 
 * Fix error with Web not working

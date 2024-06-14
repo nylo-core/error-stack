@@ -56,12 +56,20 @@ class ErrorStack {
     FlutterError.onError = (FlutterErrorDetails details) {
       String stack = details.stack.toString();
       RegExp regExp = RegExp(r'(\(package:[A-z/.:0-9]+\))');
+      RegExp webRegExp = RegExp(r'packages/[A-z_]+(/([A-z/.:0-9]+)\s[0-9:]+)');
 
       Iterable<RegExpMatch> regMatches = regExp.allMatches(stack);
 
       String? className = '';
       if (regMatches.isNotEmpty) {
         className = regMatches.first.group(0);
+      }
+
+      if (className == null || className.isEmpty) {
+        Iterable<RegExpMatch> webRegMatches = webRegExp.allMatches(stack);
+        if (webRegMatches.isNotEmpty) {
+          className = webRegMatches.first.group(0);
+        }
       }
 
       if (kDebugMode) {
@@ -71,7 +79,9 @@ class ErrorStack {
           print(exceptionAsString);
         }
 
-        print('File: $className');
+        if ((className ?? "").isNotEmpty) {
+          print('File: $className');
+        }
         String exception = "${details.exceptionAsString()} flutter";
         String encodedQuery = Uri.encodeQueryComponent(exception);
         print('Google: (https://www.google.com/search?q=$encodedQuery)');
