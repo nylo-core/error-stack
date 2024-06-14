@@ -1,3 +1,11 @@
+## [1.7.0] - 2024-06-14
+
+* Fix error with Web not working
+* Add new Regex to catch more `classNames` in the stack trace
+* `ErrorStackLogLevel.verbose` (default)
+* Fix example project
+* Update README.md
+
 ## [1.6.0] - 2024-06-12
 
 * Update screenshots

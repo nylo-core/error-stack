@@ -36,7 +36,7 @@ class ErrorStack {
   /// You can set the [initialRoute] to the route you want to navigate to when an error occurs
   /// You can set the [errorWidget] to a custom error widget
   static init({
-    ErrorStackLogLevel level = ErrorStackLogLevel.minimal,
+    ErrorStackLogLevel level = ErrorStackLogLevel.verbose,
     String initialRoute = "/",
     Widget Function(FlutterErrorDetails errorDetails)? errorWidget,
   }) async {
@@ -66,8 +66,11 @@ class ErrorStack {
 
       if (kDebugMode) {
         print('𖢥 == Error Details == 𖢥');
+        String exceptionAsString = details.exceptionAsString();
+        if (exceptionAsString.isNotEmpty) {
+          print(exceptionAsString);
+        }
 
-        print(details.exceptionAsString());
         print('File: $className');
         String exception = "${details.exceptionAsString()} flutter";
         String encodedQuery = Uri.encodeQueryComponent(exception);

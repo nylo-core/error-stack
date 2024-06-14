@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '/error_stack.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +26,6 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
   /// The theme mode
   String? _themeMode;
 
-  /// The class name
-  String? _className;
-
   @override
   initState() {
     super.initState();
@@ -39,22 +38,33 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
     setState(() {});
   }
 
+  /// Try to match a regex in the stack trace
+  String? _tryMatchRegexInStack(RegExp regExp, String stack, {int group = 0}) {
+    Iterable<RegExpMatch> regMatches = regExp.allMatches(stack);
+
+    if (regMatches.isEmpty) {
+      return "";
+    }
+    return regMatches.first.group(group);
+  }
+
   /// Get the class name
   String className() {
     String stack = widget.errorDetails.stack.toString();
     RegExp regExp = RegExp(r'(\(package:([A-z/.:0-9]+)\))');
+    RegExp webRegExp = RegExp(r'packages/[A-z_]+(/([A-z/.:0-9]+)\s[0-9:]+)');
 
-    Iterable<RegExpMatch> regMatches = regExp.allMatches(stack);
-
-    if (regMatches.isNotEmpty) {
-      _className = regMatches.first.group(0);
+    String? className = _tryMatchRegexInStack(regExp, stack);
+    if (className == null || className == "") {
+      className = _tryMatchRegexInStack(webRegExp, stack, group: 1);
     }
 
-    if (_className == null) return "";
+    if (className == null || className == "") {
+      return "File not found";
+    }
 
-    String inputString = _className!;
     RegExp pattern = RegExp(r'^\(.*?/');
-    String result = inputString
+    String result = className
         .replaceAll(pattern, "/")
         .replaceAll("(", "")
         .replaceAll(")", "");
@@ -100,153 +110,155 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                           const SizedBox(height: 16.0),
                           const Divider(),
                           Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8.0),
-                                color: _themeMode == "light"
-                                    ? Colors.grey.shade100
-                                    : _hexColor("#13151a"),
-                              ),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    width: double.infinity,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            width: double.infinity,
-                                            padding: const EdgeInsets.only(
-                                                bottom: 8),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            child: Text(
-                                              className(),
-                                              textAlign: TextAlign.left,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                fontSize: 12.0,
-                                                color: Colors.grey.shade600,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                            margin: const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: _themeMode == "light"
+                                  ? Colors.grey.shade100
+                                  : _hexColor("#13151a"),
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 30,
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  width: double.infinity,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          width: double.infinity,
+                                          padding:
+                                              const EdgeInsets.only(bottom: 8),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          child: Text(
+                                            className(),
+                                            textAlign: TextAlign.left,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                              fontSize: 12.0,
+                                              color: Colors.grey.shade600,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
-                                        IconButton(
-                                          padding: EdgeInsets.zero,
-                                          icon: Icon(Icons.copy,
-                                              size: 15,
-                                              color: _themeMode == 'light'
-                                                  ? Colors.black
-                                                  : Colors.white),
-                                          onPressed: () {
-                                            Clipboard.setData(ClipboardData(
-                                                    text:
-                                                        "${widget.errorDetails.exceptionAsString()} flutter"))
-                                                .then((_) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
-                                                      content: Text(
-                                                'Copied to your clipboard!',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.w600),
-                                              )));
-                                            });
-                                          },
-                                        )
-                                      ],
-                                    ),
+                                      ),
+                                      IconButton(
+                                        padding: EdgeInsets.zero,
+                                        icon: Icon(Icons.copy,
+                                            size: 15,
+                                            color: _themeMode == 'light'
+                                                ? Colors.black
+                                                : Colors.white),
+                                        onPressed: () {
+                                          Clipboard.setData(ClipboardData(
+                                                  text:
+                                                      "${widget.errorDetails.exceptionAsString()} flutter"))
+                                              .then((_) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                                    content: Text(
+                                              'Copied to your clipboard!',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600),
+                                            )));
+                                          });
+                                        },
+                                      )
+                                    ],
                                   ),
-                                  Container(
+                                ),
+                                Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    color: _themeMode == 'light'
+                                        ? _hexColor("#282c34")
+                                        : Colors.white.withOpacity(0.2),
+                                  ),
+                                  child: Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 16),
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 8),
-                                    width: double.infinity,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      color: _themeMode == 'light'
-                                          ? _hexColor("#282c34")
-                                          : Colors.white.withOpacity(0.2),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16),
-                                      child: Text(
-                                        widget.errorDetails.exceptionAsString(),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          color: _hexColor("#d8b576"),
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        horizontal: 16),
+                                    child: Text(
+                                      widget.errorDetails.exceptionAsString(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: _hexColor("#d8b576"),
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
-                                ],
-                              )),
-                          const SizedBox(height: 20.0),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Operating System Version",
-                                  style: TextStyle(
-                                    color: _themeMode == "light"
-                                        ? Colors.black54
-                                        : Colors.grey,
-                                    fontSize: 14,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  Platform.operatingSystemVersion,
-                                  style: TextStyle(
-                                    color: _themeMode == "light"
-                                        ? Colors.black
-                                        : Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                const SizedBox(height: 10.0),
-                                Text(
-                                  "Operating System",
-                                  style: TextStyle(
-                                    color: _themeMode == "light"
-                                        ? Colors.black54
-                                        : Colors.grey,
-                                    fontSize: 14,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  Platform.operatingSystem,
-                                  style: TextStyle(
-                                    color: _themeMode == "light"
-                                        ? Colors.black
-                                        : Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                  textAlign: TextAlign.center,
                                 ),
                               ],
                             ),
                           ),
+                          const SizedBox(height: 20.0),
+                          if (!kIsWeb)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Operating System Version",
+                                    style: TextStyle(
+                                      color: _themeMode == "light"
+                                          ? Colors.black54
+                                          : Colors.grey,
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    Platform.operatingSystemVersion,
+                                    style: TextStyle(
+                                      color: _themeMode == "light"
+                                          ? Colors.black
+                                          : Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const SizedBox(height: 10.0),
+                                  Text(
+                                    "Operating System",
+                                    style: TextStyle(
+                                      color: _themeMode == "light"
+                                          ? Colors.black54
+                                          : Colors.grey,
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    Platform.operatingSystem,
+                                    style: TextStyle(
+                                      color: _themeMode == "light"
+                                          ? Colors.black
+                                          : Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
                           const SizedBox(height: 20.0),
                           Container(
                             decoration: BoxDecoration(
