@@ -3,8 +3,6 @@
 [![pub package](https://img.shields.io/pub/v/permission_policy.svg)](https://pub.dartlang.org/packages/permission_policy)
 [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 
-## Usage
-
 <img src="https://raw.githubusercontent.com/nylo-core/error-stack/main/screenshots/error_stack.png" height="400" />
 
 ### Simple to use
@@ -33,9 +31,9 @@ class AppProvider {
 ...
 import 'package:error_stack/error_stack.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ErrorStack.init(); // Initialize Error Stack
+  await ErrorStack.init(); // Initialize Error Stack
   runApp(MyApp());
 }
 ```
@@ -44,10 +42,11 @@ Once you have added Error Stack to your application, it will override the defaul
 
 ## Features
 
+- [x] Instant Google search to resolve error
 - [x] Copy error message to clipboard
-- [x] Search fix for error via Google
 - [x] Modern UI for debug and release mode
 - [x] Light and Dark mode support
+- [x] Customizable Production Error Page
 
 ## Getting started
 
@@ -57,7 +56,7 @@ Add the following to your `pubspec.yaml` file:
 
 ``` yaml
 dependencies:
-  error_stack: ^1.2.0
+  error_stack: ^1.7.3
 ```
 
 or with Dart:
@@ -72,8 +71,8 @@ The package is very simple to use.
 
 ### Log Levels
 
-- `ErrorStackLogLevel.minimal` (default)
-- `ErrorStackLogLevel.verbose` (shows more information)
+- `ErrorStackLogLevel.verbose` (default)
+- `ErrorStackLogLevel.minimal` (shows less information)
 
 You can set the log level when initializing Error Stack.
 
@@ -87,7 +86,7 @@ class AppProvider {
   @override
   boot(Nylo nylo) async {
      ...
-     nylo.useErrorStack(logLevel: ErrorStackLogLevel.verbose);
+     nylo.useErrorStack(logLevel: ErrorStackLogLevel.minimal);
   }
 }
 ```
@@ -98,11 +97,30 @@ class AppProvider {
 import 'package:flutter/material.dart';
 import 'package:error_stack/error_stack.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ErrorStack.init(logLevel: ErrorStackLogLevel.verbose); // Initialize Error Stack
+  await ErrorStack.init(logLevel: ErrorStackLogLevel.minimal); // Initialize Error Stack
   runApp(MyApp());
 }
+```
+
+### Full Parameters
+
+``` dart
+ErrorStack.init(
+	level: ErrorStackLogLevel.verbose,  // The ErrorStackLogLevel.verbose | ErrorStackLogLevel.minimal
+	initialRoute: "/", // Navigate to this route when tapping "Restart app"
+	errorWidget: (errorDetails) { // The error widget you want to show in release mode
+    	return Scaffold(
+      	    appBar: AppBar(
+        	    title: Text("Error"),
+      	    ),
+      	    body: Center(
+        	    child: Text("An error occurred"),
+      	    ),
+    	);
+	}
+);
 ```
 
 Try the [example](/example) app to see how it works.

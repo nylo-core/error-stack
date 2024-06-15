@@ -1,9 +1,12 @@
 import 'package:error_stack/error_stack.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  ErrorStack.init();
+  await ErrorStack.init(
+    initialRoute: "/",
+    level: ErrorStackLogLevel.verbose,
+  );
   runApp(MyApp());
 }
 
@@ -30,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  dynamic data;
+  dynamic data = [];
 
   @override
   Widget build(BuildContext context) {
