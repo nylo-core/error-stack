@@ -112,12 +112,12 @@ ErrorStack.init(
 	initialRoute: "/", // Navigate to this route when tapping "Restart app"
 	errorWidget: (errorDetails) { // The error widget you want to show in release mode
     	return Scaffold(
-      	appBar: AppBar(
-        	title: Text("Error"),
-      	),
-      	body: Center(
-        	child: Text("An error occurred"),
-      	),
+      	    appBar: AppBar(
+        	    title: Text("Error"),
+      	    ),
+      	    body: Center(
+        	    child: Text("An error occurred"),
+      	    ),
     	);
 	}
 );

@@ -1,3 +1,7 @@
+## [1.7.2] - 2024-06-14
+
+* Update README.md
+
 ## [1.7.1] - 2024-06-14
 
 * Add extra check in `ErrorWidget.builder` to get file name from the stack trace
