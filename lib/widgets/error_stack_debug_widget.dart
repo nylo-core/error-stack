@@ -179,7 +179,8 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                                     borderRadius: BorderRadius.circular(8.0),
                                     color: _themeMode == 'light'
                                         ? _hexColor("#282c34")
-                                        : Colors.white.withOpacity(0.2),
+                                        : Colors.white
+                                            .withAlpha((255.0 * 0.2).round()),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -258,7 +259,8 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                             decoration: BoxDecoration(
                                 color: _themeMode == "light"
                                     ? Colors.grey.shade50
-                                    : Colors.white.withOpacity(0.2),
+                                    : Colors.white
+                                        .withAlpha((255.0 * 0.2).round()),
                                 borderRadius: BorderRadius.circular(8)),
                             margin: const EdgeInsets.symmetric(horizontal: 16),
                             child: Row(

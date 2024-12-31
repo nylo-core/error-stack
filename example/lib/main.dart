@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// ignore: unnecessary_library_name
+// ignore: unnecessary_library_name, depend_on_referenced_packages
 import 'package:error_stack/error_stack.dart';
 
 void main() async {
@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ErrorStack',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

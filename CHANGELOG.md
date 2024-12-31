@@ -1,6 +1,7 @@
-## [1.10.0] - 2024-11-02
+## [1.10.0] - 2024-12-31
 
 * Refactor as per flutter_lints suggestions
+* Update copyright year
 * Update the pubspec.yaml
 
 ## [1.9.1] - 2024-08-09
