@@ -1,3 +1,7 @@
+## [1.10.1] - 2025-01-04
+
+* Update the pubspec.yaml
+
 ## [1.10.0] - 2024-12-31
 
 * Refactor as per flutter_lints suggestions
