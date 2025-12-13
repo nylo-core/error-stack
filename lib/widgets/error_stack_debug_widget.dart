@@ -32,7 +32,7 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
   }
 
   /// Initialize the widget
-  _init() {
+  void _init() {
     _themeMode = ErrorStack.instance.themeMode == 'dark' ? 'dark' : 'light';
     setState(() {});
   }
@@ -360,7 +360,7 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
   }
 
   /// Display a snack bar when the text is copied
-  _showCopiedSnackBar() {
+  void _showCopiedSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
       'Copied to your clipboard!',

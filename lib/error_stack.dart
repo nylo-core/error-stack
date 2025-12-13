@@ -36,7 +36,7 @@ class ErrorStack {
   /// You can set the [level] to [ErrorStackLogLevel.verbose] to see more details
   /// You can set the [initialRoute] to the route you want to navigate to when an error occurs
   /// You can set the [errorWidget] to a custom error widget
-  static init({
+  static Future<void> init({
     ErrorStackLogLevel level = ErrorStackLogLevel.verbose,
     String initialRoute = "/",
     Widget Function(FlutterErrorDetails errorDetails)? errorWidget,

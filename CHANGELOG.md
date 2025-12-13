@@ -1,3 +1,8 @@
+## [1.10.4] - 2025-12-13
+
+* fix dart analysis issues
+* Update pubspec.yaml
+
 ## [1.10.3] - 2025-02-23
 
 * Update GitHub workflows

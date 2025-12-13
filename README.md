@@ -56,7 +56,7 @@ Add the following to your `pubspec.yaml` file:
 
 ``` yaml
 dependencies:
-  error_stack: ^1.10.3
+  error_stack: ^1.10.4
 ```
 
 or with Dart:
