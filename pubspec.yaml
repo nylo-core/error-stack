@@ -21,6 +21,7 @@ dependencies:
   flutter_secure_storage: ^10.0.0
   url_launcher: ^6.3.2
   shared_preferences: ^2.5.4
+  dio: ^5.9.1
   flutter:
     sdk: flutter
 
@@ -28,7 +29,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  dio: ^5.9.1  # For testing the Dio interceptor
 
 screenshots:
   - description: The Error Stack logo.
