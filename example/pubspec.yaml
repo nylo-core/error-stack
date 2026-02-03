@@ -7,13 +7,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  dio: ^5.4.0
+  nylo_support: ^6.28.5
+  error_stack:
+    path: ../
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  error_stack:
-    path: ../
+dependency_overrides:
+  nylo_support:
+    path: /Users/anthony/StudioProjects/support
 
 flutter:
 

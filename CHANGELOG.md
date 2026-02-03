@@ -1,3 +1,79 @@
+## [2.0.0] - 2026-02-04
+
+### Breaking Changes
+
+* Refactored `ErrorStack` into multiple single-responsibility classes following SOLID principles
+* `ErrorStack.init()` now accepts optional `storage` and `devPanelConfig` parameters
+* `ErrorStackDebugWidget` now uses constructor injection instead of accessing `ErrorStack.instance`
+
+### New Features
+
+#### Dev Panel
+A comprehensive runtime debugging tool accessible via long-press on the "Dev Panel" bar or programmatically via `ErrorStack.showDevPanel(context)`:
+
+* **API Tab** - HTTP request/response logging with timing, headers, and body data
+* **Logs Tab** - Console logging with severity levels (debug, info, warning, error)
+* **Routes Tab** - Navigation history tracking with route names and arguments
+* **Storage Tab** - View local storage data (Secure Storage & Shared Preferences)
+* **UI Tab** - Visual debugging tools:
+  * Grid paper overlay
+  * Layout bounds visualization
+  * Text scale adjustment (0.5-3.0x)
+  * Color blindness simulation (protanopia, deuteranopia, tritanopia)
+  * Slow animations (5x)
+  * Performance overlay
+  * Safe area visualization
+
+#### Dio Integration
+* **`ErrorStackDioInterceptor`** - Automatic HTTP logging for Dio requests
+* Separate import: `import 'package:error_stack/error_stack_dio.dart'`
+
+#### Navigator Observer
+* **`ErrorStackNavigatorObserver`** - Automatic route tracking for navigation history
+
+#### Core Architecture
+* **`ErrorStackConfig`** - Configuration class for level, initialRoute, themeMode, customErrorWidget, forceDebugWidget
+* **`ErrorStackStorageBase`** - Abstract interface for storage (enables custom implementations/mocking)
+* **`ErrorStackStorage`** - Default FlutterSecureStorage implementation
+* **`ErrorStackHandler`** - Encapsulates error handling logic, stack trace parsing, widget building
+* **`DevPanelConfig`** - Configuration for dev panel features and log limits
+* **`DevPanelStore`** - Central data store for all debug data (ChangeNotifier)
+
+#### New APIs
+* `ErrorStack.builder` - Builder function for MaterialApp to add dev panel and UI overlays
+* `ErrorStack.showDevPanel(context)` - Programmatically show the dev panel
+* `ErrorStack.isInitialized` - Check if ErrorStack has been initialized
+* `DevPanelStore.instance` - Access logging APIs (debug, info, warning, error, logApi, trackRoute)
+
+#### Copy Markdown Button
+    - The "Copy markdown" button in `ErrorStackDebugWidget` now copies a structured markdown report to the clipboard (instead of opening a Google search). The report includes:
+    * Exception message
+    * Full stack trace
+    * Source file path
+    * Environment info (platform, OS version, timestamp, debug mode)
+
+### Tests
+
+* Comprehensive test suite with ~490 tests covering all components
+
+### File Structure
+
+```
+lib/
+├── error_stack.dart              # Main entry point & exports
+├── error_stack_dio.dart          # Dio interceptor export
+├── src/
+│   ├── config/                   # Configuration classes
+│   ├── storage/                  # Storage abstraction
+│   ├── handler/                  # Error handling logic
+│   └── dev_panel/                # Dev panel components
+│       ├── data/                 # Store, models, collections
+│       ├── widgets/              # Panel UI & tabs
+│       ├── interceptors/         # Dio interceptor
+│       └── observers/            # Navigator observer
+└── widgets/                      # Error display widgets
+```
+
 ## [1.10.4] - 2025-12-13
 
 * fix dart analysis issues

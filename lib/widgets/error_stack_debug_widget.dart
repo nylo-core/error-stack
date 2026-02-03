@@ -1,21 +1,36 @@
 import 'package:flutter/foundation.dart';
-
-import '/error_stack.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io' show Platform;
 
-/// ErrorStackDebugWidget
-/// This widget is displayed when an error occurs in debug mode
-/// It displays the error message, the class name, and the stack trace
-/// It also allows the user to search for the error on Google
-/// and restart the app
+/// Debug-mode error display widget.
+///
+/// Shows the error message, class name, and stack trace when an error
+/// occurs. Provides a Google search link for the error and an option
+/// to restart the app.
 class ErrorStackDebugWidget extends StatefulWidget {
+  /// The error details to display.
   final FlutterErrorDetails errorDetails;
 
-  const ErrorStackDebugWidget({super.key, required this.errorDetails});
+  /// The initial route to navigate to when restarting the app.
+  final String initialRoute;
+
+  /// The initial theme mode ('light' or 'dark').
+  final String initialThemeMode;
+
+  /// Callback invoked when the theme is changed.
+  /// Receives the new theme mode string.
+  final Future<void> Function(String newTheme)? onThemeChanged;
+
+  const ErrorStackDebugWidget({
+    super.key,
+    required this.errorDetails,
+    this.initialRoute = '/',
+    this.initialThemeMode = 'light',
+    this.onThemeChanged,
+  });
 
   @override
   createState() => _ErrorStackDebugWidget();
@@ -23,18 +38,12 @@ class ErrorStackDebugWidget extends StatefulWidget {
 
 class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
   /// The theme mode
-  String? _themeMode;
+  late String _themeMode;
 
   @override
   initState() {
     super.initState();
-    _init();
-  }
-
-  /// Initialize the widget
-  void _init() {
-    _themeMode = ErrorStack.instance.themeMode == 'dark' ? 'dark' : 'light';
-    setState(() {});
+    _themeMode = widget.initialThemeMode == 'dark' ? 'dark' : 'light';
   }
 
   /// Try to match a regex in the stack trace
@@ -279,7 +288,41 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                                         "https://www.google.com/search?q=$encodedQuery"));
                                   },
                                   child: Text(
-                                    "Search Google for this error",
+                                    "Search Google",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: _themeMode == "light"
+                                          ? _hexColor("#0045a0")
+                                          : Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20.0),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: _themeMode == "light"
+                                    ? Colors.grey.shade50
+                                    : Colors.white
+                                        .withAlpha((255.0 * 0.2).round()),
+                                borderRadius: BorderRadius.circular(8)),
+                            margin: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.content_copy),
+                                CupertinoButton(
+                                  onPressed: () async {
+                                    final markdown = _generateErrorMarkdown();
+                                    await Clipboard.setData(
+                                        ClipboardData(text: markdown));
+                                    _showCopiedSnackBar();
+                                  },
+                                  child: Text(
+                                    "Copy markdown",
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: _themeMode == "light"
@@ -293,10 +336,8 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                           ),
                           TextButton(
                             onPressed: () {
-                              String initialRoute =
-                                  ErrorStack.instance.initialRoute;
                               Navigator.pushNamedAndRemoveUntil(
-                                  context, initialRoute, (_) => false);
+                                  context, widget.initialRoute, (_) => false);
                             },
                             child: Text(
                               "Restart app",
@@ -325,13 +366,10 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                               : Colors.white,
                         ),
                         onPressed: () async {
-                          _themeMode == 'light'
-                              ? _themeMode = 'dark'
-                              : _themeMode = 'light';
-                          await ErrorStack.instance.storage.write(
-                              key: '${ErrorStack.storageKey}_theme_mode',
-                              value: _themeMode!);
-                          ErrorStack.instance.themeMode = _themeMode!;
+                          _themeMode = _themeMode == 'light' ? 'dark' : 'light';
+                          if (widget.onThemeChanged != null) {
+                            await widget.onThemeChanged!(_themeMode);
+                          }
                           setState(() {});
                         }),
                   ),
@@ -340,7 +378,7 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                     left: 0,
                     right: 0,
                     child: Text(
-                      "ErrorStack v1.10.0",
+                      "ErrorStack v2.0.0",
                       style: TextStyle(
                         color: _themeMode == 'light'
                             ? Colors.black54
@@ -366,6 +404,42 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
       'Copied to your clipboard!',
       style: TextStyle(fontWeight: FontWeight.w600),
     )));
+  }
+
+  /// Generate a markdown string with error details for AI agents
+  String _generateErrorMarkdown() {
+    final exception = widget.errorDetails.exceptionAsString();
+    final stackTrace = widget.errorDetails.stack.toString();
+    final sourceFile = className();
+    final timestamp = DateTime.now().toUtc().toIso8601String();
+
+    final buffer = StringBuffer();
+    buffer.writeln('## Error Report');
+    buffer.writeln();
+    buffer.writeln('### Exception');
+    buffer.writeln('```');
+    buffer.writeln(exception);
+    buffer.writeln('```');
+    buffer.writeln();
+    buffer.writeln('### Stack Trace');
+    buffer.writeln('```');
+    buffer.writeln(stackTrace);
+    buffer.writeln('```');
+    buffer.writeln();
+    buffer.writeln('### Source File');
+    buffer.writeln(sourceFile);
+    buffer.writeln();
+    buffer.writeln('### Environment');
+    if (!kIsWeb) {
+      buffer.writeln('- **Platform:** ${Platform.operatingSystem}');
+      buffer.writeln('- **OS Version:** ${Platform.operatingSystemVersion}');
+    } else {
+      buffer.writeln('- **Platform:** Web');
+    }
+    buffer.writeln('- **Timestamp:** $timestamp');
+    buffer.writeln('- **Debug Mode:** true');
+
+    return buffer.toString();
   }
 
   /// Get the color from a hex string
