@@ -1,3 +1,10 @@
+## [2.0.1] - 2026-02-25
+
+### Changed
+
+* Redesigned Dev Panel trigger from a horizontal bar at the bottom to a compact vertical tab on the right edge of the screen
+* Increased error display container height from 580 to 610 to prevent content overflow
+
 ## [2.0.0] - 2026-02-04
 
 ### Breaking Changes

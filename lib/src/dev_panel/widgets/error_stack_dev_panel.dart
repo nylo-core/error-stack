@@ -4,7 +4,7 @@ import 'error_stack_dev_panel_sheet.dart';
 
 /// ErrorStackDevPanel
 ///
-/// Wraps the app content and provides a "Dev Mode" bar at the bottom
+/// Wraps the app content and provides a "Dev Mode" tab on the right edge
 /// that opens the dev panel on long-press.
 ///
 /// Usage:
@@ -69,40 +69,33 @@ class _ErrorStackDevPanelState extends State<ErrorStackDevPanel> {
           child: widget.child,
         ),
         Positioned(
-          bottom: 0,
-          left: 0,
           right: 0,
-          child: GestureDetector(
-            onLongPress: _onLongPress,
-            child: Container(
-              height: 20,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade800,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(50),
-                  topRight: Radius.circular(50),
+          top: 0,
+          bottom: 0,
+          child: Center(
+            child: GestureDetector(
+              onLongPress: _onLongPress,
+              child: Container(
+                height: 100,
+                width: 24,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade800,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    bottomLeft: Radius.circular(50),
+                  ),
                 ),
-              ),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Dev Panel",
-                    style: TextStyle(
+                child: const Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.developer_mode,
+                      size: 14,
                       color: Colors.white,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      decoration: TextDecoration.none,
                     ),
-                  ),
-                  SizedBox(width: 4),
-                  Icon(
-                    Icons.developer_mode,
-                    size: 14,
-                    color: Colors.white,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

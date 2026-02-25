@@ -92,7 +92,7 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
           padding: EdgeInsets.zero,
           children: [
             SizedBox(
-              height: 580,
+              height: 610,
               child: Stack(
                 children: [
                   Positioned.fill(
@@ -378,7 +378,7 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                     left: 0,
                     right: 0,
                     child: Text(
-                      "ErrorStack v2.0.0",
+                      "ErrorStack v2.0.1",
                       style: TextStyle(
                         color: _themeMode == 'light'
                             ? Colors.black54
