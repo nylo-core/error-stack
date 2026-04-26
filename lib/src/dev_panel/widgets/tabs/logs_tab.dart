@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../data/models/log_entry.dart';
 import '../../data/models/log_level.dart';
 
@@ -183,10 +184,45 @@ class LogsTab extends StatelessWidget {
   }
 }
 
-class _LogEntryItem extends StatelessWidget {
+class _LogEntryItem extends StatefulWidget {
   final LogEntry entry;
 
   const _LogEntryItem({required this.entry});
+
+  @override
+  State<_LogEntryItem> createState() => _LogEntryItemState();
+}
+
+class _LogEntryItemState extends State<_LogEntryItem> {
+  bool _showCopied = false;
+
+  LogEntry get entry => widget.entry;
+
+  String _formatEntryForCopy() {
+    final buffer = StringBuffer();
+    buffer.writeln('[${entry.levelName}] ${entry.formattedTimestamp}');
+    if (entry.tag != null) {
+      buffer.writeln('Tag: ${entry.tag}');
+    }
+    buffer.writeln('Message:');
+    buffer.writeln(entry.message);
+    if (entry.stackTrace != null) {
+      buffer.writeln();
+      buffer.writeln('Stack trace:');
+      buffer.writeln(entry.stackTrace);
+    }
+    return buffer.toString();
+  }
+
+  void _copyEntry() {
+    Clipboard.setData(ClipboardData(text: _formatEntryForCopy()));
+    setState(() => _showCopied = true);
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      if (mounted) {
+        setState(() => _showCopied = false);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -226,6 +262,30 @@ class _LogEntryItem extends StatelessWidget {
                 ),
               ),
               const Spacer(),
+              if (_showCopied)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Text(
+                    'Copied!',
+                    style: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: GestureDetector(
+                    onTap: _copyEntry,
+                    child: Icon(
+                      Icons.copy,
+                      color: Colors.grey[500],
+                      size: 16,
+                    ),
+                  ),
+                ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [

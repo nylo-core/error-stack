@@ -1,3 +1,18 @@
+## [2.1.0] - 2026-04-26
+
+### Added
+
+* Copy-to-clipboard support across the Dev Panel:
+  * Logs tab: copy a full log entry (level, timestamp, tag, message, and stack trace) from each row
+  * Routes tab: copy the route name from the route details sheet
+  * Local Storage tab: copy the key or value from the edit modal
+* "Copied!" confirmation feedback on each copy action
+
+### Changed
+
+* Bumped `shared_preferences` from `^2.5.4` to `^2.5.5`
+* Bumped `dio` from `^5.9.1` to `^5.9.2`
+
 ## [2.0.1] - 2026-02-25
 
 ### Changed

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../models/route_argument_data.dart';
 import '../../data/models/route_entry.dart';
 
@@ -172,6 +173,8 @@ class _RouteEntryItem extends StatelessWidget {
   void _showRouteDetails(BuildContext context) {
     final actionColor = _getActionColor(entry.action);
 
+    bool nameCopied = false;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -188,103 +191,133 @@ class _RouteEntryItem extends StatelessWidget {
               topRight: Radius.circular(20),
             ),
           ),
-          child: Column(
-            children: [
-              // Handle bar
-              Container(
-                margin: const EdgeInsets.only(top: 12),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[700],
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              // Header
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.route,
-                      color: Colors.white,
-                      size: 20,
+          child: StatefulBuilder(
+            builder: (ctx, setModalState) {
+              void copyName() {
+                Clipboard.setData(ClipboardData(text: entry.name));
+                setModalState(() => nameCopied = true);
+                Future.delayed(const Duration(milliseconds: 1500), () {
+                  setModalState(() => nameCopied = false);
+                });
+              }
+
+              return Column(
+                children: [
+                  // Handle bar
+                  Container(
+                    margin: const EdgeInsets.only(top: 12),
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[700],
+                      borderRadius: BorderRadius.circular(2),
                     ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      'Route Details',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () => Navigator.of(ctx).pop(),
-                      child: const Icon(Icons.close, color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-              const Divider(color: Colors.grey, height: 1),
-              // Content
-              Expanded(
-                child: ListView(
-                  controller: scrollController,
-                  padding: const EdgeInsets.all(16),
-                  children: [
-                    // Route name section
-                    _buildDetailSection(
-                      'Route Name',
-                      entry.name,
-                      icon: Icons.route,
-                      valueColor: isCurrent ? Colors.green : Colors.white,
-                    ),
-                    const SizedBox(height: 16),
-                    // Action and timestamp
-                    Row(
+                  ),
+                  // Header
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
                       children: [
-                        Expanded(
-                          child: _buildDetailCard(
-                            'Action',
-                            _getActionLabel(entry.action),
-                            badgeColor: isCurrent ? Colors.green : actionColor,
+                        const Icon(
+                          Icons.route,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        const Text(
+                          'Route Details',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildDetailCard(
-                            'Timestamp',
-                            _formatFullTimestamp(entry.timestamp),
-                          ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: () => Navigator.of(ctx).pop(),
+                          child: const Icon(Icons.close, color: Colors.white),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
-                    // Previous route
-                    if (entry.previousRoute != null) ...[
-                      _buildDetailSection(
-                        'Previous Route',
-                        entry.previousRoute!,
-                        icon: Icons.history,
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-                    // Arguments
-                    if (entry.arguments != null) ...[
-                      _buildArgumentsWidget(entry.arguments),
-                      const SizedBox(height: 16),
-                    ],
-                    // Route settings section
-                    if (_hasRouteSettings()) ...[
-                      _buildSettingsSection(),
-                      const SizedBox(height: 16),
-                    ],
-                  ],
-                ),
-              ),
-            ],
+                  ),
+                  const Divider(color: Colors.grey, height: 1),
+                  // Content
+                  Expanded(
+                    child: ListView(
+                      controller: scrollController,
+                      padding: const EdgeInsets.all(16),
+                      children: [
+                        // Route name section
+                        _buildDetailSection(
+                          'Route Name',
+                          entry.name,
+                          icon: Icons.route,
+                          valueColor: isCurrent ? Colors.green : Colors.white,
+                          trailing: nameCopied
+                              ? Text(
+                                  'Copied!',
+                                  style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: copyName,
+                                  child: Icon(
+                                    Icons.copy,
+                                    color: Colors.grey[500],
+                                    size: 16,
+                                  ),
+                                ),
+                        ),
+                        const SizedBox(height: 16),
+                        // Action and timestamp
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildDetailCard(
+                                'Action',
+                                _getActionLabel(entry.action),
+                                badgeColor:
+                                    isCurrent ? Colors.green : actionColor,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _buildDetailCard(
+                                'Timestamp',
+                                _formatFullTimestamp(entry.timestamp),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        // Previous route
+                        if (entry.previousRoute != null) ...[
+                          _buildDetailSection(
+                            'Previous Route',
+                            entry.previousRoute!,
+                            icon: Icons.history,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        // Arguments
+                        if (entry.arguments != null) ...[
+                          _buildArgumentsWidget(entry.arguments),
+                          const SizedBox(height: 16),
+                        ],
+                        // Route settings section
+                        if (_hasRouteSettings()) ...[
+                          _buildSettingsSection(),
+                          const SizedBox(height: 16),
+                        ],
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
@@ -292,7 +325,7 @@ class _RouteEntryItem extends StatelessWidget {
   }
 
   Widget _buildDetailSection(String label, String value,
-      {IconData? icon, Color? valueColor}) {
+      {IconData? icon, Color? valueColor, Widget? trailing}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -313,13 +346,24 @@ class _RouteEntryItem extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 6),
-        Text(
-          value,
-          style: TextStyle(
-            color: valueColor ?? Colors.white,
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-          ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                value,
+                style: TextStyle(
+                  color: valueColor ?? Colors.white,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            if (trailing != null) ...[
+              const SizedBox(width: 8),
+              trailing,
+            ],
+          ],
         ),
       ],
     );
