@@ -1,3 +1,9 @@
+## [2.1.1] - 2026-04-26
+
+### Documentation
+
+* Documented the 2.1.0 copy-to-clipboard features in the README (Logs, Routes, and Storage tab sections)
+
 ## [2.1.0] - 2026-04-26
 
 ### Added

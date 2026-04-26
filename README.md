@@ -29,7 +29,7 @@ Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  error_stack: ^2.1.0
+  error_stack: ^2.1.1
 ```
 
 Or install via command line:
@@ -198,7 +198,7 @@ DevPanelStore.instance.completeApiRequest(
 
 ### Logs Tab
 
-Console logs with filtering by severity level.
+Console logs with filtering by severity level. Tap the copy icon on any log entry to copy the full entry (level, timestamp, tag, message, and stack trace) to the clipboard.
 
 ```dart
 import 'package:error_stack/error_stack.dart';
@@ -221,7 +221,7 @@ DevPanelStore.instance.info(
 
 ### Routes Tab
 
-Navigation history with route names, arguments, and actions.
+Navigation history with route names, arguments, and actions. Tap a route to open its details sheet, where you can copy the route name to the clipboard.
 
 Route tracking is automatic when using `ErrorStackNavigatorObserver`:
 
@@ -244,7 +244,7 @@ DevPanelStore.instance.trackRouteReplace('/home');
 
 ### Storage Tab
 
-View all local storage data from both Secure Storage and Shared Preferences.
+View all local storage data from both Secure Storage and Shared Preferences. Tap an entry to open the edit modal, where you can copy the key or value to the clipboard or update the stored value.
 
 ---
 
