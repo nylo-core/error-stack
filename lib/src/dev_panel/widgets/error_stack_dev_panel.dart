@@ -50,12 +50,48 @@ class _ErrorStackDevPanelState extends State<ErrorStackDevPanel> {
   void _onLongPress() {
     HapticFeedback.mediumImpact();
 
-    // Use the child's context to access the Navigator.
-    // The child contains the Navigator when used with MaterialApp.builder.
     final childContext = _childKey.currentContext;
-    if (childContext != null) {
+    if (childContext == null) return;
+
+    // When ErrorStackDevPanel sits below a Navigator (e.g. as a route body),
+    // the child's own context can locate the Navigator via ancestors.
+    if (Navigator.maybeOf(childContext) != null) {
       ErrorStackDevPanel.showDevPanel(childContext);
+      return;
     }
+
+    // When used via MaterialApp.builder, the Navigator is *inside* widget.child
+    // (MaterialApp passes its Navigator as the builder's child argument), so
+    // walking ancestors finds nothing. Walk descendants to find a context that
+    // is below the Navigator and use that to show the modal.
+    final navigatorChildContext =
+        _findDescendantNavigatorChildContext(childContext as Element);
+    if (navigatorChildContext != null) {
+      ErrorStackDevPanel.showDevPanel(navigatorChildContext);
+    }
+  }
+
+  /// Searches descendants of [root] for the first [Navigator] and returns
+  /// one of its child contexts (so [Navigator.of] can find it via ancestors).
+  static BuildContext? _findDescendantNavigatorChildContext(Element root) {
+    Element? navigatorElement;
+    void findNavigator(Element element) {
+      if (navigatorElement != null) return;
+      if (element.widget is Navigator) {
+        navigatorElement = element;
+        return;
+      }
+      element.visitChildren(findNavigator);
+    }
+
+    findNavigator(root);
+    if (navigatorElement == null) return null;
+
+    BuildContext? descendantContext;
+    navigatorElement!.visitChildren((child) {
+      descendantContext ??= child;
+    });
+    return descendantContext;
   }
 
   @override

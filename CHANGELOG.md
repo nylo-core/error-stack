@@ -1,3 +1,17 @@
+## [2.1.2] - 2026-05-01
+
+### Fixed
+
+* Dev Panel long-press failed to open when `ErrorStackDevPanel` was used via `MaterialApp.builder`. The panel now locates the `Navigator` whether it sits above or below the dev panel widget in the element tree.
+
+### Tests
+
+* Added widget tests covering the long-press path for both `home:` and `MaterialApp.builder` configurations.
+
+### Example
+
+* Added a "Storage Tab" example demonstrating the Dev Panel's `SharedPreferences` and `FlutterSecureStorage` inspector with view, edit, search, and delete flows.
+
 ## [2.1.1] - 2026-04-26
 
 ### Documentation

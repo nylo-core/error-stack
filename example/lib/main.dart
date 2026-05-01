@@ -6,6 +6,7 @@ import 'examples/basic_example.dart' as basic;
 import 'examples/custom_error_widget_example.dart' as custom_error;
 import 'examples/dev_panel_example.dart' as dev_panel;
 import 'examples/dio_integration_example.dart' as dio_integration;
+import 'examples/storage_tab_example.dart' as storage_tab;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -92,6 +93,18 @@ class ExampleLauncherPage extends StatelessWidget {
             onTap: () => _navigateToExample(
               context,
               const dev_panel.DevPanelExampleApp(),
+            ),
+          ),
+          _buildExampleCard(
+            context,
+            title: 'Storage Tab',
+            description: 'Inspect SharedPreferences and FlutterSecureStorage '
+                'in the Dev Panel\'s Storage tab — view, edit, search, delete.',
+            icon: Icons.storage,
+            color: Colors.amber,
+            onTap: () => _navigateToExample(
+              context,
+              const storage_tab.StorageTabExampleApp(),
             ),
           ),
           _buildExampleCard(
