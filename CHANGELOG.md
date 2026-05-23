@@ -1,3 +1,9 @@
+## [2.1.4] - 2026-05-23
+
+### Changed
+
+* Bumped `flutter_secure_storage` from `^10.1.0` to `^10.3.0`.
+
 ## [2.1.3] - 2026-05-10
 
 ### Changed
