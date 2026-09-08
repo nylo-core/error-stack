@@ -1,3 +1,10 @@
+## [2.1.6] - 2026-09-08
+
+### Changed
+
+* Bumped `flutter_secure_storage` from `^10.3.1` to `^11.0.0`.
+* Bumped `dio` from `^5.11.0` to `^5.11.1`.
+
 ## [2.1.5] - 2026-08-02
 
 ### Changed

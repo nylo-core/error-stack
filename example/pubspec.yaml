@@ -10,8 +10,6 @@ dependencies:
   dio: ^5.9.1
   error_stack:
     path: ../
-  flutter_secure_storage: ^10.0.0
-  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:

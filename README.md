@@ -29,7 +29,7 @@ Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  error_stack: ^2.1.5
+  error_stack: ^2.1.6
 ```
 
 Or install via command line:
