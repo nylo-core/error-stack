@@ -72,9 +72,9 @@ class ApiRequestLog {
 
   /// Formatted timestamp string.
   String get formattedTimestamp {
-    final hour = timestamp.hour.toString().padLeft(2, '0');
-    final minute = timestamp.minute.toString().padLeft(2, '0');
-    final second = timestamp.second.toString().padLeft(2, '0');
+    final String hour = timestamp.hour.toString().padLeft(2, '0');
+    final String minute = timestamp.minute.toString().padLeft(2, '0');
+    final String second = timestamp.second.toString().padLeft(2, '0');
     return '$hour:$minute:$second';
   }
 

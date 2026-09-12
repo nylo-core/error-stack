@@ -120,7 +120,7 @@ void main() {
         list.add(2);
         list.add(3);
 
-        final removed = list.removeFirst();
+        final int removed = list.removeFirst();
 
         expect(removed, 1);
         expect(list.length, 2);
@@ -140,7 +140,7 @@ void main() {
         list.add(2);
         list.add(3);
 
-        final removed = list.remove(2);
+        final bool removed = list.remove(2);
 
         expect(removed, true);
         expect(list.toList(), [1, 3]);
@@ -150,7 +150,7 @@ void main() {
         final list = FifoList<int>(5);
         list.add(1);
 
-        final removed = list.remove(99);
+        final bool removed = list.remove(99);
 
         expect(removed, false);
         expect(list.length, 1);
@@ -195,7 +195,7 @@ void main() {
         list.add(1);
         list.add(2);
 
-        final reversed = list.reversed;
+        final List<int> reversed = list.reversed;
         reversed.add(99);
 
         expect(list.length, 2);
@@ -209,7 +209,7 @@ void main() {
         list.add(1);
         list.add(2);
 
-        final copy = list.toList();
+        final List<int> copy = list.toList();
         copy.add(99);
 
         expect(list.length, 2);
@@ -222,7 +222,7 @@ void main() {
         final list = FifoList<int>(10);
         list.addAll([1, 2, 3, 4, 5]);
 
-        final result = list.where((item) => item > 3);
+        final Iterable<int> result = list.where((item) => item > 3);
 
         expect(result.toList(), [4, 5]);
       });
@@ -233,7 +233,7 @@ void main() {
         final list = FifoList<int>(10);
         list.addAll([1, 2, 3, 4, 5]);
 
-        final result = list.firstWhereOrNull((item) => item > 2);
+        final int? result = list.firstWhereOrNull((item) => item > 2);
 
         expect(result, 3);
       });
@@ -242,7 +242,7 @@ void main() {
         final list = FifoList<int>(10);
         list.addAll([1, 2, 3]);
 
-        final result = list.firstWhereOrNull((item) => item > 10);
+        final int? result = list.firstWhereOrNull((item) => item > 10);
 
         expect(result, isNull);
       });

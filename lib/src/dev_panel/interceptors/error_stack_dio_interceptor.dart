@@ -86,7 +86,7 @@ class ErrorStackDioInterceptor extends Interceptor {
 
     final requestTime = DateTime.fromMillisecondsSinceEpoch(requestTimeMs);
     final responseTime = DateTime.now();
-    final durationMs = responseTime.difference(requestTime).inMilliseconds;
+    final int durationMs = responseTime.difference(requestTime).inMilliseconds;
 
     final log = ApiRequestLog(
       method: options.method,

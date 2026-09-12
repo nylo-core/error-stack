@@ -93,8 +93,9 @@ class ErrorStack {
     DevPanelConfig? devPanelConfig,
     bool? enableDevPanel,
   }) async {
-    final storageInstance = storage ?? ErrorStackStorage();
-    final themeMode = await storageInstance.getThemeMode() ?? 'light';
+    final ErrorStackStorageBase storageInstance =
+        storage ?? ErrorStackStorage();
+    final String themeMode = await storageInstance.getThemeMode() ?? 'light';
 
     final config = ErrorStackConfig(
       level: level,
@@ -117,7 +118,7 @@ class ErrorStack {
     _initialized = true;
 
     // Initialize dev panel store (default: enabled in debug mode only)
-    final shouldEnableDevPanel = enableDevPanel ?? kDebugMode;
+    final bool shouldEnableDevPanel = enableDevPanel ?? kDebugMode;
     if (shouldEnableDevPanel) {
       DevPanelStore.init(config: devPanelConfig);
     }

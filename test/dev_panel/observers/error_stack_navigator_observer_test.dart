@@ -35,12 +35,12 @@ void main() {
 
     group('didPush', () {
       test('tracks route push with name', () {
-        final route = _createMockRoute('/home');
-        final previousRoute = _createMockRoute('/splash');
+        final Route<dynamic> route = _createMockRoute('/home');
+        final Route<dynamic> previousRoute = _createMockRoute('/splash');
 
         observer.didPush(route, previousRoute);
 
-        final history = DevPanelStore.instance.routeHistory;
+        final List<RouteEntry> history = DevPanelStore.instance.routeHistory;
         expect(history.length, 1);
         expect(history.first.name, '/home');
         expect(history.first.action, RouteAction.push);
@@ -48,11 +48,12 @@ void main() {
       });
 
       test('tracks route with arguments', () {
-        final route = _createMockRoute('/details', arguments: {'id': 123});
+        final Route<dynamic> route =
+            _createMockRoute('/details', arguments: {'id': 123});
 
         observer.didPush(route, null);
 
-        final entry = DevPanelStore.instance.routeHistory.first;
+        final RouteEntry entry = DevPanelStore.instance.routeHistory.first;
         expect(entry.arguments, {'id': 123});
       });
 
@@ -61,7 +62,7 @@ void main() {
 
         observer.didPush(route, null);
 
-        final history = DevPanelStore.instance.routeHistory;
+        final List<RouteEntry> history = DevPanelStore.instance.routeHistory;
         expect(history.length, 1);
         // Should use runtime type as fallback
         expect(history.first.name, contains('_MockRoute'));
@@ -69,7 +70,7 @@ void main() {
 
       test('does not track when disabled', () {
         observer = ErrorStackNavigatorObserver(enabled: false);
-        final route = _createMockRoute('/test');
+        final Route<dynamic> route = _createMockRoute('/test');
 
         observer.didPush(route, null);
 
@@ -79,12 +80,12 @@ void main() {
 
     group('didPop', () {
       test('tracks route pop', () {
-        final route = _createMockRoute('/details');
-        final previousRoute = _createMockRoute('/home');
+        final Route<dynamic> route = _createMockRoute('/details');
+        final Route<dynamic> previousRoute = _createMockRoute('/home');
 
         observer.didPop(route, previousRoute);
 
-        final history = DevPanelStore.instance.routeHistory;
+        final List<RouteEntry> history = DevPanelStore.instance.routeHistory;
         expect(history.length, 1);
         expect(history.first.name, '/details');
         expect(history.first.action, RouteAction.pop);
@@ -93,7 +94,7 @@ void main() {
 
       test('does not track when disabled', () {
         observer = ErrorStackNavigatorObserver(enabled: false);
-        final route = _createMockRoute('/test');
+        final Route<dynamic> route = _createMockRoute('/test');
 
         observer.didPop(route, null);
 
@@ -103,12 +104,13 @@ void main() {
 
     group('didReplace', () {
       test('tracks route replacement', () {
-        final newRoute = _createMockRoute('/new-page', arguments: 'arg');
-        final oldRoute = _createMockRoute('/old-page');
+        final Route<dynamic> newRoute =
+            _createMockRoute('/new-page', arguments: 'arg');
+        final Route<dynamic> oldRoute = _createMockRoute('/old-page');
 
         observer.didReplace(newRoute: newRoute, oldRoute: oldRoute);
 
-        final history = DevPanelStore.instance.routeHistory;
+        final List<RouteEntry> history = DevPanelStore.instance.routeHistory;
         expect(history.length, 1);
         expect(history.first.name, '/new-page');
         expect(history.first.action, RouteAction.replace);
@@ -117,11 +119,11 @@ void main() {
       });
 
       test('handles null newRoute', () {
-        final oldRoute = _createMockRoute('/old');
+        final Route<dynamic> oldRoute = _createMockRoute('/old');
 
         observer.didReplace(newRoute: null, oldRoute: oldRoute);
 
-        final history = DevPanelStore.instance.routeHistory;
+        final List<RouteEntry> history = DevPanelStore.instance.routeHistory;
         expect(history.length, 1);
         expect(history.first.name, 'unknown');
       });
@@ -139,12 +141,12 @@ void main() {
 
     group('didRemove', () {
       test('tracks route removal', () {
-        final route = _createMockRoute('/removed');
-        final previousRoute = _createMockRoute('/remaining');
+        final Route<dynamic> route = _createMockRoute('/removed');
+        final Route<dynamic> previousRoute = _createMockRoute('/remaining');
 
         observer.didRemove(route, previousRoute);
 
-        final history = DevPanelStore.instance.routeHistory;
+        final List<RouteEntry> history = DevPanelStore.instance.routeHistory;
         expect(history.length, 1);
         expect(history.first.name, '/removed');
         expect(history.first.action, RouteAction.remove);
@@ -172,7 +174,7 @@ void main() {
 
         observer.didPush(route, null);
 
-        final entry = DevPanelStore.instance.routeHistory.first;
+        final RouteEntry entry = DevPanelStore.instance.routeHistory.first;
         expect(entry.isFullscreenDialog, true);
         expect(entry.maintainState, false);
         expect(entry.opaque, false);
@@ -184,7 +186,7 @@ void main() {
 
         observer.didPush(route, null);
 
-        final entry = DevPanelStore.instance.routeHistory.first;
+        final RouteEntry entry = DevPanelStore.instance.routeHistory.first;
         expect(entry.routeType, contains('_MockRoute'));
         // Non-PageRoute won't have these properties
         expect(entry.isFullscreenDialog, isNull);
@@ -198,7 +200,7 @@ void main() {
             _createMockRoute('/page2'), _createMockRoute('/page1'));
         observer.didPop(_createMockRoute('/page2'), _createMockRoute('/page1'));
 
-        final history = DevPanelStore.instance.routeHistory;
+        final List<RouteEntry> history = DevPanelStore.instance.routeHistory;
         expect(history.length, 3);
         expect(history[0].name, '/page1');
         expect(history[0].action, RouteAction.push);

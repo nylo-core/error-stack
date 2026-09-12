@@ -316,7 +316,8 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
                                 const Icon(Icons.content_copy),
                                 CupertinoButton(
                                   onPressed: () async {
-                                    final markdown = _generateErrorMarkdown();
+                                    final String markdown =
+                                        _generateErrorMarkdown();
                                     await Clipboard.setData(
                                         ClipboardData(text: markdown));
                                     _showCopiedSnackBar();
@@ -408,10 +409,10 @@ class _ErrorStackDebugWidget extends State<ErrorStackDebugWidget> {
 
   /// Generate a markdown string with error details for AI agents
   String _generateErrorMarkdown() {
-    final exception = widget.errorDetails.exceptionAsString();
+    final String exception = widget.errorDetails.exceptionAsString();
     final stackTrace = widget.errorDetails.stack.toString();
-    final sourceFile = className();
-    final timestamp = DateTime.now().toUtc().toIso8601String();
+    final String sourceFile = className();
+    final String timestamp = DateTime.now().toUtc().toIso8601String();
 
     final buffer = StringBuffer();
     buffer.writeln('## Error Report');

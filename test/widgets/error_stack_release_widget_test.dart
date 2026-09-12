@@ -66,7 +66,8 @@ void main() {
         ),
       );
 
-      final iconWidget = tester.widget<Icon>(find.byIcon(Icons.error_outline));
+      final Icon iconWidget =
+          tester.widget<Icon>(find.byIcon(Icons.error_outline));
       expect(iconWidget.color, Colors.red);
     });
 
@@ -77,7 +78,8 @@ void main() {
         ),
       );
 
-      final iconWidget = tester.widget<Icon>(find.byIcon(Icons.error_outline));
+      final Icon iconWidget =
+          tester.widget<Icon>(find.byIcon(Icons.error_outline));
       expect(iconWidget.size, 50.0);
     });
 
@@ -108,7 +110,7 @@ void main() {
         ),
       );
 
-      final textWidget = tester.widget<Text>(
+      final Text textWidget = tester.widget<Text>(
         find.text('Oops, something went wrong!'),
       );
       expect(textWidget.style?.fontSize, 18.0);
@@ -184,7 +186,8 @@ void main() {
           ),
         );
 
-        final listView = tester.widget<ListView>(find.byType(ListView));
+        final ListView listView =
+            tester.widget<ListView>(find.byType(ListView));
         expect(listView.shrinkWrap, true);
       });
 
@@ -205,7 +208,7 @@ void main() {
           ),
         );
 
-        final sizedBox = tester.widget<SizedBox>(
+        final SizedBox sizedBox = tester.widget<SizedBox>(
           find.byType(SizedBox).first,
         );
         expect(sizedBox.height, 450);

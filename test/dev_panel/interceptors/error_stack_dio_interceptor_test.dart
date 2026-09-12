@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:error_stack/src/dev_panel/interceptors/error_stack_dio_interceptor.dart';
 import 'package:error_stack/src/dev_panel/data/dev_panel_store.dart';
+import 'package:error_stack/src/dev_panel/data/models/api_request_log.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -119,7 +120,7 @@ void main() {
         options.extra['_error_stack_request_time_'] =
             DateTime.now().millisecondsSinceEpoch;
 
-        final response = Response(
+        final Response<Map<String, bool>> response = Response(
           requestOptions: options,
           statusCode: 200,
           data: {'success': true},
@@ -131,7 +132,7 @@ void main() {
         expect(handler.nextCalled, true);
         expect(DevPanelStore.instance.apiLogs.length, 1);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.method, 'GET');
         expect(log.statusCode, 200);
         expect(log.responseBody, {'success': true});
@@ -142,7 +143,7 @@ void main() {
         final options = RequestOptions(path: '/test');
         // Not adding request time to extras
 
-        final response = Response(
+        final Response<dynamic> response = Response(
           requestOptions: options,
           statusCode: 200,
         );
@@ -157,13 +158,13 @@ void main() {
       test('calculates duration correctly', () async {
         final interceptor = ErrorStackDioInterceptor();
         final options = RequestOptions(path: '/test');
-        final startTime = DateTime.now().millisecondsSinceEpoch;
+        final int startTime = DateTime.now().millisecondsSinceEpoch;
         options.extra['_error_stack_request_time_'] = startTime;
 
         // Small delay to ensure measurable duration
         await Future.delayed(const Duration(milliseconds: 10));
 
-        final response = Response(
+        final Response<dynamic> response = Response(
           requestOptions: options,
           statusCode: 200,
         );
@@ -171,7 +172,7 @@ void main() {
 
         interceptor.onResponse(response, handler);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.durationMs, greaterThanOrEqualTo(10));
       });
     });
@@ -203,7 +204,7 @@ void main() {
         expect(handler.nextCalled, true);
         expect(DevPanelStore.instance.apiLogs.length, 1);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.method, 'POST');
         expect(log.statusCode, 500);
         expect(log.error, 'Connection failed');
@@ -228,7 +229,7 @@ void main() {
         expect(handler.nextCalled, true);
         expect(DevPanelStore.instance.apiLogs.length, 1);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.statusCode, isNull);
         expect(log.error, 'Network error');
         expect(log.responseHeaders, isNull);
@@ -265,7 +266,7 @@ void main() {
         options.extra['_error_stack_request_time_'] =
             DateTime.now().millisecondsSinceEpoch;
 
-        final response = Response(
+        final Response<dynamic> response = Response(
           requestOptions: options,
           statusCode: 200,
         );
@@ -273,7 +274,7 @@ void main() {
 
         interceptor.onResponse(response, handler);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.requestHeaders['Authorization'], 'Bearer token123');
         expect(log.requestHeaders['Content-Type'], 'application/json');
       });
@@ -286,7 +287,7 @@ void main() {
         options.extra['_error_stack_request_time_'] =
             DateTime.now().millisecondsSinceEpoch;
 
-        final response = Response(
+        final Response<Map<String, Object>> response = Response(
           requestOptions: options,
           statusCode: 200,
           data: {'users': [], 'count': 0},
@@ -295,7 +296,7 @@ void main() {
 
         interceptor.onResponse(response, handler);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.responseBody, {'users': [], 'count': 0});
       });
 
@@ -306,9 +307,9 @@ void main() {
             DateTime.now().millisecondsSinceEpoch;
 
         // Create a string larger than 50000 characters
-        final largeString = 'x' * 60000;
+        final String largeString = 'x' * 60000;
 
-        final response = Response(
+        final Response<String> response = Response(
           requestOptions: options,
           statusCode: 200,
           data: largeString,
@@ -317,7 +318,7 @@ void main() {
 
         interceptor.onResponse(response, handler);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.responseBody, contains('[truncated]'));
         expect((log.responseBody as String).length, lessThan(60000));
       });
@@ -328,7 +329,7 @@ void main() {
         options.extra['_error_stack_request_time_'] =
             DateTime.now().millisecondsSinceEpoch;
 
-        final response = Response(
+        final Response<Null> response = Response(
           requestOptions: options,
           statusCode: 204,
           data: null,
@@ -337,7 +338,7 @@ void main() {
 
         interceptor.onResponse(response, handler);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.responseBody, isNull);
       });
     });
@@ -352,7 +353,7 @@ void main() {
         options.extra['_error_stack_request_time_'] =
             DateTime.now().millisecondsSinceEpoch;
 
-        final response = Response(
+        final Response<dynamic> response = Response(
           requestOptions: options,
           statusCode: 200,
         );
@@ -360,7 +361,7 @@ void main() {
 
         interceptor.onResponse(response, handler);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.url, 'https://api.example.com/users/123');
       });
 
@@ -374,7 +375,7 @@ void main() {
         options.extra['_error_stack_request_time_'] =
             DateTime.now().millisecondsSinceEpoch;
 
-        final response = Response(
+        final Response<dynamic> response = Response(
           requestOptions: options,
           statusCode: 200,
         );
@@ -382,7 +383,7 @@ void main() {
 
         interceptor.onResponse(response, handler);
 
-        final log = DevPanelStore.instance.apiLogs.first;
+        final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
         expect(log.url, contains('q=test'));
         expect(log.url, contains('page=1'));
       });

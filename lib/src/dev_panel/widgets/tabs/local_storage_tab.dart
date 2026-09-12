@@ -73,7 +73,7 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
     try {
       // Load secure storage
       const secureStorage = FlutterSecureStorage();
-      final secureAll = await secureStorage.readAll();
+      final Map<String, String> secureAll = await secureStorage.readAll();
       _secureStorageEntries = secureAll.entries
           .map((e) => StorageEntry(
                 key: e.key,
@@ -83,15 +83,16 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
           .toList();
       _secureStorageAvailable = true;
     } catch (e) {
+      debugPrint('ErrorStack: Unable to read Secure Storage: $e');
       _secureStorageEntries = [];
       _secureStorageAvailable = false;
     }
 
     try {
       // Load shared preferences
-      final prefs = await SharedPreferences.getInstance();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       _sharedPrefsEntries = prefs.getKeys().map((key) {
-        final value = prefs.get(key);
+        final Object? value = prefs.get(key);
         return StorageEntry(
           key: key,
           value: value?.toString() ?? '',
@@ -100,6 +101,7 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
       }).toList();
       _sharedPrefsAvailable = true;
     } catch (e) {
+      debugPrint('ErrorStack: Unable to read Shared Preferences: $e');
       _sharedPrefsEntries = [];
       _sharedPrefsAvailable = false;
     }
@@ -115,12 +117,12 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
         const secureStorage = FlutterSecureStorage();
         await secureStorage.delete(key: entry.key);
       } else {
-        final prefs = await SharedPreferences.getInstance();
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.remove(entry.key);
       }
       await _loadStorageData();
     } catch (e) {
-      // Handle error silently
+      debugPrint('ErrorStack: Failed to delete "${entry.key}": $e');
     }
   }
 
@@ -130,13 +132,13 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
         const secureStorage = FlutterSecureStorage();
         await secureStorage.write(key: entry.key, value: newValue);
       } else {
-        final prefs = await SharedPreferences.getInstance();
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
         // SharedPreferences stores as String for simplicity in dev panel
         await prefs.setString(entry.key, newValue);
       }
       await _loadStorageData();
     } catch (e) {
-      // Handle error silently
+      debugPrint('ErrorStack: Failed to update "${entry.key}": $e');
     }
   }
 
@@ -147,12 +149,12 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
         const secureStorage = FlutterSecureStorage();
         await secureStorage.write(key: key, value: value);
       } else {
-        final prefs = await SharedPreferences.getInstance();
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString(key, value);
       }
       await _loadStorageData();
     } catch (e) {
-      // Handle error silently
+      debugPrint('ErrorStack: Failed to create "$key": $e');
     }
   }
 
@@ -161,14 +163,14 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
       const secureStorage = FlutterSecureStorage();
       await secureStorage.deleteAll();
     } catch (e) {
-      // Handle error silently
+      debugPrint('ErrorStack: Failed to clear Secure Storage: $e');
     }
 
     try {
-      final prefs = await SharedPreferences.getInstance();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.clear();
     } catch (e) {
-      // Handle error silently
+      debugPrint('ErrorStack: Failed to clear Shared Preferences: $e');
     }
 
     await _loadStorageData();
@@ -237,8 +239,8 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
       return _buildEmptyState();
     }
 
-    final filteredSecure = _filteredSecureStorageEntries;
-    final filteredPrefs = _filteredSharedPrefsEntries;
+    final List<StorageEntry> filteredSecure = _filteredSecureStorageEntries;
+    final List<StorageEntry> filteredPrefs = _filteredSharedPrefsEntries;
 
     if (_searchQuery.isNotEmpty &&
         filteredSecure.isEmpty &&

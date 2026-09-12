@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:error_stack/src/handler/error_stack_handler.dart';
@@ -43,7 +44,7 @@ void main() {
 
     group('install', () {
       test('sets ErrorWidget.builder', () {
-        final originalBuilder = ErrorWidget.builder;
+        final ErrorWidgetBuilder originalBuilder = ErrorWidget.builder;
 
         handler.install();
 
@@ -52,7 +53,7 @@ void main() {
       });
 
       test('sets FlutterError.onError', () {
-        final originalHandler = FlutterError.onError;
+        final FlutterExceptionHandler? originalHandler = FlutterError.onError;
 
         handler.install();
 
@@ -74,7 +75,7 @@ void main() {
       testWidgets('returns ErrorStackDebugWidget in debug mode',
           (tester) async {
         // In debug mode (which test environment is), should return debug widget
-        final widget = handler.buildErrorWidget(errorDetails);
+        final Widget widget = handler.buildErrorWidget(errorDetails);
 
         expect(widget, isA<ErrorStackDebugWidget>());
       });
@@ -87,7 +88,7 @@ void main() {
         );
         handler = ErrorStackHandler(config: config, storage: mockStorage);
 
-        final widget = handler.buildErrorWidget(errorDetails);
+        final Widget widget = handler.buildErrorWidget(errorDetails);
 
         expect(widget, isA<ErrorStackDebugWidget>());
         final debugWidget = widget as ErrorStackDebugWidget;
@@ -101,7 +102,7 @@ void main() {
         config = ErrorStackConfig(forceDebugWidget: true);
         handler = ErrorStackHandler(config: config, storage: mockStorage);
 
-        final widget = handler.buildErrorWidget(errorDetails);
+        final Widget widget = handler.buildErrorWidget(errorDetails);
 
         // Since we're in debug mode, this will be debug widget anyway
         // But forceDebugWidget ensures it in release mode too
@@ -117,7 +118,7 @@ void main() {
 
         // In debug mode, debug widget is used regardless
         // Custom widget is only used in release mode
-        final widget = handler.buildErrorWidget(errorDetails);
+        final Widget widget = handler.buildErrorWidget(errorDetails);
         expect(widget, isA<ErrorStackDebugWidget>());
       });
     });
@@ -176,7 +177,7 @@ void main() {
           exception: Exception('Test'),
         );
 
-        final widget = handler.buildErrorWidget(errorDetails);
+        final Widget widget = handler.buildErrorWidget(errorDetails);
         final debugWidget = widget as ErrorStackDebugWidget;
 
         // Simulate theme change callback
@@ -192,7 +193,7 @@ void main() {
           exception: Exception('Test'),
         );
 
-        final widget = handler.buildErrorWidget(errorDetails);
+        final Widget widget = handler.buildErrorWidget(errorDetails);
         final debugWidget = widget as ErrorStackDebugWidget;
 
         await debugWidget.onThemeChanged?.call('dark');

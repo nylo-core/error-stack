@@ -40,8 +40,8 @@ void main() {
 
     group('initialization', () {
       test('is a singleton', () {
-        final store1 = DevPanelStore.instance;
-        final store2 = DevPanelStore.instance;
+        final DevPanelStore store1 = DevPanelStore.instance;
+        final DevPanelStore store2 = DevPanelStore.instance;
 
         expect(identical(store1, store2), true);
       });
@@ -92,7 +92,7 @@ void main() {
       });
 
       test('logApi creates and logs a request', () {
-        final log = DevPanelStore.instance.logApi(
+        final ApiRequestLog log = DevPanelStore.instance.logApi(
           method: 'POST',
           url: 'https://api.example.com/data',
           statusCode: 201,
@@ -110,7 +110,8 @@ void main() {
         DevPanelStore.instance
             .logApi(method: 'POST', url: 'https://second.com', durationMs: 100);
 
-        final reversed = DevPanelStore.instance.apiLogsReversed;
+        final List<ApiRequestLog> reversed =
+            DevPanelStore.instance.apiLogsReversed;
 
         expect(reversed.first.url, 'https://second.com');
         expect(reversed.last.url, 'https://first.com');
@@ -136,7 +137,7 @@ void main() {
 
       group('pending requests', () {
         test('startApiRequest creates pending request', () {
-          final requestId = DevPanelStore.instance.startApiRequest(
+          final String requestId = DevPanelStore.instance.startApiRequest(
             method: 'GET',
             url: 'https://api.example.com/users',
           );
@@ -147,7 +148,7 @@ void main() {
         });
 
         test('completeApiRequest finalizes pending request', () {
-          final requestId = DevPanelStore.instance.startApiRequest(
+          final String requestId = DevPanelStore.instance.startApiRequest(
             method: 'GET',
             url: 'https://api.example.com/users',
             requestHeaders: {'Auth': 'Bearer token'},
@@ -161,7 +162,7 @@ void main() {
           );
 
           expect(DevPanelStore.instance.apiLogs.length, 1);
-          final log = DevPanelStore.instance.apiLogs.first;
+          final ApiRequestLog log = DevPanelStore.instance.apiLogs.first;
           expect(log.statusCode, 200);
           expect(log.durationMs, 150);
         });
@@ -195,7 +196,7 @@ void main() {
       });
 
       test('log creates and adds entry', () {
-        final entry = DevPanelStore.instance.log(
+        final LogEntry entry = DevPanelStore.instance.log(
           'Test log message',
           level: DevPanelLogLevel.warning,
           tag: 'TestTag',
@@ -207,27 +208,29 @@ void main() {
       });
 
       test('debug convenience method works', () {
-        final entry = DevPanelStore.instance.debug('Debug message');
+        final LogEntry entry = DevPanelStore.instance.debug('Debug message');
 
         expect(entry.level, DevPanelLogLevel.debug);
         expect(entry.message, 'Debug message');
       });
 
       test('info convenience method works', () {
-        final entry = DevPanelStore.instance.info('Info message', tag: 'App');
+        final LogEntry entry =
+            DevPanelStore.instance.info('Info message', tag: 'App');
 
         expect(entry.level, DevPanelLogLevel.info);
         expect(entry.tag, 'App');
       });
 
       test('warning convenience method works', () {
-        final entry = DevPanelStore.instance.warning('Warning message');
+        final LogEntry entry =
+            DevPanelStore.instance.warning('Warning message');
 
         expect(entry.level, DevPanelLogLevel.warning);
       });
 
       test('error convenience method works', () {
-        final entry = DevPanelStore.instance.error(
+        final LogEntry entry = DevPanelStore.instance.error(
           'Error message',
           stackTrace: 'at line 42',
         );
@@ -240,7 +243,8 @@ void main() {
         DevPanelStore.instance.info('First');
         DevPanelStore.instance.info('Second');
 
-        final reversed = DevPanelStore.instance.consoleLogsReversed;
+        final List<LogEntry> reversed =
+            DevPanelStore.instance.consoleLogsReversed;
 
         expect(reversed.first.message, 'Second');
         expect(reversed.last.message, 'First');
@@ -277,7 +281,7 @@ void main() {
       });
 
       test('trackRoutePush adds push entry', () {
-        final entry = DevPanelStore.instance.trackRoutePush(
+        final RouteEntry entry = DevPanelStore.instance.trackRoutePush(
           '/details',
           arguments: {'id': 42},
           previousRoute: '/home',
@@ -289,7 +293,7 @@ void main() {
       });
 
       test('trackRoutePop adds pop entry', () {
-        final entry = DevPanelStore.instance.trackRoutePop(
+        final RouteEntry entry = DevPanelStore.instance.trackRoutePop(
           '/home',
           previousRoute: '/details',
         );
@@ -298,7 +302,7 @@ void main() {
       });
 
       test('trackRouteReplace adds replace entry', () {
-        final entry = DevPanelStore.instance.trackRouteReplace(
+        final RouteEntry entry = DevPanelStore.instance.trackRouteReplace(
           '/new-page',
           previousRoute: '/old-page',
         );
@@ -310,7 +314,8 @@ void main() {
         DevPanelStore.instance.trackRoutePush('/first');
         DevPanelStore.instance.trackRoutePush('/second');
 
-        final reversed = DevPanelStore.instance.routeHistoryReversed;
+        final List<RouteEntry> reversed =
+            DevPanelStore.instance.routeHistoryReversed;
 
         expect(reversed.first.name, '/second');
         expect(reversed.last.name, '/first');
@@ -321,7 +326,7 @@ void main() {
         DevPanelStore.instance.trackRoutePush('/details');
         DevPanelStore.instance.trackRoutePop('/details');
 
-        final current = DevPanelStore.instance.currentRoute;
+        final RouteEntry? current = DevPanelStore.instance.currentRoute;
 
         // After pop, the most recent push/replace is '/details' (the pop is recorded)
         expect(current, isNotNull);
@@ -484,7 +489,7 @@ void main() {
         DevPanelStore.instance.info('Test log 2');
         DevPanelStore.instance.trackRoutePush('/test');
 
-        final data = DevPanelStore.instance.exportData();
+        final Map<String, dynamic> data = DevPanelStore.instance.exportData();
 
         expect(data['apiLogsCount'], 1);
         expect(data['consoleLogsCount'], 2);

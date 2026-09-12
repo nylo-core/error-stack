@@ -19,7 +19,7 @@ void main() {
         ),
       );
 
-      final iconFinder = find.byIcon(Icons.developer_mode);
+      final Finder iconFinder = find.byIcon(Icons.developer_mode);
       expect(iconFinder, findsOneWidget);
 
       await tester.longPress(iconFinder);
@@ -39,7 +39,7 @@ void main() {
         ),
       );
 
-      final iconFinder = find.byIcon(Icons.developer_mode);
+      final Finder iconFinder = find.byIcon(Icons.developer_mode);
       expect(iconFinder, findsOneWidget);
 
       await tester.longPress(iconFinder);

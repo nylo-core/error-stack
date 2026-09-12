@@ -41,7 +41,7 @@ void main() {
           apiLogLimit: 75,
         );
 
-        final copy = original.copyWith();
+        final DevPanelConfig copy = original.copyWith();
 
         expect(copy.enableApiLogging, original.enableApiLogging);
         expect(copy.enableConsoleLogging, original.enableConsoleLogging);
@@ -54,7 +54,7 @@ void main() {
       test('allows overriding enableApiLogging', () {
         const original = DevPanelConfig(enableApiLogging: true);
 
-        final copy = original.copyWith(enableApiLogging: false);
+        final DevPanelConfig copy = original.copyWith(enableApiLogging: false);
 
         expect(copy.enableApiLogging, false);
       });
@@ -62,7 +62,8 @@ void main() {
       test('allows overriding enableConsoleLogging', () {
         const original = DevPanelConfig(enableConsoleLogging: true);
 
-        final copy = original.copyWith(enableConsoleLogging: false);
+        final DevPanelConfig copy =
+            original.copyWith(enableConsoleLogging: false);
 
         expect(copy.enableConsoleLogging, false);
       });
@@ -70,7 +71,8 @@ void main() {
       test('allows overriding enableRouteTracking', () {
         const original = DevPanelConfig(enableRouteTracking: true);
 
-        final copy = original.copyWith(enableRouteTracking: false);
+        final DevPanelConfig copy =
+            original.copyWith(enableRouteTracking: false);
 
         expect(copy.enableRouteTracking, false);
       });
@@ -78,7 +80,7 @@ void main() {
       test('allows overriding apiLogLimit', () {
         const original = DevPanelConfig(apiLogLimit: 100);
 
-        final copy = original.copyWith(apiLogLimit: 500);
+        final DevPanelConfig copy = original.copyWith(apiLogLimit: 500);
 
         expect(copy.apiLogLimit, 500);
       });
@@ -86,7 +88,7 @@ void main() {
       test('allows overriding consoleLogLimit', () {
         const original = DevPanelConfig(consoleLogLimit: 100);
 
-        final copy = original.copyWith(consoleLogLimit: 300);
+        final DevPanelConfig copy = original.copyWith(consoleLogLimit: 300);
 
         expect(copy.consoleLogLimit, 300);
       });
@@ -94,7 +96,7 @@ void main() {
       test('allows overriding routeHistoryLimit', () {
         const original = DevPanelConfig(routeHistoryLimit: 50);
 
-        final copy = original.copyWith(routeHistoryLimit: 100);
+        final DevPanelConfig copy = original.copyWith(routeHistoryLimit: 100);
 
         expect(copy.routeHistoryLimit, 100);
       });
@@ -102,7 +104,7 @@ void main() {
       test('allows overriding multiple fields at once', () {
         const original = DevPanelConfig();
 
-        final copy = original.copyWith(
+        final DevPanelConfig copy = original.copyWith(
           enableApiLogging: false,
           enableConsoleLogging: false,
           apiLogLimit: 250,

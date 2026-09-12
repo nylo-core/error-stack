@@ -69,7 +69,7 @@ class DevPanelStore extends ChangeNotifier {
   /// This should be called during app initialization, typically
   /// alongside [ErrorStack.init()].
   static void init({DevPanelConfig? config}) {
-    final store = instance;
+    final DevPanelStore store = instance;
     store._config = config ?? const DevPanelConfig();
     store._apiLogs = FifoList(store._config.apiLogLimit);
     store._consoleLogs = FifoList(store._config.consoleLogLimit);
@@ -85,7 +85,7 @@ class DevPanelStore extends ChangeNotifier {
 
   /// Defers notifyListeners() to avoid setState during build phase.
   void _deferredNotify() {
-    final binding = WidgetsBinding.instance;
+    final WidgetsBinding binding = WidgetsBinding.instance;
     binding.addPostFrameCallback((_) {
       notifyListeners();
     });
@@ -146,10 +146,10 @@ class DevPanelStore extends ChangeNotifier {
     dynamic responseBody,
     String? error,
   }) {
-    final pending = _pendingRequests.remove(requestId);
+    final ApiRequestLog? pending = _pendingRequests.remove(requestId);
     if (pending == null) return;
 
-    final completed = pending.copyWith(
+    final ApiRequestLog completed = pending.copyWith(
       statusCode: statusCode,
       durationMs: durationMs,
       responseHeaders: responseHeaders,
@@ -291,7 +291,7 @@ class DevPanelStore extends ChangeNotifier {
   RouteEntry? get currentRoute {
     if (!_initialized || _routeHistory.isEmpty) return null;
     // Find the most recent route that was pushed
-    final history = _routeHistory.reversed;
+    final List<RouteEntry> history = _routeHistory.reversed;
     for (final entry in history) {
       if (entry.action == RouteAction.push ||
           entry.action == RouteAction.replace) {
@@ -424,7 +424,7 @@ class DevPanelStore extends ChangeNotifier {
 
   /// Toggle slow animations.
   void toggleSlowAnimations([bool? value]) {
-    final newValue = value ?? !_slowAnimations;
+    final bool newValue = value ?? !_slowAnimations;
     _slowAnimations = newValue;
     timeDilation = newValue ? 5.0 : 1.0;
     notifyListeners();

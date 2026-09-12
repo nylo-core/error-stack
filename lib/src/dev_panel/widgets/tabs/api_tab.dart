@@ -40,7 +40,7 @@ class _ApiTabState extends State<ApiTab> {
   final Set<SpeedFilter> _selectedSpeedFilters = {};
 
   List<ApiRequestLog> get _filteredWithFilters {
-    var requests = widget.filteredRequests;
+    List<ApiRequestLog> requests = widget.filteredRequests;
 
     // Apply method filter
     if (_selectedMethods.isNotEmpty) {
@@ -53,7 +53,7 @@ class _ApiTabState extends State<ApiTab> {
     if (_selectedStatusCategories.isNotEmpty) {
       requests = requests.where((r) {
         if (r.statusCode == null) return false;
-        final category = r.statusCode! ~/ 100;
+        final int category = r.statusCode! ~/ 100;
         return _selectedStatusCategories.contains(category);
       }).toList();
     }
@@ -61,7 +61,7 @@ class _ApiTabState extends State<ApiTab> {
     // Apply speed filter
     if (_selectedSpeedFilters.isNotEmpty) {
       requests = requests.where((r) {
-        final speed = _getSpeedCategory(r.durationMs);
+        final SpeedFilter speed = _getSpeedCategory(r.durationMs);
         return _selectedSpeedFilters.contains(speed);
       }).toList();
     }
@@ -326,7 +326,7 @@ class _ApiTabState extends State<ApiTab> {
     Color color,
     StateSetter setSheetState,
   ) {
-    final isSelected = selectedSet.contains(label);
+    final bool isSelected = selectedSet.contains(label);
     return GestureDetector(
       onTap: () {
         setSheetState(() {
@@ -365,7 +365,7 @@ class _ApiTabState extends State<ApiTab> {
     Color color,
     StateSetter setSheetState,
   ) {
-    final isSelected = _selectedStatusCategories.contains(category);
+    final bool isSelected = _selectedStatusCategories.contains(category);
     return GestureDetector(
       onTap: () {
         setSheetState(() {
@@ -405,7 +405,7 @@ class _ApiTabState extends State<ApiTab> {
     Color color,
     StateSetter setSheetState,
   ) {
-    final isSelected = _selectedSpeedFilters.contains(filter);
+    final bool isSelected = _selectedSpeedFilters.contains(filter);
     return GestureDetector(
       onTap: () {
         setSheetState(() {
@@ -454,7 +454,7 @@ class _ApiTabState extends State<ApiTab> {
 
   @override
   Widget build(BuildContext context) {
-    final displayedRequests = _filteredWithFilters;
+    final List<ApiRequestLog> displayedRequests = _filteredWithFilters;
 
     return Container(
       color: _hexColor("#1e1e1e"),
@@ -529,7 +529,7 @@ class _ApiTabState extends State<ApiTab> {
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                     itemCount: displayedRequests.length,
                     itemBuilder: (context, index) {
-                      final request = displayedRequests[index];
+                      final ApiRequestLog request = displayedRequests[index];
                       return _ApiRequestItem(request: request);
                     },
                   ),
@@ -540,9 +540,9 @@ class _ApiTabState extends State<ApiTab> {
   }
 
   Widget _buildStatsRow(int displayedCount) {
-    final total = widget.apiRequests.length;
-    final errors = _errorCount;
-    final slow = _slowCount;
+    final int total = widget.apiRequests.length;
+    final int errors = _errorCount;
+    final int slow = _slowCount;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -718,8 +718,9 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
 
   @override
   Widget build(BuildContext context) {
-    final isError = request.statusCode != null && request.statusCode! >= 400;
-    final statusColor = isError ? Colors.red : Colors.green;
+    final bool isError =
+        request.statusCode != null && request.statusCode! >= 400;
+    final MaterialColor statusColor = isError ? Colors.red : Colors.green;
 
     return GestureDetector(
       onTap: () => _showRequestDetails(context),
@@ -803,10 +804,11 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
   }
 
   void _showRequestDetails(BuildContext context) {
-    final methodColor = _getMethodColor(request.method);
-    final statusColor = request.statusCode != null && request.statusCode! >= 400
-        ? Colors.red
-        : Colors.green;
+    final Color methodColor = _getMethodColor(request.method);
+    final MaterialColor statusColor =
+        request.statusCode != null && request.statusCode! >= 400
+            ? Colors.red
+            : Colors.green;
 
     showModalBottomSheet(
       context: context,
@@ -963,7 +965,7 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
     StateSetter? setModalState,
     Set<String>? copiedFields,
   }) {
-    final isCopied = copiedFields?.contains(label) ?? false;
+    final bool isCopied = copiedFields?.contains(label) ?? false;
 
     void copyValue() {
       Clipboard.setData(ClipboardData(text: value));
@@ -1034,8 +1036,8 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
     required Set<String> copiedSections,
     bool isError = false,
   }) {
-    final baseColor = isError ? Colors.red : Colors.white;
-    final isCopied = copiedSections.contains(title);
+    final Color baseColor = isError ? Colors.red : Colors.white;
+    final bool isCopied = copiedSections.contains(title);
 
     void copySection() {
       Clipboard.setData(ClipboardData(text: content));
@@ -1121,6 +1123,7 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
         const encoder = JsonEncoder.withIndent('  ');
         return encoder.convert(data);
       }
+      // ignore: vibe_check/swallowed_exception
     } catch (_) {
       // Fallback to toString if encoding fails.
     }

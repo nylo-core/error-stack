@@ -31,7 +31,8 @@ class _RoutesTabState extends State<RoutesTab> {
   /// Get routes filtered by search query (excludes internal routes).
   List<RouteEntry> get _filteredRoutes {
     // Filter out internal routes (like _ModalBottomSheetRoute from dev panel)
-    var routes = widget.routeStack.where((r) => !r.isInternalRoute).toList();
+    List<RouteEntry> routes =
+        widget.routeStack.where((r) => !r.isInternalRoute).toList();
     if (_searchQuery.isEmpty) return routes;
     return routes
         .where((r) => r.name.toLowerCase().contains(_searchQuery.toLowerCase()))
@@ -63,7 +64,7 @@ class _RoutesTabState extends State<RoutesTab> {
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                     itemCount: _filteredRoutes.length,
                     itemBuilder: (context, index) {
-                      final route = _filteredRoutes[index];
+                      final RouteEntry route = _filteredRoutes[index];
                       final isCurrent = index == 0;
                       return _RouteEntryItem(
                         entry: route,
@@ -171,7 +172,7 @@ class _RouteEntryItem extends StatelessWidget {
   });
 
   void _showRouteDetails(BuildContext context) {
-    final actionColor = _getActionColor(entry.action);
+    final Color actionColor = _getActionColor(entry.action);
 
     bool nameCopied = false;
 
@@ -526,9 +527,9 @@ class _RouteEntryItem extends StatelessWidget {
   }
 
   String _formatFullTimestamp(DateTime dt) {
-    final hour = dt.hour.toString().padLeft(2, '0');
-    final minute = dt.minute.toString().padLeft(2, '0');
-    final second = dt.second.toString().padLeft(2, '0');
+    final String hour = dt.hour.toString().padLeft(2, '0');
+    final String minute = dt.minute.toString().padLeft(2, '0');
+    final String second = dt.second.toString().padLeft(2, '0');
     return '$hour:$minute:$second';
   }
 
@@ -541,10 +542,11 @@ class _RouteEntryItem extends StatelessWidget {
     // Handle serialized map from nylo_support's ArgumentsWrapper.toMap()
     if (RouteArgumentData.isArgumentsWrapperMap(args)) {
       try {
-        final argsJson = jsonDecode(args.toString());
+        final Map<String, dynamic> argsJson = jsonDecode(args.toString());
         return _buildRouteArgumentDataSection(
           RouteArgumentData.fromMap(argsJson),
         );
+        // ignore: vibe_check/swallowed_exception
       } catch (_) {
         // Fallback to raw string display
         return _buildCodeSection('Arguments', args.toString());
@@ -562,6 +564,7 @@ class _RouteEntryItem extends StatelessWidget {
   String _formatMapAsString(Map args) {
     try {
       return const JsonEncoder.withIndent('  ').convert(args);
+      // ignore: vibe_check/swallowed_exception
     } catch (_) {
       // Fallback for non-JSON-encodable maps
       final buffer = StringBuffer('{\n');
@@ -579,7 +582,9 @@ class _RouteEntryItem extends StatelessWidget {
     if (data is Map || data is List) {
       try {
         return const JsonEncoder.withIndent('  ').convert(data);
+        // ignore: vibe_check/swallowed_exception
       } catch (_) {
+        // Fallback for non-JSON-encodable data
         return data.toString();
       }
     }
@@ -754,7 +759,7 @@ class _RouteEntryItem extends StatelessWidget {
 
   /// Formats an enum string for display (extracts the name after the dot).
   String _formatEnumString(String enumStr) {
-    final dotIndex = enumStr.lastIndexOf('.');
+    final int dotIndex = enumStr.lastIndexOf('.');
     return dotIndex >= 0 ? enumStr.substring(dotIndex + 1) : enumStr;
   }
 
@@ -795,7 +800,7 @@ class _RouteEntryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actionColor = _getActionColor(entry.action);
+    final Color actionColor = _getActionColor(entry.action);
 
     return GestureDetector(
       onTap: () => _showRouteDetails(context),

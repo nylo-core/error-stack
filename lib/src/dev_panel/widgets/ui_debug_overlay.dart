@@ -27,7 +27,7 @@ class UIDebugOverlay extends StatelessWidget {
     return ListenableBuilder(
       listenable: DevPanelStore.instance,
       builder: (context, _) {
-        final store = DevPanelStore.instance;
+        final DevPanelStore store = DevPanelStore.instance;
 
         // Apply layout bounds debug flag
         debugPaintSizeEnabled = store.showLayoutBounds;
@@ -201,9 +201,9 @@ class _SafeAreaOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final padding = mediaQuery.padding;
-    final viewInsets = mediaQuery.viewInsets;
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    final EdgeInsets padding = mediaQuery.padding;
+    final EdgeInsets viewInsets = mediaQuery.viewInsets;
 
     return IgnorePointer(
       child: Stack(

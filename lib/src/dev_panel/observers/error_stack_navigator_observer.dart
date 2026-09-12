@@ -60,7 +60,7 @@ class ErrorStackNavigatorObserver extends NavigatorObserver {
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     if (!enabled) return;
 
-    final metadata = _extractMetadata(route);
+    final _RouteMetadata metadata = _extractMetadata(route);
     DevPanelStore.instance.trackRoute(RouteEntry(
       name: _getRouteName(route) ?? 'unknown',
       arguments: route.settings.arguments,
@@ -77,7 +77,7 @@ class ErrorStackNavigatorObserver extends NavigatorObserver {
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     if (!enabled) return;
 
-    final metadata = _extractMetadata(route);
+    final _RouteMetadata metadata = _extractMetadata(route);
     DevPanelStore.instance.trackRoute(RouteEntry(
       name: _getRouteName(route) ?? 'unknown',
       action: RouteAction.pop,
@@ -93,7 +93,7 @@ class ErrorStackNavigatorObserver extends NavigatorObserver {
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     if (!enabled) return;
 
-    final metadata = _extractMetadata(newRoute);
+    final _RouteMetadata metadata = _extractMetadata(newRoute);
     DevPanelStore.instance.trackRoute(RouteEntry(
       name: _getRouteName(newRoute) ?? 'unknown',
       arguments: newRoute?.settings.arguments,
@@ -110,7 +110,7 @@ class ErrorStackNavigatorObserver extends NavigatorObserver {
   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
     if (!enabled) return;
 
-    final metadata = _extractMetadata(route);
+    final _RouteMetadata metadata = _extractMetadata(route);
     DevPanelStore.instance.trackRoute(RouteEntry(
       name: _getRouteName(route) ?? 'unknown',
       action: RouteAction.remove,

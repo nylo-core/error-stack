@@ -273,33 +273,33 @@ class _StorageTabHomePageState extends State<StorageTabHomePage> {
   }
 
   Future<void> _saveUsername() async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('username', 'jane_doe');
     _showSnackBar('Saved username = "jane_doe"');
   }
 
   Future<void> _saveDarkMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    final current = prefs.getBool('dark_mode_enabled') ?? false;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool current = prefs.getBool('dark_mode_enabled') ?? false;
     await prefs.setBool('dark_mode_enabled', !current);
     _showSnackBar('Saved dark_mode_enabled = ${!current}');
   }
 
   Future<void> _incrementLaunchCount() async {
-    final prefs = await SharedPreferences.getInstance();
-    final next = (prefs.getInt('launch_count') ?? 0) + 1;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int next = (prefs.getInt('launch_count') ?? 0) + 1;
     await prefs.setInt('launch_count', next);
     _showSnackBar('Saved launch_count = $next');
   }
 
   Future<void> _saveFontScale() async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('font_scale', 1.25);
     _showSnackBar('Saved font_scale = 1.25');
   }
 
   Future<void> _saveRecentSearches() async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('recent_searches', [
       'flutter widgets',
       'error stack dev panel',
@@ -309,7 +309,7 @@ class _StorageTabHomePageState extends State<StorageTabHomePage> {
   }
 
   Future<void> _addBulkSampleData() async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('app_locale', 'en_US');
     await prefs.setString('last_route', '/dashboard');
     await prefs.setBool('onboarding_complete', true);
@@ -319,7 +319,7 @@ class _StorageTabHomePageState extends State<StorageTabHomePage> {
   }
 
   Future<void> _clearSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.clear();
     _showSnackBar('SharedPreferences cleared');
   }

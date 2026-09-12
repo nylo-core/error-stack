@@ -112,7 +112,7 @@ class _ErrorStackDevPanelSheetState extends State<ErrorStackDevPanelSheet>
   }
 
   List<LogEntry> get _filteredLogs {
-    var filtered = _logs;
+    List<LogEntry> filtered = _logs;
 
     // Filter by level
     if (_selectedLogLevels.isNotEmpty) {

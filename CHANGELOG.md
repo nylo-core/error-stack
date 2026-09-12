@@ -1,3 +1,18 @@
+## [2.1.7] - 2026-09-12
+
+### Changed
+
+* Bumped `flutter_secure_storage` from `^11.0.0` to `^11.1.1`.
+* Adopted `vibe_check` lints for static analysis and added explicit types to non-obvious local variables across the package, tests, and example.
+
+### Fixed
+
+* Dev Panel Storage tab no longer silently swallows storage errors. When reading, creating, updating, deleting, or clearing entries fails, the underlying error is now printed to the console.
+
+### Example
+
+* Declared `flutter_secure_storage` and `shared_preferences` as direct dependencies of the example app, which imports them in the Storage Tab example. Their absence failed analysis in the 2.1.6 publish workflow, so 2.1.6 was never published to pub.dev; its changes ship in this release.
+
 ## [2.1.6] - 2026-09-08
 
 ### Changed

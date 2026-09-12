@@ -76,7 +76,7 @@ class FifoList<T> with IterableMixin<T> {
 
   /// Returns the first item matching a predicate, or null.
   T? firstWhereOrNull(bool Function(T) test) {
-    for (final item in _items) {
+    for (final T item in _items) {
       if (test(item)) return item;
     }
     return null;

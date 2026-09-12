@@ -122,7 +122,7 @@ void main() {
           lastAccessed: customTime,
         );
 
-        final copy = original.copyWith();
+        final StorageEntry copy = original.copyWith();
 
         expect(copy.key, original.key);
         expect(copy.value, original.value);
@@ -137,7 +137,7 @@ void main() {
           source: StorageSource.sharedPreferences,
         );
 
-        final copy = original.copyWith(value: 10);
+        final StorageEntry copy = original.copyWith(value: 10);
 
         expect(copy.key, original.key);
         expect(copy.value, 10);
@@ -155,7 +155,7 @@ void main() {
           lastAccessed: originalTime,
         );
 
-        final copy = original.copyWith(lastAccessed: newTime);
+        final StorageEntry copy = original.copyWith(lastAccessed: newTime);
 
         expect(copy.lastAccessed, newTime);
       });
@@ -167,7 +167,7 @@ void main() {
           source: StorageSource.secureStorage,
         );
 
-        final copy = original.copyWith(value: 'updated');
+        final StorageEntry copy = original.copyWith(value: 'updated');
 
         expect(copy.key, 'immutable_key');
         expect(copy.source, StorageSource.secureStorage);
@@ -181,7 +181,7 @@ void main() {
           source: StorageSource.sharedPreferences,
         );
 
-        final copy = original.copyWith(
+        final StorageEntry copy = original.copyWith(
           value: 'new_value',
           lastAccessed: newTime,
         );

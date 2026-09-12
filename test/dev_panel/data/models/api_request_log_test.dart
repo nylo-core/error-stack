@@ -272,7 +272,7 @@ void main() {
           error: null,
         );
 
-        final copy = original.copyWith();
+        final ApiRequestLog copy = original.copyWith();
 
         expect(copy.id, original.id);
         expect(copy.method, original.method);
@@ -293,7 +293,7 @@ void main() {
           durationMs: 100,
         );
 
-        final copy = original.copyWith(
+        final ApiRequestLog copy = original.copyWith(
           statusCode: 200,
           durationMs: 250,
           responseBody: {'success': true},
@@ -315,7 +315,7 @@ void main() {
           durationMs: 50,
         );
 
-        final copy = original.copyWith(statusCode: 204);
+        final ApiRequestLog copy = original.copyWith(statusCode: 204);
 
         expect(copy.id, 'fixed-id');
       });

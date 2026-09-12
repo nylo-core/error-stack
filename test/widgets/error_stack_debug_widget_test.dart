@@ -92,7 +92,8 @@ void main() {
           ),
         );
 
-        final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+        final Scaffold scaffold =
+            tester.widget<Scaffold>(find.byType(Scaffold));
         expect(scaffold.backgroundColor, Colors.white);
       });
 
@@ -106,7 +107,8 @@ void main() {
           ),
         );
 
-        final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+        final Scaffold scaffold =
+            tester.widget<Scaffold>(find.byType(Scaffold));
         expect(scaffold.backgroundColor, isNot(Colors.white));
       });
 
@@ -132,7 +134,8 @@ void main() {
           ),
         );
 
-        final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+        final Scaffold scaffold =
+            tester.widget<Scaffold>(find.byType(Scaffold));
         expect(scaffold.backgroundColor, Colors.white);
       });
 
@@ -146,7 +149,8 @@ void main() {
           ),
         );
 
-        final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+        final Scaffold scaffold =
+            tester.widget<Scaffold>(find.byType(Scaffold));
         expect(scaffold.backgroundColor, Colors.white);
       });
     });

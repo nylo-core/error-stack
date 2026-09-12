@@ -76,7 +76,7 @@ class LogsTab extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                     itemCount: filteredLogs.length,
                     itemBuilder: (context, index) {
-                      final log = filteredLogs[index];
+                      final LogEntry log = filteredLogs[index];
                       return _LogEntryItem(entry: log);
                     },
                   ),
@@ -118,8 +118,8 @@ class LogsTab extends StatelessWidget {
   }
 
   Widget _buildFilterChip(DevPanelLogLevel level, String label) {
-    final isSelected = selectedLevels.contains(level);
-    final color = _getLogLevelColor(level);
+    final bool isSelected = selectedLevels.contains(level);
+    final Color color = _getLogLevelColor(level);
 
     return GestureDetector(
       onTap: () => onLevelToggle(level),
@@ -226,8 +226,8 @@ class _LogEntryItemState extends State<_LogEntryItem> {
 
   @override
   Widget build(BuildContext context) {
-    final color = _getLogLevelColor(entry.level);
-    final icon = _getLogLevelIcon(entry.level);
+    final Color color = _getLogLevelColor(entry.level);
+    final IconData icon = _getLogLevelIcon(entry.level);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),

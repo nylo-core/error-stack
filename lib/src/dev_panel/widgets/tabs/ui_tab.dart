@@ -31,7 +31,7 @@ class _UITabState extends State<UITab> {
 
   @override
   Widget build(BuildContext context) {
-    final store = DevPanelStore.instance;
+    final DevPanelStore store = DevPanelStore.instance;
 
     return Container(
       color: _hexColor("#1e1e1e"),

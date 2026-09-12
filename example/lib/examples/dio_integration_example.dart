@@ -94,7 +94,7 @@ class _DioIntegrationHomePageState extends State<DioIntegrationHomePage> {
     });
 
     try {
-      final response = await _dio.get(
+      final Response<dynamic> response = await _dio.get(
         'https://jsonplaceholder.typicode.com/posts/1',
       );
       setState(() {
@@ -119,7 +119,7 @@ class _DioIntegrationHomePageState extends State<DioIntegrationHomePage> {
     });
 
     try {
-      final response = await _dio.post(
+      final Response<dynamic> response = await _dio.post(
         'https://jsonplaceholder.typicode.com/posts',
         data: {
           'title': 'Error Stack Test',

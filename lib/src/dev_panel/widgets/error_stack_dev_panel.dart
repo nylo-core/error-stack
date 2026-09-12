@@ -50,7 +50,7 @@ class _ErrorStackDevPanelState extends State<ErrorStackDevPanel> {
   void _onLongPress() {
     HapticFeedback.mediumImpact();
 
-    final childContext = _childKey.currentContext;
+    final BuildContext? childContext = _childKey.currentContext;
     if (childContext == null) return;
 
     // When ErrorStackDevPanel sits below a Navigator (e.g. as a route body),
@@ -64,7 +64,7 @@ class _ErrorStackDevPanelState extends State<ErrorStackDevPanel> {
     // (MaterialApp passes its Navigator as the builder's child argument), so
     // walking ancestors finds nothing. Walk descendants to find a context that
     // is below the Navigator and use that to show the modal.
-    final navigatorChildContext =
+    final BuildContext? navigatorChildContext =
         _findDescendantNavigatorChildContext(childContext as Element);
     if (navigatorChildContext != null) {
       ErrorStackDevPanel.showDevPanel(navigatorChildContext);

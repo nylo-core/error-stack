@@ -85,16 +85,16 @@ class LogEntry {
 
   /// Formatted timestamp string.
   String get formattedTimestamp {
-    final hour = timestamp.hour.toString().padLeft(2, '0');
-    final minute = timestamp.minute.toString().padLeft(2, '0');
-    final second = timestamp.second.toString().padLeft(2, '0');
+    final String hour = timestamp.hour.toString().padLeft(2, '0');
+    final String minute = timestamp.minute.toString().padLeft(2, '0');
+    final String second = timestamp.second.toString().padLeft(2, '0');
     return '$hour:$minute:$second';
   }
 
   /// Human-readable relative time (e.g., "19 secs ago").
   String get timeAgo {
     final now = DateTime.now();
-    final difference = now.difference(timestamp);
+    final Duration difference = now.difference(timestamp);
 
     if (difference.inSeconds < 60) {
       return '${difference.inSeconds} secs ago';

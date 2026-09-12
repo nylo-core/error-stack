@@ -28,20 +28,20 @@ void main() {
       });
 
       test('getThemeMode returns null when not set', () async {
-        final result = await storage.getThemeMode();
+        final String? result = await storage.getThemeMode();
         expect(result, isNull);
       });
 
       test('setThemeMode stores value correctly', () async {
         await storage.setThemeMode('dark');
-        final result = await storage.getThemeMode();
+        final String? result = await storage.getThemeMode();
         expect(result, 'dark');
       });
 
       test('setThemeMode can update value', () async {
         await storage.setThemeMode('dark');
         await storage.setThemeMode('light');
-        final result = await storage.getThemeMode();
+        final String? result = await storage.getThemeMode();
         expect(result, 'light');
       });
     });
