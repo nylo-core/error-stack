@@ -19,10 +19,16 @@ void main() {
       });
 
       test('generates unique IDs', () {
-        final log1 =
-            ApiRequestLog(method: 'GET', url: 'https://a.com', durationMs: 100);
+        final log1 = ApiRequestLog(
+          method: 'GET',
+          url: 'https://a.com',
+          durationMs: 100,
+        );
         final log2 = ApiRequestLog(
-            method: 'POST', url: 'https://b.com', durationMs: 200);
+          method: 'POST',
+          url: 'https://b.com',
+          durationMs: 200,
+        );
 
         expect(log1.id, isNot(log2.id));
       });
@@ -77,26 +83,38 @@ void main() {
       test('returns true for 2xx status codes', () {
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: 200, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: 200,
+            durationMs: 100,
+          ).isSuccess,
           true,
         );
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: 201, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: 201,
+            durationMs: 100,
+          ).isSuccess,
           true,
         );
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: 204, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: 204,
+            durationMs: 100,
+          ).isSuccess,
           true,
         );
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: 299, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: 299,
+            durationMs: 100,
+          ).isSuccess,
           true,
         );
       });
@@ -104,32 +122,47 @@ void main() {
       test('returns false for non-2xx status codes', () {
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: 400, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: 400,
+            durationMs: 100,
+          ).isSuccess,
           false,
         );
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: 404, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: 404,
+            durationMs: 100,
+          ).isSuccess,
           false,
         );
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: 500, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: 500,
+            durationMs: 100,
+          ).isSuccess,
           false,
         );
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: 199, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: 199,
+            durationMs: 100,
+          ).isSuccess,
           false,
         );
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: 300, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: 300,
+            durationMs: 100,
+          ).isSuccess,
           false,
         );
       });
@@ -137,8 +170,11 @@ void main() {
       test('returns false when statusCode is null', () {
         expect(
           ApiRequestLog(
-                  method: 'GET', url: 'x', statusCode: null, durationMs: 100)
-              .isSuccess,
+            method: 'GET',
+            url: 'x',
+            statusCode: null,
+            durationMs: 100,
+          ).isSuccess,
           false,
         );
       });
@@ -180,11 +216,7 @@ void main() {
       });
 
       test('returns true when statusCode is null', () {
-        final log = ApiRequestLog(
-          method: 'GET',
-          url: 'x',
-          durationMs: 100,
-        );
+        final log = ApiRequestLog(method: 'GET', url: 'x', durationMs: 100);
 
         expect(log.isError, true);
       });
@@ -193,41 +225,62 @@ void main() {
     group('formattedDuration', () {
       test('returns milliseconds for durations under 1 second', () {
         expect(
-          ApiRequestLog(method: 'GET', url: 'x', durationMs: 0)
-              .formattedDuration,
+          ApiRequestLog(
+            method: 'GET',
+            url: 'x',
+            durationMs: 0,
+          ).formattedDuration,
           '0ms',
         );
         expect(
-          ApiRequestLog(method: 'GET', url: 'x', durationMs: 50)
-              .formattedDuration,
+          ApiRequestLog(
+            method: 'GET',
+            url: 'x',
+            durationMs: 50,
+          ).formattedDuration,
           '50ms',
         );
         expect(
-          ApiRequestLog(method: 'GET', url: 'x', durationMs: 999)
-              .formattedDuration,
+          ApiRequestLog(
+            method: 'GET',
+            url: 'x',
+            durationMs: 999,
+          ).formattedDuration,
           '999ms',
         );
       });
 
       test('returns seconds for durations 1 second or more', () {
         expect(
-          ApiRequestLog(method: 'GET', url: 'x', durationMs: 1000)
-              .formattedDuration,
+          ApiRequestLog(
+            method: 'GET',
+            url: 'x',
+            durationMs: 1000,
+          ).formattedDuration,
           '1.0s',
         );
         expect(
-          ApiRequestLog(method: 'GET', url: 'x', durationMs: 1500)
-              .formattedDuration,
+          ApiRequestLog(
+            method: 'GET',
+            url: 'x',
+            durationMs: 1500,
+          ).formattedDuration,
           '1.5s',
         );
         expect(
-          ApiRequestLog(method: 'GET', url: 'x', durationMs: 2500)
-              .formattedDuration,
+          ApiRequestLog(
+            method: 'GET',
+            url: 'x',
+            durationMs: 2500,
+          ).formattedDuration,
           '2.5s',
         );
         expect(
-          ApiRequestLog(method: 'GET', url: 'x', durationMs: 10000)
-              .formattedDuration,
+          ApiRequestLog(
+            method: 'GET',
+            url: 'x',
+            durationMs: 10000,
+          ).formattedDuration,
           '10.0s',
         );
       });

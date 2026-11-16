@@ -1,5 +1,7 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+
+import 'package:material_ui/material_ui.dart';
+
 import '../data/dev_panel_store.dart';
 import '../data/models/api_request_log.dart';
 import '../data/models/log_entry.dart';

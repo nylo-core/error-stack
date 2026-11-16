@@ -2,9 +2,11 @@ name: error_stack_example
 description: Learn more here https://nylo.dev.
 
 environment:
-  sdk: '>=2.19.0 <3.0.0'
+  sdk: ^3.13.0
+  flutter: ">=3.47.0"
 
 dependencies:
+  material_ui: ^1.11.0
   flutter:
     sdk: flutter
   dio: ^5.9.1

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../config/error_stack_config.dart';
 import '../config/error_stack_log_level.dart';
 import '../storage/error_stack_storage_base.dart';
@@ -16,10 +17,7 @@ class ErrorStackHandler {
   final ErrorStackStorageBase storage;
 
   /// Creates an [ErrorStackHandler] with the given [config] and [storage].
-  ErrorStackHandler({
-    required this.config,
-    required this.storage,
-  });
+  ErrorStackHandler({required this.config, required this.storage});
 
   /// Installs this handler as the global Flutter error handler.
   ///

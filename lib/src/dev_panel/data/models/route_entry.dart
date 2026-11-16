@@ -59,8 +59,8 @@ class RouteEntry {
     this.isFullscreenDialog,
     this.maintainState,
     this.opaque,
-  })  : id = id ?? _generateId(),
-        timestamp = timestamp ?? DateTime.now();
+  }) : id = id ?? _generateId(),
+       timestamp = timestamp ?? DateTime.now();
 
   /// Formatted timestamp string.
   String get formattedTimestamp {

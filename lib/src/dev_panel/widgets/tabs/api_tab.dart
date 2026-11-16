@@ -1,6 +1,8 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
+
 import '../../data/models/api_request_log.dart';
 
 /// Speed filter categories for API requests.
@@ -105,20 +107,14 @@ class _ApiTabState extends State<ApiTab> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: Colors.grey[400]),
-            ),
+            child: Text('Cancel', style: TextStyle(color: Colors.grey[400])),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(dialogContext).pop();
               widget.onClearLogs();
             },
-            child: const Text(
-              'Clear',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('Clear', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -155,8 +151,11 @@ class _ApiTabState extends State<ApiTab> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.filter_list,
-                            color: Colors.white, size: 22),
+                        const Icon(
+                          Icons.filter_list,
+                          color: Colors.white,
+                          size: 22,
+                        ),
                         const SizedBox(width: 10),
                         const Expanded(
                           child: Text(
@@ -180,7 +179,9 @@ class _ApiTabState extends State<ApiTab> {
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
+                                horizontal: 10,
+                                vertical: 5,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(4),
@@ -198,8 +199,11 @@ class _ApiTabState extends State<ApiTab> {
                         const SizedBox(width: 12),
                         GestureDetector(
                           onTap: () => Navigator.of(sheetContext).pop(),
-                          child: const Icon(Icons.close,
-                              color: Colors.white, size: 22),
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 22,
+                          ),
                         ),
                       ],
                     ),
@@ -214,16 +218,36 @@ class _ApiTabState extends State<ApiTab> {
                             title: 'HTTP Method',
                             setSheetState: setSheetState,
                             children: [
-                              _buildFilterChip('GET', _selectedMethods,
-                                  Colors.blue, setSheetState),
-                              _buildFilterChip('POST', _selectedMethods,
-                                  Colors.green, setSheetState),
-                              _buildFilterChip('PUT', _selectedMethods,
-                                  Colors.orange, setSheetState),
-                              _buildFilterChip('DELETE', _selectedMethods,
-                                  Colors.red, setSheetState),
-                              _buildFilterChip('PATCH', _selectedMethods,
-                                  Colors.purple, setSheetState),
+                              _buildFilterChip(
+                                'GET',
+                                _selectedMethods,
+                                Colors.blue,
+                                setSheetState,
+                              ),
+                              _buildFilterChip(
+                                'POST',
+                                _selectedMethods,
+                                Colors.green,
+                                setSheetState,
+                              ),
+                              _buildFilterChip(
+                                'PUT',
+                                _selectedMethods,
+                                Colors.orange,
+                                setSheetState,
+                              ),
+                              _buildFilterChip(
+                                'DELETE',
+                                _selectedMethods,
+                                Colors.red,
+                                setSheetState,
+                              ),
+                              _buildFilterChip(
+                                'PATCH',
+                                _selectedMethods,
+                                Colors.purple,
+                                setSheetState,
+                              ),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -231,12 +255,24 @@ class _ApiTabState extends State<ApiTab> {
                             title: 'Status Code',
                             setSheetState: setSheetState,
                             children: [
-                              _buildStatusFilterChip('2xx Success', 2,
-                                  Colors.green, setSheetState),
-                              _buildStatusFilterChip('4xx Client Error', 4,
-                                  Colors.orange, setSheetState),
-                              _buildStatusFilterChip('5xx Server Error', 5,
-                                  Colors.red, setSheetState),
+                              _buildStatusFilterChip(
+                                '2xx Success',
+                                2,
+                                Colors.green,
+                                setSheetState,
+                              ),
+                              _buildStatusFilterChip(
+                                '4xx Client Error',
+                                4,
+                                Colors.orange,
+                                setSheetState,
+                              ),
+                              _buildStatusFilterChip(
+                                '5xx Server Error',
+                                5,
+                                Colors.red,
+                                setSheetState,
+                              ),
                             ],
                           ),
                           const SizedBox(height: 20),
@@ -311,11 +347,7 @@ class _ApiTabState extends State<ApiTab> {
           ),
         ),
         const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: children,
-        ),
+        Wrap(spacing: 8, runSpacing: 8, children: children),
       ],
     );
   }
@@ -343,9 +375,7 @@ class _ApiTabState extends State<ApiTab> {
         decoration: BoxDecoration(
           color: isSelected ? color : Colors.grey[850],
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? color : Colors.grey[700]!,
-          ),
+          border: Border.all(color: isSelected ? color : Colors.grey[700]!),
         ),
         child: Text(
           label,
@@ -382,9 +412,7 @@ class _ApiTabState extends State<ApiTab> {
         decoration: BoxDecoration(
           color: isSelected ? color : Colors.grey[850],
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? color : Colors.grey[700]!,
-          ),
+          border: Border.all(color: isSelected ? color : Colors.grey[700]!),
         ),
         child: Text(
           label,
@@ -422,9 +450,7 @@ class _ApiTabState extends State<ApiTab> {
         decoration: BoxDecoration(
           color: isSelected ? color : Colors.grey[850],
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? color : Colors.grey[700]!,
-          ),
+          border: Border.all(color: isSelected ? color : Colors.grey[700]!),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -465,9 +491,7 @@ class _ApiTabState extends State<ApiTab> {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
             child: Row(
               children: [
-                Expanded(
-                  child: _buildSearchBar(),
-                ),
+                Expanded(child: _buildSearchBar()),
                 const SizedBox(width: 8),
                 Stack(
                   children: [
@@ -475,8 +499,9 @@ class _ApiTabState extends State<ApiTab> {
                       onPressed: () => _showFilterSheet(context),
                       icon: Icon(
                         Icons.filter_list,
-                        color:
-                            _hasActiveFilters ? Colors.blue : Colors.grey[400],
+                        color: _hasActiveFilters
+                            ? Colors.blue
+                            : Colors.grey[400],
                       ),
                       tooltip: 'Filter requests',
                     ),
@@ -661,10 +686,7 @@ class _ApiTabState extends State<ApiTab> {
           const SizedBox(height: 16),
           Text(
             message,
-            style: TextStyle(
-              color: Colors.grey[500],
-              fontSize: 16,
-            ),
+            style: TextStyle(color: Colors.grey[500], fontSize: 16),
           ),
         ],
       ),
@@ -737,8 +759,10 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
             Row(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: _getMethodColor(request.method),
                     borderRadius: BorderRadius.circular(4),
@@ -762,8 +786,10 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
                 ),
                 if (request.statusCode != null)
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: statusColor,
                       borderRadius: BorderRadius.circular(4),
@@ -807,8 +833,8 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
     final Color methodColor = _getMethodColor(request.method);
     final MaterialColor statusColor =
         request.statusCode != null && request.statusCode! >= 400
-            ? Colors.red
-            : Colors.green;
+        ? Colors.red
+        : Colors.green;
 
     showModalBottomSheet(
       context: context,
@@ -867,7 +893,9 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
                         if (showCopied)
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(4),
@@ -884,14 +912,20 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
                         else
                           GestureDetector(
                             onTap: copyDetails,
-                            child: const Icon(Icons.copy,
-                                color: Colors.white, size: 20),
+                            child: const Icon(
+                              Icons.copy,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                           ),
                         const SizedBox(width: 16),
                         GestureDetector(
                           onTap: () => Navigator.of(modalContext).pop(),
-                          child: const Icon(Icons.close,
-                              color: Colors.white, size: 22),
+                          child: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 22,
+                          ),
                         ),
                       ],
                     ),
@@ -910,20 +944,35 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
                             setModalState: setModalState,
                             copiedFields: copiedFields,
                           ),
-                          _buildMetaRow('Method', request.method,
-                              color: methodColor, bold: true),
+                          _buildMetaRow(
+                            'Method',
+                            request.method,
+                            color: methodColor,
+                            bold: true,
+                          ),
                           if (request.statusCode != null)
                             _buildMetaRow(
-                                'Status', request.statusCode.toString(),
-                                color: statusColor, bold: true),
-                          _buildMetaRow('Duration', request.formattedDuration,
-                              color: Colors.white),
+                              'Status',
+                              request.statusCode.toString(),
+                              color: statusColor,
+                              bold: true,
+                            ),
                           _buildMetaRow(
-                              'Requested at', request.formattedTimestamp,
-                              color: Colors.white),
+                            'Duration',
+                            request.formattedDuration,
+                            color: Colors.white,
+                          ),
+                          _buildMetaRow(
+                            'Requested at',
+                            request.formattedTimestamp,
+                            color: Colors.white,
+                          ),
                           if (request.error != null)
-                            _buildMetaRow('Error', request.error!,
-                                color: Colors.red),
+                            _buildMetaRow(
+                              'Error',
+                              request.error!,
+                              color: Colors.red,
+                            ),
                           const SizedBox(height: 16),
                           _buildDetailSection(
                             title: 'Request Headers',
@@ -1017,11 +1066,7 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
             else
               GestureDetector(
                 onTap: copyValue,
-                child: Icon(
-                  Icons.copy,
-                  color: Colors.grey[500],
-                  size: 16,
-                ),
+                child: Icon(Icons.copy, color: Colors.grey[500], size: 16),
               ),
           ],
         ],
@@ -1086,11 +1131,7 @@ class _ApiRequestItemState extends State<_ApiRequestItem> {
               else
                 GestureDetector(
                   onTap: copySection,
-                  child: Icon(
-                    Icons.copy,
-                    color: Colors.grey[500],
-                    size: 16,
-                  ),
+                  child: Icon(Icons.copy, color: Colors.grey[500], size: 16),
                 ),
             ],
           ),

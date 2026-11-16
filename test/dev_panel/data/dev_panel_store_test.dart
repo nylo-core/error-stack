@@ -18,11 +18,17 @@ void main() {
     test('contains expected values', () {
       expect(ColorBlindnessMode.values, contains(ColorBlindnessMode.none));
       expect(
-          ColorBlindnessMode.values, contains(ColorBlindnessMode.protanopia));
+        ColorBlindnessMode.values,
+        contains(ColorBlindnessMode.protanopia),
+      );
       expect(
-          ColorBlindnessMode.values, contains(ColorBlindnessMode.deuteranopia));
+        ColorBlindnessMode.values,
+        contains(ColorBlindnessMode.deuteranopia),
+      );
       expect(
-          ColorBlindnessMode.values, contains(ColorBlindnessMode.tritanopia));
+        ColorBlindnessMode.values,
+        contains(ColorBlindnessMode.tritanopia),
+      );
     });
   });
 
@@ -105,10 +111,16 @@ void main() {
       });
 
       test('apiLogsReversed returns newest first', () {
-        DevPanelStore.instance
-            .logApi(method: 'GET', url: 'https://first.com', durationMs: 100);
-        DevPanelStore.instance
-            .logApi(method: 'POST', url: 'https://second.com', durationMs: 100);
+        DevPanelStore.instance.logApi(
+          method: 'GET',
+          url: 'https://first.com',
+          durationMs: 100,
+        );
+        DevPanelStore.instance.logApi(
+          method: 'POST',
+          url: 'https://second.com',
+          durationMs: 100,
+        );
 
         final List<ApiRequestLog> reversed =
             DevPanelStore.instance.apiLogsReversed;
@@ -118,8 +130,11 @@ void main() {
       });
 
       test('clearApiLogs removes all API logs', () {
-        DevPanelStore.instance
-            .logApi(method: 'GET', url: 'https://test.com', durationMs: 100);
+        DevPanelStore.instance.logApi(
+          method: 'GET',
+          url: 'https://test.com',
+          durationMs: 100,
+        );
 
         DevPanelStore.instance.clearApiLogs();
 
@@ -129,8 +144,11 @@ void main() {
       test('respects enableApiLogging config', () {
         DevPanelStore.init(config: DevPanelConfig(enableApiLogging: false));
 
-        DevPanelStore.instance
-            .logApi(method: 'GET', url: 'https://test.com', durationMs: 100);
+        DevPanelStore.instance.logApi(
+          method: 'GET',
+          url: 'https://test.com',
+          durationMs: 100,
+        );
 
         expect(DevPanelStore.instance.apiLogs, isEmpty);
       });
@@ -215,16 +233,19 @@ void main() {
       });
 
       test('info convenience method works', () {
-        final LogEntry entry =
-            DevPanelStore.instance.info('Info message', tag: 'App');
+        final LogEntry entry = DevPanelStore.instance.info(
+          'Info message',
+          tag: 'App',
+        );
 
         expect(entry.level, DevPanelLogLevel.info);
         expect(entry.tag, 'App');
       });
 
       test('warning convenience method works', () {
-        final LogEntry entry =
-            DevPanelStore.instance.warning('Warning message');
+        final LogEntry entry = DevPanelStore.instance.warning(
+          'Warning message',
+        );
 
         expect(entry.level, DevPanelLogLevel.warning);
       });
@@ -406,14 +427,19 @@ void main() {
 
       test('color blindness mode defaults to none', () {
         expect(
-            DevPanelStore.instance.colorBlindnessMode, ColorBlindnessMode.none);
+          DevPanelStore.instance.colorBlindnessMode,
+          ColorBlindnessMode.none,
+        );
       });
 
       test('setColorBlindnessMode updates value', () {
-        DevPanelStore.instance
-            .setColorBlindnessMode(ColorBlindnessMode.protanopia);
-        expect(DevPanelStore.instance.colorBlindnessMode,
-            ColorBlindnessMode.protanopia);
+        DevPanelStore.instance.setColorBlindnessMode(
+          ColorBlindnessMode.protanopia,
+        );
+        expect(
+          DevPanelStore.instance.colorBlindnessMode,
+          ColorBlindnessMode.protanopia,
+        );
       });
 
       test('slow animations defaults to false', () {
@@ -448,8 +474,9 @@ void main() {
         DevPanelStore.instance.setGridSpacing(32.0);
         DevPanelStore.instance.toggleLayoutBounds(true);
         DevPanelStore.instance.setTextScaleFactor(2.0);
-        DevPanelStore.instance
-            .setColorBlindnessMode(ColorBlindnessMode.deuteranopia);
+        DevPanelStore.instance.setColorBlindnessMode(
+          ColorBlindnessMode.deuteranopia,
+        );
         DevPanelStore.instance.toggleSlowAnimations(true);
         DevPanelStore.instance.togglePerformanceOverlay(true);
         DevPanelStore.instance.toggleSafeAreas(true);
@@ -461,7 +488,9 @@ void main() {
         expect(DevPanelStore.instance.showLayoutBounds, false);
         expect(DevPanelStore.instance.textScaleFactor, 1.0);
         expect(
-            DevPanelStore.instance.colorBlindnessMode, ColorBlindnessMode.none);
+          DevPanelStore.instance.colorBlindnessMode,
+          ColorBlindnessMode.none,
+        );
         expect(DevPanelStore.instance.slowAnimations, false);
         expect(DevPanelStore.instance.showPerformanceOverlay, false);
         expect(DevPanelStore.instance.showSafeAreas, false);
@@ -470,8 +499,11 @@ void main() {
 
     group('Bulk Operations', () {
       test('clearAll clears all data', () {
-        DevPanelStore.instance
-            .logApi(method: 'GET', url: 'https://test.com', durationMs: 100);
+        DevPanelStore.instance.logApi(
+          method: 'GET',
+          url: 'https://test.com',
+          durationMs: 100,
+        );
         DevPanelStore.instance.info('Test log');
         DevPanelStore.instance.trackRoutePush('/test');
 
@@ -483,8 +515,11 @@ void main() {
       });
 
       test('exportData returns counts', () {
-        DevPanelStore.instance
-            .logApi(method: 'GET', url: 'https://test.com', durationMs: 100);
+        DevPanelStore.instance.logApi(
+          method: 'GET',
+          url: 'https://test.com',
+          durationMs: 100,
+        );
         DevPanelStore.instance.info('Test log 1');
         DevPanelStore.instance.info('Test log 2');
         DevPanelStore.instance.trackRoutePush('/test');
@@ -503,8 +538,11 @@ void main() {
         int notifyCount = 0;
         DevPanelStore.instance.addListener(() => notifyCount++);
 
-        DevPanelStore.instance
-            .logApi(method: 'GET', url: 'https://test.com', durationMs: 100);
+        DevPanelStore.instance.logApi(
+          method: 'GET',
+          url: 'https://test.com',
+          durationMs: 100,
+        );
 
         // Notification is deferred via addPostFrameCallback to avoid
         // setState during build phase

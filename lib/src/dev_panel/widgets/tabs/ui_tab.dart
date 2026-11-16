@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+
 import '../../data/dev_panel_store.dart';
 
 /// Tab providing UI debugging tools.
@@ -38,65 +39,53 @@ class _UITabState extends State<UITab> {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildSection(
-            'Overlays',
-            Icons.grid_on,
-            [
-              _buildToggleRow(
-                'Grid Paper',
-                'Show alignment grid overlay',
-                store.showGridPaper,
-                (value) => store.toggleGridPaper(value),
-                trailing: _buildGridSpacingDropdown(store),
-              ),
-              _buildToggleRow(
-                'Layout Bounds',
-                'Show widget boundaries',
-                store.showLayoutBounds,
-                (value) => store.toggleLayoutBounds(value),
-              ),
-              _buildToggleRow(
-                'Safe Areas',
-                'Visualize device safe zones',
-                store.showSafeAreas,
-                (value) => store.toggleSafeAreas(value),
-              ),
-            ],
-          ),
+          _buildSection('Overlays', Icons.grid_on, [
+            _buildToggleRow(
+              'Grid Paper',
+              'Show alignment grid overlay',
+              store.showGridPaper,
+              (value) => store.toggleGridPaper(value),
+              trailing: _buildGridSpacingDropdown(store),
+            ),
+            _buildToggleRow(
+              'Layout Bounds',
+              'Show widget boundaries',
+              store.showLayoutBounds,
+              (value) => store.toggleLayoutBounds(value),
+            ),
+            _buildToggleRow(
+              'Safe Areas',
+              'Visualize device safe zones',
+              store.showSafeAreas,
+              (value) => store.toggleSafeAreas(value),
+            ),
+          ]),
           const SizedBox(height: 16),
-          _buildSection(
-            'Accessibility',
-            Icons.accessibility,
-            [
-              _buildSliderRow(
-                'Text Scale',
-                store.textScaleFactor,
-                0.5,
-                3.0,
-                (value) => store.setTextScaleFactor(value),
-              ),
-              _buildColorBlindnessRow(store),
-            ],
-          ),
+          _buildSection('Accessibility', Icons.accessibility, [
+            _buildSliderRow(
+              'Text Scale',
+              store.textScaleFactor,
+              0.5,
+              3.0,
+              (value) => store.setTextScaleFactor(value),
+            ),
+            _buildColorBlindnessRow(store),
+          ]),
           const SizedBox(height: 16),
-          _buildSection(
-            'Performance',
-            Icons.speed,
-            [
-              _buildToggleRow(
-                'Slow Animations',
-                'Reduce animation speed (5x slower)',
-                store.slowAnimations,
-                (value) => store.toggleSlowAnimations(value),
-              ),
-              _buildToggleRow(
-                'Performance Overlay',
-                'Show FPS and rendering stats',
-                store.showPerformanceOverlay,
-                (value) => store.togglePerformanceOverlay(value),
-              ),
-            ],
-          ),
+          _buildSection('Performance', Icons.speed, [
+            _buildToggleRow(
+              'Slow Animations',
+              'Reduce animation speed (5x slower)',
+              store.slowAnimations,
+              (value) => store.toggleSlowAnimations(value),
+            ),
+            _buildToggleRow(
+              'Performance Overlay',
+              'Show FPS and rendering stats',
+              store.showPerformanceOverlay,
+              (value) => store.togglePerformanceOverlay(value),
+            ),
+          ]),
           const SizedBox(height: 24),
           _buildResetButton(store),
         ],
@@ -129,9 +118,7 @@ class _UITabState extends State<UITab> {
             color: Colors.grey[900],
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Column(
-            children: children,
-          ),
+          child: Column(children: children),
         ),
       ],
     );
@@ -163,18 +150,12 @@ class _UITabState extends State<UITab> {
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: TextStyle(
-                    color: Colors.grey[500],
-                    fontSize: 12,
-                  ),
+                  style: TextStyle(color: Colors.grey[500], fontSize: 12),
                 ),
               ],
             ),
           ),
-          if (trailing != null) ...[
-            trailing,
-            const SizedBox(width: 12),
-          ],
+          if (trailing != null) ...[trailing, const SizedBox(width: 12)],
           Switch(
             value: value,
             onChanged: onChanged,
@@ -289,10 +270,7 @@ class _UITabState extends State<UITab> {
           const SizedBox(height: 2),
           Text(
             'Simulate vision deficiencies',
-            style: TextStyle(
-              color: Colors.grey[500],
-              fontSize: 12,
-            ),
+            style: TextStyle(color: Colors.grey[500], fontSize: 12),
           ),
           const SizedBox(height: 12),
           SingleChildScrollView(
@@ -324,11 +302,13 @@ class _UITabState extends State<UITab> {
                       child: Text(
                         _getColorBlindnessLabel(mode),
                         style: TextStyle(
-                          color:
-                              isSelected ? _hexColor("#d8b576") : Colors.white,
+                          color: isSelected
+                              ? _hexColor("#d8b576")
+                              : Colors.white,
                           fontSize: 12,
-                          fontWeight:
-                              isSelected ? FontWeight.bold : FontWeight.normal,
+                          fontWeight: isSelected
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                     ),
@@ -348,9 +328,7 @@ class _UITabState extends State<UITab> {
         onPressed: store.resetUIDebugSettings,
         icon: const Icon(Icons.refresh, size: 18),
         label: const Text('Reset All'),
-        style: TextButton.styleFrom(
-          foregroundColor: Colors.grey[400],
-        ),
+        style: TextButton.styleFrom(foregroundColor: Colors.grey[400]),
       ),
     );
   }

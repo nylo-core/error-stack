@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:error_stack/src/config/error_stack_config.dart';
 import 'package:error_stack/src/config/error_stack_log_level.dart';
@@ -53,9 +53,7 @@ void main() {
 
       final config = ErrorStackConfig(customErrorWidget: customWidget);
 
-      final errorDetails = FlutterErrorDetails(
-        exception: Exception('Test'),
-      );
+      final errorDetails = FlutterErrorDetails(exception: Exception('Test'));
 
       config.customErrorWidget!(errorDetails);
 

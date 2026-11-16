@@ -1,5 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+
 import 'collections/fifo_list.dart';
 import 'models/api_request_log.dart';
 import 'models/log_entry.dart';
@@ -239,33 +240,57 @@ class DevPanelStore extends ChangeNotifier {
   }
 
   /// Logs a debug message.
-  LogEntry debug(String message,
-      {String? tag, Map<String, dynamic>? metadata}) {
-    return log(message,
-        level: DevPanelLogLevel.debug, tag: tag, metadata: metadata);
+  LogEntry debug(
+    String message, {
+    String? tag,
+    Map<String, dynamic>? metadata,
+  }) {
+    return log(
+      message,
+      level: DevPanelLogLevel.debug,
+      tag: tag,
+      metadata: metadata,
+    );
   }
 
   /// Logs an info message.
   LogEntry info(String message, {String? tag, Map<String, dynamic>? metadata}) {
-    return log(message,
-        level: DevPanelLogLevel.info, tag: tag, metadata: metadata);
+    return log(
+      message,
+      level: DevPanelLogLevel.info,
+      tag: tag,
+      metadata: metadata,
+    );
   }
 
   /// Logs a warning message.
-  LogEntry warning(String message,
-      {String? tag, Map<String, dynamic>? metadata}) {
-    return log(message,
-        level: DevPanelLogLevel.warning, tag: tag, metadata: metadata);
+  LogEntry warning(
+    String message, {
+    String? tag,
+    Map<String, dynamic>? metadata,
+  }) {
+    return log(
+      message,
+      level: DevPanelLogLevel.warning,
+      tag: tag,
+      metadata: metadata,
+    );
   }
 
   /// Logs an error message.
-  LogEntry error(String message,
-      {String? tag, String? stackTrace, Map<String, dynamic>? metadata}) {
-    return log(message,
-        level: DevPanelLogLevel.error,
-        tag: tag,
-        stackTrace: stackTrace,
-        metadata: metadata);
+  LogEntry error(
+    String message, {
+    String? tag,
+    String? stackTrace,
+    Map<String, dynamic>? metadata,
+  }) {
+    return log(
+      message,
+      level: DevPanelLogLevel.error,
+      tag: tag,
+      stackTrace: stackTrace,
+      metadata: metadata,
+    );
   }
 
   /// Clears all console logs.
@@ -313,8 +338,11 @@ class DevPanelStore extends ChangeNotifier {
   }
 
   /// Tracks a route push.
-  RouteEntry trackRoutePush(String name,
-      {Object? arguments, String? previousRoute}) {
+  RouteEntry trackRoutePush(
+    String name, {
+    Object? arguments,
+    String? previousRoute,
+  }) {
     final entry = RouteEntry(
       name: name,
       arguments: arguments,
@@ -337,8 +365,11 @@ class DevPanelStore extends ChangeNotifier {
   }
 
   /// Tracks a route replacement.
-  RouteEntry trackRouteReplace(String name,
-      {Object? arguments, String? previousRoute}) {
+  RouteEntry trackRouteReplace(
+    String name, {
+    Object? arguments,
+    String? previousRoute,
+  }) {
     final entry = RouteEntry(
       name: name,
       arguments: arguments,

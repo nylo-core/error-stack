@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:error_stack/error_stack.dart';
 
 /// Basic Example - Minimal Error Stack Setup
@@ -15,10 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Error Stack with default settings
-  await ErrorStack.init(
-    initialRoute: '/',
-    level: ErrorStackLogLevel.verbose,
-  );
+  await ErrorStack.init(initialRoute: '/', level: ErrorStackLogLevel.verbose);
 
   runApp(const BasicExampleApp());
 }
@@ -56,18 +53,11 @@ class BasicHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.bug_report,
-              size: 64,
-              color: Colors.grey,
-            ),
+            const Icon(Icons.bug_report, size: 64, color: Colors.grey),
             const SizedBox(height: 16),
             const Text(
               'Error Stack Basic Setup',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             const Text(
@@ -95,10 +85,7 @@ class BasicHomePage extends StatelessWidget {
                 'with stack trace and Google search link.\n\n'
                 'Look for the floating button at the bottom to access the Dev Panel.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
           ],
@@ -109,19 +96,13 @@ class BasicHomePage extends StatelessWidget {
 
   void _triggerError(BuildContext context) {
     // Navigate to a widget that will throw an error during build
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const ErrorWidget(),
-      ),
-    );
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const ErrorWidget()));
   }
 
   void _triggerNullError(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const NullErrorWidget(),
-      ),
-    );
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const NullErrorWidget()));
   }
 }
 

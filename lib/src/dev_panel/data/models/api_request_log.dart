@@ -52,8 +52,8 @@ class ApiRequestLog {
     this.responseHeaders,
     this.responseBody,
     this.error,
-  })  : id = id ?? _generateId(),
-        timestamp = timestamp ?? DateTime.now();
+  }) : id = id ?? _generateId(),
+       timestamp = timestamp ?? DateTime.now();
 
   /// Whether the request completed successfully (2xx status code).
   bool get isSuccess =>
@@ -97,8 +97,9 @@ class ApiRequestLog {
       id: id,
       method: method ?? this.method,
       url: url ?? this.url,
-      statusCode:
-          statusCode == _undefined ? this.statusCode : statusCode as int?,
+      statusCode: statusCode == _undefined
+          ? this.statusCode
+          : statusCode as int?,
       durationMs: durationMs ?? this.durationMs,
       timestamp: timestamp ?? this.timestamp,
       requestHeaders: requestHeaders ?? this.requestHeaders,
@@ -106,8 +107,9 @@ class ApiRequestLog {
       responseHeaders: responseHeaders == _undefined
           ? this.responseHeaders
           : responseHeaders as Map<String, dynamic>?,
-      responseBody:
-          responseBody == _undefined ? this.responseBody : responseBody,
+      responseBody: responseBody == _undefined
+          ? this.responseBody
+          : responseBody,
       error: error == _undefined ? this.error : error as String?,
     );
   }

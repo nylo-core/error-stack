@@ -29,10 +29,7 @@ void main() {
 
     group('storage key', () {
       test('uses correct storage key prefix', () {
-        expect(
-          ErrorStackStorageBase.storageKey,
-          'error_stack',
-        );
+        expect(ErrorStackStorageBase.storageKey, 'error_stack');
       });
 
       test('storage key is a valid string', () {

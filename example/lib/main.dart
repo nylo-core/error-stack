@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:error_stack/error_stack.dart';
 
 // Import all examples
@@ -11,10 +11,7 @@ import 'examples/storage_tab_example.dart' as storage_tab;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await ErrorStack.init(
-    initialRoute: '/',
-    level: ErrorStackLogLevel.verbose,
-  );
+  await ErrorStack.init(initialRoute: '/', level: ErrorStackLogLevel.verbose);
 
   runApp(const ExampleLauncherApp());
 }
@@ -62,19 +59,19 @@ class ExampleLauncherPage extends StatelessWidget {
           _buildExampleCard(
             context,
             title: 'Basic Example',
-            description: 'Minimal Error Stack setup with ErrorStack.init() '
+            description:
+                'Minimal Error Stack setup with ErrorStack.init() '
                 'and ErrorStack.builder integration.',
             icon: Icons.play_arrow,
             color: Colors.blue,
-            onTap: () => _navigateToExample(
-              context,
-              const basic.BasicExampleApp(),
-            ),
+            onTap: () =>
+                _navigateToExample(context, const basic.BasicExampleApp()),
           ),
           _buildExampleCard(
             context,
             title: 'Custom Error Widget',
-            description: 'Customize the error display for release mode with '
+            description:
+                'Customize the error display for release mode with '
                 'branded screens and recovery actions.',
             icon: Icons.palette,
             color: Colors.deepPurple,
@@ -86,7 +83,8 @@ class ExampleLauncherPage extends StatelessWidget {
           _buildExampleCard(
             context,
             title: 'Dev Panel',
-            description: 'Full developer panel demo with route tracking, '
+            description:
+                'Full developer panel demo with route tracking, '
                 'console logging, and UI debug tools.',
             icon: Icons.developer_board,
             color: Colors.teal,
@@ -98,7 +96,8 @@ class ExampleLauncherPage extends StatelessWidget {
           _buildExampleCard(
             context,
             title: 'Storage Tab',
-            description: 'Inspect SharedPreferences and FlutterSecureStorage '
+            description:
+                'Inspect SharedPreferences and FlutterSecureStorage '
                 'in the Dev Panel\'s Storage tab — view, edit, search, delete.',
             icon: Icons.storage,
             color: Colors.amber,
@@ -110,7 +109,8 @@ class ExampleLauncherPage extends StatelessWidget {
           _buildExampleCard(
             context,
             title: 'Dio Integration',
-            description: 'HTTP request/response logging with Dio using '
+            description:
+                'HTTP request/response logging with Dio using '
                 'ErrorStackDioInterceptor.',
             icon: Icons.http,
             color: Colors.indigo,
@@ -136,28 +136,18 @@ class ExampleLauncherPage extends StatelessWidget {
             color: Colors.red.shade50,
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            Icons.bug_report,
-            size: 40,
-            color: Colors.red.shade400,
-          ),
+          child: Icon(Icons.bug_report, size: 40, color: Colors.red.shade400),
         ),
         const SizedBox(height: 16),
         const Text(
           'Error Stack',
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         const Text(
           'Custom error handling for Flutter applications\nwith developer-friendly debugging tools.',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 14,
-          ),
+          style: TextStyle(color: Colors.grey, fontSize: 14),
         ),
       ],
     );
@@ -212,10 +202,7 @@ class ExampleLauncherPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(
-                Icons.chevron_right,
-                color: Colors.grey.shade400,
-              ),
+              Icon(Icons.chevron_right, color: Colors.grey.shade400),
             ],
           ),
         ),
@@ -252,10 +239,6 @@ class ExampleLauncherPage extends StatelessWidget {
   }
 
   void _navigateToExample(BuildContext context, Widget app) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => app,
-      ),
-    );
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => app));
   }
 }

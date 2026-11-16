@@ -29,9 +29,7 @@ void main() {
       });
 
       test('accepts filter parameter', () {
-        final interceptor = ErrorStackDioInterceptor(
-          filter: (options) => true,
-        );
+        final interceptor = ErrorStackDioInterceptor(filter: (options) => true);
 
         expect(interceptor.filter, isNotNull);
       });
@@ -75,9 +73,7 @@ void main() {
       });
 
       test('processes when filter returns true', () {
-        final interceptor = ErrorStackDioInterceptor(
-          filter: (options) => true,
-        );
+        final interceptor = ErrorStackDioInterceptor(filter: (options) => true);
         final options = RequestOptions(path: '/test');
         final handler = _MockRequestHandler();
 
@@ -95,10 +91,7 @@ void main() {
             return true;
           },
         );
-        final options = RequestOptions(
-          path: '/api/users',
-          method: 'POST',
-        );
+        final options = RequestOptions(path: '/api/users', method: 'POST');
         final handler = _MockRequestHandler();
 
         interceptor.onRequest(options, handler);
@@ -240,10 +233,7 @@ void main() {
         final options = RequestOptions(path: '/test');
         // Not adding request time
 
-        final error = DioException(
-          requestOptions: options,
-          message: 'Error',
-        );
+        final error = DioException(requestOptions: options, message: 'Error');
         final handler = _MockErrorHandler();
 
         interceptor.onError(error, handler);

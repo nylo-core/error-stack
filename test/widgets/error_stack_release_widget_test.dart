@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:error_stack/widgets/error_stack_release_widget.dart';
 
@@ -17,9 +17,7 @@ void main() {
 
     testWidgets('renders without crashing', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byType(ErrorStackReleaseWidget), findsOneWidget);
@@ -27,9 +25,7 @@ void main() {
 
     testWidgets('displays error icon', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byIcon(Icons.error_outline), findsOneWidget);
@@ -37,9 +33,7 @@ void main() {
 
     testWidgets('displays error message', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.text('Oops, something went wrong!'), findsOneWidget);
@@ -47,9 +41,7 @@ void main() {
 
     testWidgets('displays instructions to restart', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.text('An error occurred.'), findsOneWidget);
@@ -61,33 +53,29 @@ void main() {
 
     testWidgets('has red error icon', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
-      final Icon iconWidget =
-          tester.widget<Icon>(find.byIcon(Icons.error_outline));
+      final Icon iconWidget = tester.widget<Icon>(
+        find.byIcon(Icons.error_outline),
+      );
       expect(iconWidget.color, Colors.red);
     });
 
     testWidgets('icon has correct size', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
-      final Icon iconWidget =
-          tester.widget<Icon>(find.byIcon(Icons.error_outline));
+      final Icon iconWidget = tester.widget<Icon>(
+        find.byIcon(Icons.error_outline),
+      );
       expect(iconWidget.size, 50.0);
     });
 
     testWidgets('contains Scaffold', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byType(Scaffold), findsOneWidget);
@@ -95,9 +83,7 @@ void main() {
 
     testWidgets('contains SafeArea', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byType(SafeArea), findsOneWidget);
@@ -105,9 +91,7 @@ void main() {
 
     testWidgets('title has correct style', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       final Text textWidget = tester.widget<Text>(
@@ -119,9 +103,7 @@ void main() {
 
     testWidgets('has divider between title and description', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byType(Divider), findsOneWidget);
@@ -129,9 +111,7 @@ void main() {
 
     testWidgets('content is centered', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byType(Center), findsWidgets);
@@ -186,8 +166,9 @@ void main() {
           ),
         );
 
-        final ListView listView =
-            tester.widget<ListView>(find.byType(ListView));
+        final ListView listView = tester.widget<ListView>(
+          find.byType(ListView),
+        );
         expect(listView.shrinkWrap, true);
       });
 

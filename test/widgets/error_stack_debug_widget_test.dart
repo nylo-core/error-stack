@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:error_stack/widgets/error_stack_debug_widget.dart';
 
@@ -20,9 +20,7 @@ void main() {
 
     testWidgets('renders without crashing', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackDebugWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byType(ErrorStackDebugWidget), findsOneWidget);
@@ -30,9 +28,7 @@ void main() {
 
     testWidgets('displays error message', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackDebugWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
       );
 
       expect(find.textContaining('Test error message'), findsOneWidget);
@@ -40,9 +36,7 @@ void main() {
 
     testWidgets('contains Scaffold', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackDebugWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byType(Scaffold), findsOneWidget);
@@ -50,9 +44,7 @@ void main() {
 
     testWidgets('contains SafeArea', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackDebugWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byType(SafeArea), findsOneWidget);
@@ -61,9 +53,7 @@ void main() {
     group('constructor', () {
       testWidgets('accepts required errorDetails', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
         expect(find.byType(ErrorStackDebugWidget), findsOneWidget);
@@ -92,8 +82,9 @@ void main() {
           ),
         );
 
-        final Scaffold scaffold =
-            tester.widget<Scaffold>(find.byType(Scaffold));
+        final Scaffold scaffold = tester.widget<Scaffold>(
+          find.byType(Scaffold),
+        );
         expect(scaffold.backgroundColor, Colors.white);
       });
 
@@ -107,8 +98,9 @@ void main() {
           ),
         );
 
-        final Scaffold scaffold =
-            tester.widget<Scaffold>(find.byType(Scaffold));
+        final Scaffold scaffold = tester.widget<Scaffold>(
+          find.byType(Scaffold),
+        );
         expect(scaffold.backgroundColor, isNot(Colors.white));
       });
 
@@ -129,13 +121,12 @@ void main() {
     group('theme mode', () {
       testWidgets('defaults to light theme', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
-        final Scaffold scaffold =
-            tester.widget<Scaffold>(find.byType(Scaffold));
+        final Scaffold scaffold = tester.widget<Scaffold>(
+          find.byType(Scaffold),
+        );
         expect(scaffold.backgroundColor, Colors.white);
       });
 
@@ -149,8 +140,9 @@ void main() {
           ),
         );
 
-        final Scaffold scaffold =
-            tester.widget<Scaffold>(find.byType(Scaffold));
+        final Scaffold scaffold = tester.widget<Scaffold>(
+          find.byType(Scaffold),
+        );
         expect(scaffold.backgroundColor, Colors.white);
       });
     });
@@ -158,9 +150,7 @@ void main() {
     group('layout', () {
       testWidgets('uses ListView', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
         expect(find.byType(ListView), findsOneWidget);
@@ -168,9 +158,7 @@ void main() {
 
       testWidgets('uses Stack for layering', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
         expect(find.byType(Stack), findsWidgets);
@@ -178,9 +166,7 @@ void main() {
 
       testWidgets('content is centered', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
         expect(find.byType(Center), findsWidgets);
@@ -190,9 +176,7 @@ void main() {
     group('error display', () {
       testWidgets('displays error occurred header', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
         expect(find.text('Error Occurred!'), findsOneWidget);
@@ -200,9 +184,7 @@ void main() {
 
       testWidgets('has Google search link', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
         expect(find.textContaining('Google'), findsOneWidget);
@@ -230,9 +212,7 @@ void main() {
         );
 
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: stateError),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: stateError)),
         );
 
         expect(find.textContaining('State error message'), findsOneWidget);
@@ -256,9 +236,7 @@ void main() {
     group('version display', () {
       testWidgets('displays ErrorStack version', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
         expect(find.textContaining('ErrorStack'), findsOneWidget);
@@ -268,9 +246,7 @@ void main() {
     group('interactive elements', () {
       testWidgets('has theme toggle button', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
         // Look for brightness icons (light/dark mode toggle)
@@ -283,9 +259,7 @@ void main() {
 
       testWidgets('has copy button', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            home: ErrorStackDebugWidget(errorDetails: errorDetails),
-          ),
+          MaterialApp(home: ErrorStackDebugWidget(errorDetails: errorDetails)),
         );
 
         // Two copy icons: one for exception text, one for markdown report

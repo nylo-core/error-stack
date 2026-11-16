@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:error_stack/error_stack.dart';
 
 /// Custom Error Widget Example
@@ -18,9 +18,8 @@ void main() async {
     initialRoute: '/',
     level: ErrorStackLogLevel.verbose,
     // Provide a custom error widget for release mode
-    errorWidget: (errorDetails) => CustomErrorScreen(
-      errorDetails: errorDetails,
-    ),
+    errorWidget: (errorDetails) =>
+        CustomErrorScreen(errorDetails: errorDetails),
   );
 
   runApp(const CustomErrorWidgetApp());
@@ -61,18 +60,11 @@ class CustomErrorHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.palette,
-              size: 64,
-              color: Colors.deepPurple,
-            ),
+            const Icon(Icons.palette, size: 64, color: Colors.deepPurple),
             const SizedBox(height: 16),
             const Text(
               'Custom Error Widget Demo',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             const Padding(
@@ -122,11 +114,8 @@ class CustomErrorHomePage extends StatelessWidget {
   }
 
   void _triggerError(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const BrokenWidget(),
-      ),
-    );
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const BrokenWidget()));
   }
 }
 
@@ -146,10 +135,7 @@ class BrokenWidget extends StatelessWidget {
 class CustomErrorScreen extends StatelessWidget {
   final FlutterErrorDetails errorDetails;
 
-  const CustomErrorScreen({
-    super.key,
-    required this.errorDetails,
-  });
+  const CustomErrorScreen({super.key, required this.errorDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -192,10 +178,7 @@ class CustomErrorScreen extends StatelessWidget {
               Text(
                 'We encountered an unexpected error. '
                 'Don\'t worry, your data is safe.',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey.shade600,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
@@ -301,10 +284,7 @@ class CustomErrorScreen extends StatelessWidget {
               ),
               child: Text(
                 errorDetails.exception.toString(),
-                style: const TextStyle(
-                  fontFamily: 'monospace',
-                  fontSize: 11,
-                ),
+                style: const TextStyle(fontFamily: 'monospace', fontSize: 11),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),

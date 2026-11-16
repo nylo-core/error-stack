@@ -23,7 +23,8 @@ export 'widgets/error_stack_release_widget.dart';
 export 'src/dev_panel/dev_panel.dart';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+
 import 'src/dev_panel/dev_panel_config.dart';
 import 'src/dev_panel/data/dev_panel_store.dart';
 import 'src/dev_panel/widgets/error_stack_dev_panel.dart';
@@ -105,10 +106,7 @@ class ErrorStack {
       themeMode: themeMode,
     );
 
-    final handler = ErrorStackHandler(
-      config: config,
-      storage: storageInstance,
-    );
+    final handler = ErrorStackHandler(config: config, storage: storageInstance);
 
     instance.config = config;
     instance.storage = storageInstance;
@@ -169,9 +167,7 @@ class ErrorStack {
         return child;
       }
 
-      return UIDebugOverlay(
-        child: ErrorStackDevPanel(child: child),
-      );
+      return UIDebugOverlay(child: ErrorStackDevPanel(child: child));
     };
   }
 }

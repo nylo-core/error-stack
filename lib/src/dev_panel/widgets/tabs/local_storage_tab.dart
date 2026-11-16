@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../data/models/storage_entry.dart';
 
 /// Tab displaying local storage data (secure storage + shared preferences).
@@ -28,18 +29,24 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
   List<StorageEntry> get _filteredSecureStorageEntries {
     if (_searchQuery.isEmpty) return _secureStorageEntries;
     return _secureStorageEntries
-        .where((e) =>
-            e.key.toLowerCase().contains(_searchQuery) ||
-            (e.value?.toString().toLowerCase().contains(_searchQuery) ?? false))
+        .where(
+          (e) =>
+              e.key.toLowerCase().contains(_searchQuery) ||
+              (e.value?.toString().toLowerCase().contains(_searchQuery) ??
+                  false),
+        )
         .toList();
   }
 
   List<StorageEntry> get _filteredSharedPrefsEntries {
     if (_searchQuery.isEmpty) return _sharedPrefsEntries;
     return _sharedPrefsEntries
-        .where((e) =>
-            e.key.toLowerCase().contains(_searchQuery) ||
-            (e.value?.toString().toLowerCase().contains(_searchQuery) ?? false))
+        .where(
+          (e) =>
+              e.key.toLowerCase().contains(_searchQuery) ||
+              (e.value?.toString().toLowerCase().contains(_searchQuery) ??
+                  false),
+        )
         .toList();
   }
 
@@ -75,11 +82,13 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
       const secureStorage = FlutterSecureStorage();
       final Map<String, String> secureAll = await secureStorage.readAll();
       _secureStorageEntries = secureAll.entries
-          .map((e) => StorageEntry(
-                key: e.key,
-                value: e.value,
-                source: StorageSource.secureStorage,
-              ))
+          .map(
+            (e) => StorageEntry(
+              key: e.key,
+              value: e.value,
+              source: StorageSource.secureStorage,
+            ),
+          )
           .toList();
       _secureStorageAvailable = true;
     } catch (e) {
@@ -143,7 +152,10 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
   }
 
   Future<void> _createEntry(
-      String key, String value, StorageSource source) async {
+    String key,
+    String value,
+    StorageSource source,
+  ) async {
     try {
       if (source == StorageSource.secureStorage) {
         const secureStorage = FlutterSecureStorage();
@@ -226,7 +238,8 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
           Expanded(
             child: _isLoading
                 ? const Center(
-                    child: CircularProgressIndicator(color: Colors.white))
+                    child: CircularProgressIndicator(color: Colors.white),
+                  )
                 : _buildContent(),
           ),
         ],
@@ -251,17 +264,9 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       children: [
-        _buildSection(
-          'Secure Storage',
-          Icons.lock,
-          filteredSecure,
-        ),
+        _buildSection('Secure Storage', Icons.lock, filteredSecure),
         const SizedBox(height: 16),
-        _buildSection(
-          'Shared Preferences',
-          Icons.settings,
-          filteredPrefs,
-        ),
+        _buildSection('Shared Preferences', Icons.settings, filteredPrefs),
         const SizedBox(height: 16),
       ],
     );
@@ -276,10 +281,7 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
           const SizedBox(height: 16),
           Text(
             message,
-            style: TextStyle(
-              color: Colors.grey[500],
-              fontSize: 16,
-            ),
+            style: TextStyle(color: Colors.grey[500], fontSize: 16),
           ),
         ],
       ),
@@ -336,11 +338,13 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
             ),
           )
         else
-          ...entries.map((entry) => _StorageEntryItem(
-                entry: entry,
-                onDelete: () => _showDeleteConfirmation(entry),
-                onEdit: () => _showEditDialog(entry),
-              )),
+          ...entries.map(
+            (entry) => _StorageEntryItem(
+              entry: entry,
+              onDelete: () => _showDeleteConfirmation(entry),
+              onEdit: () => _showEditDialog(entry),
+            ),
+          ),
       ],
     );
   }
@@ -441,12 +445,16 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
                     Expanded(
                       child: GestureDetector(
                         onTap: _secureStorageAvailable
-                            ? () => setModalState(() =>
-                                selectedSource = StorageSource.secureStorage)
+                            ? () => setModalState(
+                                () => selectedSource =
+                                    StorageSource.secureStorage,
+                              )
                             : null,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
                           decoration: BoxDecoration(
                             color: selectedSource == StorageSource.secureStorage
                                 ? Colors.blue.withValues(alpha: 0.3)
@@ -455,8 +463,8 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
                             border: Border.all(
                               color:
                                   selectedSource == StorageSource.secureStorage
-                                      ? Colors.blue
-                                      : Colors.transparent,
+                                  ? Colors.blue
+                                  : Colors.transparent,
                               width: 1,
                             ),
                           ),
@@ -468,9 +476,9 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
                                 size: 16,
                                 color: _secureStorageAvailable
                                     ? (selectedSource ==
-                                            StorageSource.secureStorage
-                                        ? Colors.blue
-                                        : Colors.grey[400])
+                                              StorageSource.secureStorage
+                                          ? Colors.blue
+                                          : Colors.grey[400])
                                     : Colors.grey[700],
                               ),
                               const SizedBox(width: 6),
@@ -479,12 +487,13 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
                                 style: TextStyle(
                                   color: _secureStorageAvailable
                                       ? (selectedSource ==
-                                              StorageSource.secureStorage
-                                          ? Colors.blue
-                                          : Colors.grey[400])
+                                                StorageSource.secureStorage
+                                            ? Colors.blue
+                                            : Colors.grey[400])
                                       : Colors.grey[700],
                                   fontSize: 13,
-                                  fontWeight: selectedSource ==
+                                  fontWeight:
+                                      selectedSource ==
                                           StorageSource.secureStorage
                                       ? FontWeight.bold
                                       : FontWeight.normal,
@@ -499,20 +508,26 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
                     Expanded(
                       child: GestureDetector(
                         onTap: _sharedPrefsAvailable
-                            ? () => setModalState(() => selectedSource =
-                                StorageSource.sharedPreferences)
+                            ? () => setModalState(
+                                () => selectedSource =
+                                    StorageSource.sharedPreferences,
+                              )
                             : null,
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 10),
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
                           decoration: BoxDecoration(
-                            color: selectedSource ==
+                            color:
+                                selectedSource ==
                                     StorageSource.sharedPreferences
                                 ? Colors.green.withValues(alpha: 0.3)
                                 : Colors.black38,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: selectedSource ==
+                              color:
+                                  selectedSource ==
                                       StorageSource.sharedPreferences
                                   ? Colors.green
                                   : Colors.transparent,
@@ -527,9 +542,9 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
                                 size: 16,
                                 color: _sharedPrefsAvailable
                                     ? (selectedSource ==
-                                            StorageSource.sharedPreferences
-                                        ? Colors.green
-                                        : Colors.grey[400])
+                                              StorageSource.sharedPreferences
+                                          ? Colors.green
+                                          : Colors.grey[400])
                                     : Colors.grey[700],
                               ),
                               const SizedBox(width: 6),
@@ -538,12 +553,13 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
                                 style: TextStyle(
                                   color: _sharedPrefsAvailable
                                       ? (selectedSource ==
-                                              StorageSource.sharedPreferences
-                                          ? Colors.green
-                                          : Colors.grey[400])
+                                                StorageSource.sharedPreferences
+                                            ? Colors.green
+                                            : Colors.grey[400])
                                       : Colors.grey[700],
                                   fontSize: 13,
-                                  fontWeight: selectedSource ==
+                                  fontWeight:
+                                      selectedSource ==
                                           StorageSource.sharedPreferences
                                       ? FontWeight.bold
                                       : FontWeight.normal,
@@ -562,10 +578,7 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
                     !_secureStorageAvailable
                         ? 'Secure Storage unavailable on this platform'
                         : 'Shared Preferences unavailable',
-                    style: TextStyle(
-                      color: Colors.orange[300],
-                      fontSize: 11,
-                    ),
+                    style: TextStyle(color: Colors.orange[300], fontSize: 11),
                   ),
                 ],
                 const SizedBox(height: 16),
@@ -641,8 +654,8 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                           selectedSource == StorageSource.secureStorage
-                              ? Colors.blue
-                              : Colors.green,
+                          ? Colors.blue
+                          : Colors.green,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -682,20 +695,14 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: Colors.grey[400]),
-            ),
+            child: Text('Cancel', style: TextStyle(color: Colors.grey[400])),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
               _deleteEntry(entry);
             },
-            child: const Text(
-              'Delete',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('Delete', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -718,20 +725,14 @@ class _LocalStorageTabState extends State<LocalStorageTab> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(
-              'Cancel',
-              style: TextStyle(color: Colors.grey[400]),
-            ),
+            child: Text('Cancel', style: TextStyle(color: Colors.grey[400])),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(ctx).pop();
               _clearAllStorage();
             },
-            child: const Text(
-              'Clear All',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('Clear All', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
@@ -955,7 +956,8 @@ class _StorageEntryItemState extends State<_StorageEntryItem> {
   bool _showCopied = false;
 
   void _copyToClipboard() {
-    final copyText = 'Key: "${widget.entry.key}"\n'
+    final copyText =
+        'Key: "${widget.entry.key}"\n'
         'Value: "${widget.entry.value?.toString() ?? ''}"';
     Clipboard.setData(ClipboardData(text: copyText));
     setState(() => _showCopied = true);
@@ -993,8 +995,10 @@ class _StorageEntryItemState extends State<_StorageEntryItem> {
                 ),
                 if (_showCopied)
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(4),

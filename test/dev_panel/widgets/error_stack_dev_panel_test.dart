@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:error_stack/src/dev_panel/widgets/error_stack_dev_panel.dart';
 import 'package:error_stack/src/dev_panel/data/dev_panel_store.dart';
@@ -9,8 +9,9 @@ void main() {
       DevPanelStore.init();
     });
 
-    testWidgets('long-press on dev mode tab opens the dev panel sheet',
-        (tester) async {
+    testWidgets('long-press on dev mode tab opens the dev panel sheet', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           home: ErrorStackDevPanel(
@@ -30,22 +31,23 @@ void main() {
     });
 
     testWidgets(
-        'long-press works when used via MaterialApp.builder (real example structure)',
-        (tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          builder: (context, child) => ErrorStackDevPanel(child: child!),
-          home: const Scaffold(body: Center(child: Text('content'))),
-        ),
-      );
+      'long-press works when used via MaterialApp.builder (real example structure)',
+      (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            builder: (context, child) => ErrorStackDevPanel(child: child!),
+            home: const Scaffold(body: Center(child: Text('content'))),
+          ),
+        );
 
-      final Finder iconFinder = find.byIcon(Icons.developer_mode);
-      expect(iconFinder, findsOneWidget);
+        final Finder iconFinder = find.byIcon(Icons.developer_mode);
+        expect(iconFinder, findsOneWidget);
 
-      await tester.longPress(iconFinder);
-      await tester.pumpAndSettle();
+        await tester.longPress(iconFinder);
+        await tester.pumpAndSettle();
 
-      expect(find.byType(BottomSheet), findsOneWidget);
-    });
+        expect(find.byType(BottomSheet), findsOneWidget);
+      },
+    );
   });
 }

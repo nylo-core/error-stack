@@ -1,3 +1,16 @@
+## [2.2.0] - 2026-11-16
+
+### Changed
+
+* Migrated from the deprecated `package:flutter/material.dart` and `package:flutter/cupertino.dart` imports to the decoupled `material_ui` (`^1.11.0`) and `cupertino_ui` (`^1.1.6`) packages across the library, tests, example, and README.
+* Raised the minimum SDK constraints to Dart `^3.13.0` and Flutter `>=3.47.0`, the first release where the decoupled Material and Cupertino libraries are available.
+* Reformatted sources with the formatter style for the new language version.
+* Updated `actions/checkout` from `v3` to `v5` in the publish workflow.
+
+### Example
+
+* Raised the example app's SDK constraints to Dart `^3.13.0` and Flutter `>=3.47.0`, and added `material_ui` as a direct dependency.
+
 ## [2.1.7] - 2026-09-12
 
 ### Changed

@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
+
 import '../../../models/route_argument_data.dart';
 import '../../data/models/route_entry.dart';
 
@@ -9,10 +10,7 @@ import '../../data/models/route_entry.dart';
 class RoutesTab extends StatefulWidget {
   final List<RouteEntry> routeStack;
 
-  const RoutesTab({
-    super.key,
-    required this.routeStack,
-  });
+  const RoutesTab({super.key, required this.routeStack});
 
   @override
   State<RoutesTab> createState() => _RoutesTabState();
@@ -31,8 +29,9 @@ class _RoutesTabState extends State<RoutesTab> {
   /// Get routes filtered by search query (excludes internal routes).
   List<RouteEntry> get _filteredRoutes {
     // Filter out internal routes (like _ModalBottomSheetRoute from dev panel)
-    List<RouteEntry> routes =
-        widget.routeStack.where((r) => !r.isInternalRoute).toList();
+    List<RouteEntry> routes = widget.routeStack
+        .where((r) => !r.isInternalRoute)
+        .toList();
     if (_searchQuery.isEmpty) return routes;
     return routes
         .where((r) => r.name.toLowerCase().contains(_searchQuery.toLowerCase()))
@@ -52,10 +51,7 @@ class _RoutesTabState extends State<RoutesTab> {
       child: Column(
         children: [
           // Search bar
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: _buildSearchBar(),
-          ),
+          Padding(padding: const EdgeInsets.all(16), child: _buildSearchBar()),
           // Results
           Expanded(
             child: _filteredRoutes.isEmpty
@@ -136,19 +132,13 @@ class _RoutesTabState extends State<RoutesTab> {
           const SizedBox(height: 16),
           Text(
             message,
-            style: TextStyle(
-              color: Colors.grey[500],
-              fontSize: 16,
-            ),
+            style: TextStyle(color: Colors.grey[500], fontSize: 16),
           ),
           const SizedBox(height: 8),
           Text(
             subtitle,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontSize: 12,
-            ),
+            style: TextStyle(color: Colors.grey[600], fontSize: 12),
           ),
         ],
       ),
@@ -166,10 +156,7 @@ class _RouteEntryItem extends StatelessWidget {
   final RouteEntry entry;
   final bool isCurrent;
 
-  const _RouteEntryItem({
-    required this.entry,
-    required this.isCurrent,
-  });
+  const _RouteEntryItem({required this.entry, required this.isCurrent});
 
   void _showRouteDetails(BuildContext context) {
     final Color actionColor = _getActionColor(entry.action);
@@ -219,11 +206,7 @@ class _RouteEntryItem extends StatelessWidget {
                     padding: const EdgeInsets.all(16),
                     child: Row(
                       children: [
-                        const Icon(
-                          Icons.route,
-                          color: Colors.white,
-                          size: 20,
-                        ),
+                        const Icon(Icons.route, color: Colors.white, size: 20),
                         const SizedBox(width: 8),
                         const Text(
                           'Route Details',
@@ -280,8 +263,9 @@ class _RouteEntryItem extends StatelessWidget {
                               child: _buildDetailCard(
                                 'Action',
                                 _getActionLabel(entry.action),
-                                badgeColor:
-                                    isCurrent ? Colors.green : actionColor,
+                                badgeColor: isCurrent
+                                    ? Colors.green
+                                    : actionColor,
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -325,8 +309,13 @@ class _RouteEntryItem extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailSection(String label, String value,
-      {IconData? icon, Color? valueColor, Widget? trailing}) {
+  Widget _buildDetailSection(
+    String label,
+    String value, {
+    IconData? icon,
+    Color? valueColor,
+    Widget? trailing,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -360,10 +349,7 @@ class _RouteEntryItem extends StatelessWidget {
                 ),
               ),
             ),
-            if (trailing != null) ...[
-              const SizedBox(width: 8),
-              trailing,
-            ],
+            if (trailing != null) ...[const SizedBox(width: 8), trailing],
           ],
         ),
       ],
@@ -408,10 +394,7 @@ class _RouteEntryItem extends StatelessWidget {
           else
             Text(
               value,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-              ),
+              style: const TextStyle(color: Colors.white, fontSize: 13),
             ),
         ],
       ),
@@ -489,11 +472,15 @@ class _RouteEntryItem extends StatelessWidget {
               if (entry.routeType != null)
                 _buildSettingRow('Type', entry.routeType!),
               if (entry.isFullscreenDialog != null)
-                _buildSettingRow('Fullscreen Dialog',
-                    entry.isFullscreenDialog! ? 'Yes' : 'No'),
+                _buildSettingRow(
+                  'Fullscreen Dialog',
+                  entry.isFullscreenDialog! ? 'Yes' : 'No',
+                ),
               if (entry.maintainState != null)
                 _buildSettingRow(
-                    'Maintain State', entry.maintainState! ? 'Yes' : 'No'),
+                  'Maintain State',
+                  entry.maintainState! ? 'Yes' : 'No',
+                ),
               if (entry.opaque != null)
                 _buildSettingRow('Opaque', entry.opaque! ? 'Yes' : 'No'),
             ],
@@ -509,10 +496,7 @@ class _RouteEntryItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: TextStyle(color: Colors.grey[400], fontSize: 12),
-          ),
+          Text(label, style: TextStyle(color: Colors.grey[400], fontSize: 12)),
           Text(
             value,
             style: const TextStyle(
@@ -779,8 +763,8 @@ class _RouteEntryItem extends StatelessWidget {
             ),
           ),
           Center(
-              child:
-                  Icon(Icons.arrow_forward, color: Colors.grey[600], size: 10)),
+            child: Icon(Icons.arrow_forward, color: Colors.grey[600], size: 10),
+          ),
           const SizedBox(width: 8),
           Expanded(
             flex: 3,
@@ -821,8 +805,10 @@ class _RouteEntryItem extends StatelessWidget {
               children: [
                 // Status badge
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: isCurrent ? Colors.green : actionColor,
                     borderRadius: BorderRadius.circular(4),
@@ -831,8 +817,11 @@ class _RouteEntryItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (isCurrent)
-                        const Icon(Icons.arrow_forward,
-                            color: Colors.white, size: 12),
+                        const Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 12,
+                        ),
                       if (isCurrent) const SizedBox(width: 4),
                       Text(
                         isCurrent ? 'CURRENT' : _getActionLabel(entry.action),
@@ -853,8 +842,9 @@ class _RouteEntryItem extends StatelessWidget {
                     style: TextStyle(
                       color: isCurrent ? Colors.green : Colors.white,
                       fontSize: 14,
-                      fontWeight:
-                          isCurrent ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isCurrent
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/rendering.dart';
+
 import '../data/dev_panel_store.dart';
 
 /// A widget that applies UI debug overlays based on DevPanelStore settings.
@@ -17,10 +18,7 @@ class UIDebugOverlay extends StatelessWidget {
   final Widget child;
 
   /// Creates a [UIDebugOverlay].
-  const UIDebugOverlay({
-    super.key,
-    required this.child,
-  });
+  const UIDebugOverlay({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +35,8 @@ class UIDebugOverlay extends StatelessWidget {
         // Apply text scale factor
         if (store.textScaleFactor != 1.0) {
           result = MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              textScaler: TextScaler.linear(store.textScaleFactor),
-            ),
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.linear(store.textScaleFactor)),
             child: result,
           );
         }
@@ -74,9 +71,7 @@ class UIDebugOverlay extends StatelessWidget {
             if (store.showSafeAreas) const _SafeAreaOverlay(),
             // Performance overlay
             if (store.showPerformanceOverlay)
-              Positioned.fill(
-                child: PerformanceOverlay.allEnabled(),
-              ),
+              Positioned.fill(child: PerformanceOverlay.allEnabled()),
           ],
         );
 
@@ -259,9 +254,7 @@ class _SafeAreaOverlay extends StatelessWidget {
               bottom: padding.bottom + viewInsets.bottom,
               left: 0,
               width: padding.left,
-              child: Container(
-                color: Colors.orange.withValues(alpha: 0.3),
-              ),
+              child: Container(color: Colors.orange.withValues(alpha: 0.3)),
             ),
           // Right safe area
           if (padding.right > 0)
@@ -270,9 +263,7 @@ class _SafeAreaOverlay extends StatelessWidget {
               bottom: padding.bottom + viewInsets.bottom,
               right: 0,
               width: padding.right,
-              child: Container(
-                color: Colors.orange.withValues(alpha: 0.3),
-              ),
+              child: Container(color: Colors.orange.withValues(alpha: 0.3)),
             ),
           // Keyboard area
           if (viewInsets.bottom > 0)

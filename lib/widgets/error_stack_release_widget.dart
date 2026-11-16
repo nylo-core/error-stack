@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Widget to display a release error stack.
 /// This widget is displayed when the app is in release mode.
@@ -48,14 +48,15 @@ class _ErrorStackReleaseWidget extends State<ErrorStackReleaseWidget> {
                             Divider(),
                             Text("An error occurred."),
                             Text(
-                                "Please restart the app or report this issue."),
+                              "Please restart the app or report this issue.",
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

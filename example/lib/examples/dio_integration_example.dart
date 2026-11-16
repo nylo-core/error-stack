@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:error_stack/error_stack.dart';
 import 'package:error_stack/error_stack_dio.dart';
 import 'package:dio/dio.dart';
@@ -19,10 +19,7 @@ import 'package:dio/dio.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await ErrorStack.init(
-    initialRoute: '/',
-    level: ErrorStackLogLevel.verbose,
-  );
+  await ErrorStack.init(initialRoute: '/', level: ErrorStackLogLevel.verbose);
 
   runApp(const DioIntegrationApp());
 }
@@ -65,10 +62,12 @@ class _DioIntegrationHomePageState extends State<DioIntegrationHomePage> {
   }
 
   void _setupDio() {
-    _dio = Dio(BaseOptions(
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-    ));
+    _dio = Dio(
+      BaseOptions(
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+      ),
+    );
 
     // Add the ErrorStack interceptor for API logging
     _dio.interceptors.add(
@@ -150,9 +149,7 @@ class _DioIntegrationHomePageState extends State<DioIntegrationHomePage> {
     });
 
     try {
-      await _dio.get(
-        'https://jsonplaceholder.typicode.com/posts/999999',
-      );
+      await _dio.get('https://jsonplaceholder.typicode.com/posts/999999');
     } on DioException catch (e) {
       setState(() {
         _error = 'Expected Error: ${e.response?.statusCode ?? e.message}';
@@ -178,8 +175,7 @@ class _DioIntegrationHomePageState extends State<DioIntegrationHomePage> {
       await _dio.get('https://jsonplaceholder.typicode.com/comments?postId=1');
 
       setState(() {
-        _result =
-            'Made 3 API requests!\nCheck the Dev Panel API tab to see all requests.';
+        _result = 'Made 3 API requests!\nCheck the Dev Panel API tab to see all requests.';
       });
     } on DioException catch (e) {
       setState(() {
@@ -243,10 +239,7 @@ class _DioIntegrationHomePageState extends State<DioIntegrationHomePage> {
                         'dio.interceptors.add(\n'
                         '  ErrorStackDioInterceptor(),\n'
                         ');',
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 12,
-                        ),
+                        style: TextStyle(fontFamily: 'monospace', fontSize: 12),
                       ),
                     ),
                   ],
@@ -344,49 +337,46 @@ class _DioIntegrationHomePageState extends State<DioIntegrationHomePage> {
                           color: _error != null
                               ? Colors.red.shade200
                               : _result != null
-                                  ? Colors.green.shade200
-                                  : Colors.grey.shade300,
+                              ? Colors.green.shade200
+                              : Colors.grey.shade300,
                         ),
                       ),
                       child: _isLoading
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
+                          ? const Center(child: CircularProgressIndicator())
                           : _error != null
-                              ? Row(
-                                  children: [
-                                    const Icon(Icons.error, color: Colors.red),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Text(
-                                        _error!,
-                                        style:
-                                            const TextStyle(color: Colors.red),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              : _result != null
-                                  ? Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Icon(Icons.check_circle,
-                                            color: Colors.green),
-                                        const SizedBox(width: 8),
-                                        Expanded(
-                                          child: Text(
-                                            _result!,
-                                            style: const TextStyle(
-                                                color: Colors.green),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : const Text(
-                                      'Make a request to see results here.\n\nOpen the Dev Panel to view request details including headers, body, and timing.',
-                                      style: TextStyle(color: Colors.grey),
-                                    ),
+                          ? Row(
+                              children: [
+                                const Icon(Icons.error, color: Colors.red),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    _error!,
+                                    style: const TextStyle(color: Colors.red),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : _result != null
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                ),
+                                const SizedBox(width: 8),
+                                Expanded(
+                                  child: Text(
+                                    _result!,
+                                    style: const TextStyle(color: Colors.green),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const Text(
+                              'Make a request to see results here.\n\nOpen the Dev Panel to view request details including headers, body, and timing.',
+                              style: TextStyle(color: Colors.grey),
+                            ),
                     ),
                   ],
                 ),
@@ -438,10 +428,7 @@ class _DioIntegrationHomePageState extends State<DioIntegrationHomePage> {
                         '    return true;\n'
                         '  },\n'
                         ')',
-                        style: TextStyle(
-                          fontFamily: 'monospace',
-                          fontSize: 11,
-                        ),
+                        style: TextStyle(fontFamily: 'monospace', fontSize: 11),
                       ),
                     ),
                   ],

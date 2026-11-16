@@ -125,10 +125,7 @@ void main() {
 
     group('isInternalRoute', () {
       test('returns true for routes starting with underscore', () {
-        final entry = RouteEntry(
-          name: '/internal',
-          routeType: '_PrivateRoute',
-        );
+        final entry = RouteEntry(name: '/internal', routeType: '_PrivateRoute');
 
         expect(entry.isInternalRoute, true);
       });

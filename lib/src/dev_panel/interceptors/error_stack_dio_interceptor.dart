@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 import 'package:dio/dio.dart';
+
 import '../data/dev_panel_store.dart';
 import '../data/models/api_request_log.dart';
 
@@ -25,10 +26,7 @@ class ErrorStackDioInterceptor extends Interceptor {
   ///
   /// [enabled] - Whether capturing is enabled (default: true).
   /// [filter] - Optional filter to exclude certain requests from capture.
-  ErrorStackDioInterceptor({
-    this.enabled = true,
-    this.filter,
-  });
+  ErrorStackDioInterceptor({this.enabled = true, this.filter});
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
@@ -124,8 +122,9 @@ class ErrorStackDioInterceptor extends Interceptor {
     if (data is FormData) {
       return {
         'type': 'FormData',
-        'fields':
-            data.fields.map((e) => {'key': e.key, 'value': e.value}).toList(),
+        'fields': data.fields
+            .map((e) => {'key': e.key, 'value': e.value})
+            .toList(),
         'files': data.files
             .map((e) => {'key': e.key, 'filename': e.value.filename})
             .toList(),

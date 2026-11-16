@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+
 import '../data/dev_panel_store.dart';
 import '../data/models/route_entry.dart';
 
@@ -61,16 +62,18 @@ class ErrorStackNavigatorObserver extends NavigatorObserver {
     if (!enabled) return;
 
     final _RouteMetadata metadata = _extractMetadata(route);
-    DevPanelStore.instance.trackRoute(RouteEntry(
-      name: _getRouteName(route) ?? 'unknown',
-      arguments: route.settings.arguments,
-      action: RouteAction.push,
-      previousRoute: _getRouteName(previousRoute),
-      routeType: metadata.routeType,
-      isFullscreenDialog: metadata.isFullscreenDialog,
-      maintainState: metadata.maintainState,
-      opaque: metadata.opaque,
-    ));
+    DevPanelStore.instance.trackRoute(
+      RouteEntry(
+        name: _getRouteName(route) ?? 'unknown',
+        arguments: route.settings.arguments,
+        action: RouteAction.push,
+        previousRoute: _getRouteName(previousRoute),
+        routeType: metadata.routeType,
+        isFullscreenDialog: metadata.isFullscreenDialog,
+        maintainState: metadata.maintainState,
+        opaque: metadata.opaque,
+      ),
+    );
   }
 
   @override
@@ -78,15 +81,17 @@ class ErrorStackNavigatorObserver extends NavigatorObserver {
     if (!enabled) return;
 
     final _RouteMetadata metadata = _extractMetadata(route);
-    DevPanelStore.instance.trackRoute(RouteEntry(
-      name: _getRouteName(route) ?? 'unknown',
-      action: RouteAction.pop,
-      previousRoute: _getRouteName(previousRoute),
-      routeType: metadata.routeType,
-      isFullscreenDialog: metadata.isFullscreenDialog,
-      maintainState: metadata.maintainState,
-      opaque: metadata.opaque,
-    ));
+    DevPanelStore.instance.trackRoute(
+      RouteEntry(
+        name: _getRouteName(route) ?? 'unknown',
+        action: RouteAction.pop,
+        previousRoute: _getRouteName(previousRoute),
+        routeType: metadata.routeType,
+        isFullscreenDialog: metadata.isFullscreenDialog,
+        maintainState: metadata.maintainState,
+        opaque: metadata.opaque,
+      ),
+    );
   }
 
   @override
@@ -94,16 +99,18 @@ class ErrorStackNavigatorObserver extends NavigatorObserver {
     if (!enabled) return;
 
     final _RouteMetadata metadata = _extractMetadata(newRoute);
-    DevPanelStore.instance.trackRoute(RouteEntry(
-      name: _getRouteName(newRoute) ?? 'unknown',
-      arguments: newRoute?.settings.arguments,
-      action: RouteAction.replace,
-      previousRoute: _getRouteName(oldRoute),
-      routeType: metadata.routeType,
-      isFullscreenDialog: metadata.isFullscreenDialog,
-      maintainState: metadata.maintainState,
-      opaque: metadata.opaque,
-    ));
+    DevPanelStore.instance.trackRoute(
+      RouteEntry(
+        name: _getRouteName(newRoute) ?? 'unknown',
+        arguments: newRoute?.settings.arguments,
+        action: RouteAction.replace,
+        previousRoute: _getRouteName(oldRoute),
+        routeType: metadata.routeType,
+        isFullscreenDialog: metadata.isFullscreenDialog,
+        maintainState: metadata.maintainState,
+        opaque: metadata.opaque,
+      ),
+    );
   }
 
   @override
@@ -111,15 +118,17 @@ class ErrorStackNavigatorObserver extends NavigatorObserver {
     if (!enabled) return;
 
     final _RouteMetadata metadata = _extractMetadata(route);
-    DevPanelStore.instance.trackRoute(RouteEntry(
-      name: _getRouteName(route) ?? 'unknown',
-      action: RouteAction.remove,
-      previousRoute: _getRouteName(previousRoute),
-      routeType: metadata.routeType,
-      isFullscreenDialog: metadata.isFullscreenDialog,
-      maintainState: metadata.maintainState,
-      opaque: metadata.opaque,
-    ));
+    DevPanelStore.instance.trackRoute(
+      RouteEntry(
+        name: _getRouteName(route) ?? 'unknown',
+        action: RouteAction.remove,
+        previousRoute: _getRouteName(previousRoute),
+        routeType: metadata.routeType,
+        isFullscreenDialog: metadata.isFullscreenDialog,
+        maintainState: metadata.maintainState,
+        opaque: metadata.opaque,
+      ),
+    );
   }
 }
 

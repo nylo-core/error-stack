@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:error_stack/error_stack.dart';
 
 /// Dev Panel Example
@@ -16,10 +16,7 @@ import 'package:error_stack/error_stack.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await ErrorStack.init(
-    initialRoute: '/',
-    level: ErrorStackLogLevel.verbose,
-  );
+  await ErrorStack.init(initialRoute: '/', level: ErrorStackLogLevel.verbose);
 
   runApp(const DevPanelExampleApp());
 }
@@ -38,9 +35,7 @@ class DevPanelExampleApp extends StatelessWidget {
       ),
       builder: ErrorStack.builder,
       // Add the navigator observer for route tracking
-      navigatorObservers: [
-        ErrorStackNavigatorObserver(),
-      ],
+      navigatorObservers: [ErrorStackNavigatorObserver()],
       home: const DevPanelHomePage(),
     );
   }
@@ -90,10 +85,7 @@ class DevPanelHomePage extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         title,
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -175,8 +167,9 @@ class DevPanelHomePage extends StatelessWidget {
                 DevPanelStore.instance.debug('App started');
                 DevPanelStore.instance.info('Loading user data...');
                 DevPanelStore.instance.info('User data loaded successfully');
-                DevPanelStore.instance
-                    .warning('Network latency detected: 500ms');
+                DevPanelStore.instance.warning(
+                  'Network latency detected: 500ms',
+                );
                 DevPanelStore.instance.info('Rendering home screen');
                 _showSnackBar(context, '5 logs added');
               },
@@ -420,18 +413,12 @@ class DevPanelHomePage extends StatelessWidget {
                 children: [
                   Text(
                     'Code:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                   ),
                   SizedBox(height: 4),
                   Text(
                     'ErrorStack.showDevPanel(context);',
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(fontFamily: 'monospace', fontSize: 13),
                   ),
                 ],
               ),
@@ -483,10 +470,7 @@ class _SamplePage extends StatelessWidget {
   final String title;
   final Color color;
 
-  const _SamplePage({
-    required this.title,
-    required this.color,
-  });
+  const _SamplePage({required this.title, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -502,18 +486,11 @@ class _SamplePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.pages,
-              size: 64,
-              color: color,
-            ),
+            Icon(Icons.pages, size: 64, color: color),
             const SizedBox(height: 16),
             Text(
               '$title Page',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             const Text(

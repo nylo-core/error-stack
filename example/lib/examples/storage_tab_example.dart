@@ -1,5 +1,5 @@
 import 'package:error_stack/error_stack.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,10 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await ErrorStack.init(
-    initialRoute: '/',
-    level: ErrorStackLogLevel.verbose,
-  );
+  await ErrorStack.init(initialRoute: '/', level: ErrorStackLogLevel.verbose);
 
   runApp(const StorageTabExampleApp());
 }
@@ -91,10 +88,7 @@ class _StorageTabHomePageState extends State<StorageTabHomePage> {
       padding: const EdgeInsets.only(bottom: 12),
       child: Text(
         title,
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -250,18 +244,12 @@ class _StorageTabHomePageState extends State<StorageTabHomePage> {
                 children: [
                   Text(
                     'Code:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                   ),
                   SizedBox(height: 4),
                   Text(
                     'ErrorStack.showDevPanel(context);',
-                    style: TextStyle(
-                      fontFamily: 'monospace',
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(fontFamily: 'monospace', fontSize: 13),
                   ),
                 ],
               ),
@@ -327,8 +315,7 @@ class _StorageTabHomePageState extends State<StorageTabHomePage> {
   Future<void> _saveAuthToken() async {
     await _secureStorage.write(
       key: 'auth_token',
-      value:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqYW5lX2RvZSIsImlhdCI6MTcxNzAwMDAwMH0.sample',
+      value: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqYW5lX2RvZSIsImlhdCI6MTcxNzAwMDAwMH0.sample',
     );
     _showSnackBar('Saved auth_token');
   }

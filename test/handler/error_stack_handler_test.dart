@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:error_stack/src/handler/error_stack_handler.dart';
 import 'package:error_stack/src/config/error_stack_config.dart';
@@ -72,20 +72,19 @@ void main() {
         );
       });
 
-      testWidgets('returns ErrorStackDebugWidget in debug mode',
-          (tester) async {
+      testWidgets('returns ErrorStackDebugWidget in debug mode', (
+        tester,
+      ) async {
         // In debug mode (which test environment is), should return debug widget
         final Widget widget = handler.buildErrorWidget(errorDetails);
 
         expect(widget, isA<ErrorStackDebugWidget>());
       });
 
-      testWidgets('ErrorStackDebugWidget receives correct props',
-          (tester) async {
-        config = ErrorStackConfig(
-          initialRoute: '/home',
-          themeMode: 'dark',
-        );
+      testWidgets('ErrorStackDebugWidget receives correct props', (
+        tester,
+      ) async {
+        config = ErrorStackConfig(initialRoute: '/home', themeMode: 'dark');
         handler = ErrorStackHandler(config: config, storage: mockStorage);
 
         final Widget widget = handler.buildErrorWidget(errorDetails);
@@ -97,17 +96,19 @@ void main() {
         expect(debugWidget.initialThemeMode, 'dark');
       });
 
-      test('forceDebugWidget returns debug widget even if release mode logic',
-          () {
-        config = ErrorStackConfig(forceDebugWidget: true);
-        handler = ErrorStackHandler(config: config, storage: mockStorage);
+      test(
+        'forceDebugWidget returns debug widget even if release mode logic',
+        () {
+          config = ErrorStackConfig(forceDebugWidget: true);
+          handler = ErrorStackHandler(config: config, storage: mockStorage);
 
-        final Widget widget = handler.buildErrorWidget(errorDetails);
+          final Widget widget = handler.buildErrorWidget(errorDetails);
 
-        // Since we're in debug mode, this will be debug widget anyway
-        // But forceDebugWidget ensures it in release mode too
-        expect(widget, isA<ErrorStackDebugWidget>());
-      });
+          // Since we're in debug mode, this will be debug widget anyway
+          // But forceDebugWidget ensures it in release mode too
+          expect(widget, isA<ErrorStackDebugWidget>());
+        },
+      );
 
       test('custom error widget can be provided', () {
         Widget customWidget(FlutterErrorDetails details) =>
@@ -173,9 +174,7 @@ void main() {
 
     group('theme persistence', () {
       testWidgets('onThemeChanged callback updates storage', (tester) async {
-        final errorDetails = FlutterErrorDetails(
-          exception: Exception('Test'),
-        );
+        final errorDetails = FlutterErrorDetails(exception: Exception('Test'));
 
         final Widget widget = handler.buildErrorWidget(errorDetails);
         final debugWidget = widget as ErrorStackDebugWidget;
@@ -189,9 +188,7 @@ void main() {
       });
 
       testWidgets('theme changes are persisted to storage', (tester) async {
-        final errorDetails = FlutterErrorDetails(
-          exception: Exception('Test'),
-        );
+        final errorDetails = FlutterErrorDetails(exception: Exception('Test'));
 
         final Widget widget = handler.buildErrorWidget(errorDetails);
         final debugWidget = widget as ErrorStackDebugWidget;
@@ -207,9 +204,7 @@ void main() {
 
   group('ErrorStackReleaseWidget', () {
     testWidgets('can be instantiated', (tester) async {
-      final errorDetails = FlutterErrorDetails(
-        exception: Exception('Test'),
-      );
+      final errorDetails = FlutterErrorDetails(exception: Exception('Test'));
 
       final widget = ErrorStackReleaseWidget(errorDetails: errorDetails);
 
@@ -222,26 +217,22 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.text('Oops, something went wrong!'), findsOneWidget);
       expect(find.text('An error occurred.'), findsOneWidget);
-      expect(find.text('Please restart the app or report this issue.'),
-          findsOneWidget);
+      expect(
+        find.text('Please restart the app or report this issue.'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('displays error icon', (tester) async {
-      final errorDetails = FlutterErrorDetails(
-        exception: Exception('Test'),
-      );
+      final errorDetails = FlutterErrorDetails(exception: Exception('Test'));
 
       await tester.pumpWidget(
-        MaterialApp(
-          home: ErrorStackReleaseWidget(errorDetails: errorDetails),
-        ),
+        MaterialApp(home: ErrorStackReleaseWidget(errorDetails: errorDetails)),
       );
 
       expect(find.byIcon(Icons.error_outline), findsOneWidget);

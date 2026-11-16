@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
+
 import '../../data/models/log_entry.dart';
 import '../../data/models/log_level.dart';
 
@@ -35,9 +36,7 @@ class LogsTab extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
             child: Row(
               children: [
-                Expanded(
-                  child: _buildSearchBar(),
-                ),
+                Expanded(child: _buildSearchBar()),
                 const SizedBox(width: 8),
                 IconButton(
                   onPressed: logs.isEmpty ? null : onClearLogs,
@@ -154,10 +153,7 @@ class LogsTab extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             message,
-            style: TextStyle(
-              color: Colors.grey[500],
-              fontSize: 16,
-            ),
+            style: TextStyle(color: Colors.grey[500], fontSize: 16),
           ),
         ],
       ),
@@ -235,9 +231,7 @@ class _LogEntryItemState extends State<_LogEntryItem> {
       decoration: BoxDecoration(
         color: Colors.grey.shade900,
         borderRadius: BorderRadius.circular(8),
-        border: Border(
-          left: BorderSide(color: color, width: 3),
-        ),
+        border: Border(left: BorderSide(color: color, width: 3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,11 +273,7 @@ class _LogEntryItemState extends State<_LogEntryItem> {
                   padding: const EdgeInsets.only(right: 8),
                   child: GestureDetector(
                     onTap: _copyEntry,
-                    child: Icon(
-                      Icons.copy,
-                      color: Colors.grey[500],
-                      size: 16,
-                    ),
+                    child: Icon(Icons.copy, color: Colors.grey[500], size: 16),
                   ),
                 ),
               Column(

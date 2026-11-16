@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
+
 import 'error_stack_dev_panel_sheet.dart';
 
 /// ErrorStackDevPanel
@@ -100,10 +101,7 @@ class _ErrorStackDevPanelState extends State<ErrorStackDevPanel> {
 
     return Stack(
       children: [
-        KeyedSubtree(
-          key: _childKey,
-          child: widget.child,
-        ),
+        KeyedSubtree(key: _childKey, child: widget.child),
         Positioned(
           right: 0,
           top: 0,
@@ -125,11 +123,7 @@ class _ErrorStackDevPanelState extends State<ErrorStackDevPanel> {
                 child: const Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.developer_mode,
-                      size: 14,
-                      color: Colors.white,
-                    ),
+                    Icon(Icons.developer_mode, size: 14, color: Colors.white),
                   ],
                 ),
               ),

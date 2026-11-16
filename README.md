@@ -29,7 +29,7 @@ Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  error_stack: ^2.1.7
+  error_stack: ^2.2.0
 ```
 
 Or install via command line:
@@ -43,7 +43,7 @@ dart pub add error_stack
 ### Basic Setup
 
 ```dart
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:error_stack/error_stack.dart';
 
 void main() async {

@@ -48,8 +48,10 @@ void main() {
       });
 
       test('tracks route with arguments', () {
-        final Route<dynamic> route =
-            _createMockRoute('/details', arguments: {'id': 123});
+        final Route<dynamic> route = _createMockRoute(
+          '/details',
+          arguments: {'id': 123},
+        );
 
         observer.didPush(route, null);
 
@@ -104,8 +106,10 @@ void main() {
 
     group('didReplace', () {
       test('tracks route replacement', () {
-        final Route<dynamic> newRoute =
-            _createMockRoute('/new-page', arguments: 'arg');
+        final Route<dynamic> newRoute = _createMockRoute(
+          '/new-page',
+          arguments: 'arg',
+        );
         final Route<dynamic> oldRoute = _createMockRoute('/old-page');
 
         observer.didReplace(newRoute: newRoute, oldRoute: oldRoute);
@@ -132,8 +136,9 @@ void main() {
         observer = ErrorStackNavigatorObserver(enabled: false);
 
         observer.didReplace(
-            newRoute: _createMockRoute('/new'),
-            oldRoute: _createMockRoute('/old'));
+          newRoute: _createMockRoute('/new'),
+          oldRoute: _createMockRoute('/old'),
+        );
 
         expect(DevPanelStore.instance.routeHistory, isEmpty);
       });
@@ -197,7 +202,9 @@ void main() {
       test('multiple navigation actions are recorded in order', () {
         observer.didPush(_createMockRoute('/page1'), null);
         observer.didPush(
-            _createMockRoute('/page2'), _createMockRoute('/page1'));
+          _createMockRoute('/page2'),
+          _createMockRoute('/page1'),
+        );
         observer.didPop(_createMockRoute('/page2'), _createMockRoute('/page1'));
 
         final List<RouteEntry> history = DevPanelStore.instance.routeHistory;
@@ -223,7 +230,7 @@ class _MockRoute extends Route<dynamic> {
   final String? _name;
   final Object? _arguments;
 
-  _MockRoute(this._name, {Object? arguments}) : _arguments = arguments;
+  _MockRoute(this._name, {this._arguments});
 
   @override
   RouteSettings get settings =>

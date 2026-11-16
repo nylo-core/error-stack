@@ -62,8 +62,9 @@ void main() {
       test('allows overriding enableConsoleLogging', () {
         const original = DevPanelConfig(enableConsoleLogging: true);
 
-        final DevPanelConfig copy =
-            original.copyWith(enableConsoleLogging: false);
+        final DevPanelConfig copy = original.copyWith(
+          enableConsoleLogging: false,
+        );
 
         expect(copy.enableConsoleLogging, false);
       });
@@ -71,8 +72,9 @@ void main() {
       test('allows overriding enableRouteTracking', () {
         const original = DevPanelConfig(enableRouteTracking: true);
 
-        final DevPanelConfig copy =
-            original.copyWith(enableRouteTracking: false);
+        final DevPanelConfig copy = original.copyWith(
+          enableRouteTracking: false,
+        );
 
         expect(copy.enableRouteTracking, false);
       });

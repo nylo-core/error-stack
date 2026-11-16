@@ -35,42 +35,58 @@ class LogEntry {
     this.tag,
     this.metadata,
     this.stackTrace,
-  })  : id = id ?? _generateId(),
-        timestamp = timestamp ?? DateTime.now();
+  }) : id = id ?? _generateId(),
+       timestamp = timestamp ?? DateTime.now();
 
   /// Convenience constructor for debug logs.
-  factory LogEntry.debug(String message,
-      {String? tag, Map<String, dynamic>? metadata}) {
+  factory LogEntry.debug(
+    String message, {
+    String? tag,
+    Map<String, dynamic>? metadata,
+  }) {
     return LogEntry(
-        level: DevPanelLogLevel.debug,
-        message: message,
-        tag: tag,
-        metadata: metadata);
+      level: DevPanelLogLevel.debug,
+      message: message,
+      tag: tag,
+      metadata: metadata,
+    );
   }
 
   /// Convenience constructor for info logs.
-  factory LogEntry.info(String message,
-      {String? tag, Map<String, dynamic>? metadata}) {
+  factory LogEntry.info(
+    String message, {
+    String? tag,
+    Map<String, dynamic>? metadata,
+  }) {
     return LogEntry(
-        level: DevPanelLogLevel.info,
-        message: message,
-        tag: tag,
-        metadata: metadata);
+      level: DevPanelLogLevel.info,
+      message: message,
+      tag: tag,
+      metadata: metadata,
+    );
   }
 
   /// Convenience constructor for warning logs.
-  factory LogEntry.warning(String message,
-      {String? tag, Map<String, dynamic>? metadata}) {
+  factory LogEntry.warning(
+    String message, {
+    String? tag,
+    Map<String, dynamic>? metadata,
+  }) {
     return LogEntry(
-        level: DevPanelLogLevel.warning,
-        message: message,
-        tag: tag,
-        metadata: metadata);
+      level: DevPanelLogLevel.warning,
+      message: message,
+      tag: tag,
+      metadata: metadata,
+    );
   }
 
   /// Convenience constructor for error logs.
-  factory LogEntry.error(String message,
-      {String? tag, String? stackTrace, Map<String, dynamic>? metadata}) {
+  factory LogEntry.error(
+    String message, {
+    String? tag,
+    String? stackTrace,
+    Map<String, dynamic>? metadata,
+  }) {
     return LogEntry(
       level: DevPanelLogLevel.error,
       message: message,
